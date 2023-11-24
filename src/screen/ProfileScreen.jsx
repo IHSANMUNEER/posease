@@ -1,4 +1,17 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
+import {auth, app, firestore} from '../firebase/firebase';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,13 +23,42 @@ import {
   TextInput,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
+import Loader from '../components/Loader';
+import { useNavigation } from '@react-navigation/native';
 
-function Example() {
+
+function ProfileScreen() {
   const [profileImageUri, setProfileImageUri] = useState(
-    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
+
+  const navigation = useNavigation();
+
+  const saveProfileImageUri = async uri => {
+    try {
+      await AsyncStorage.setItem('profileImageUri', uri);
+    } catch (error) {
+      console.log('AsyncStorage Error: ', error);
+    }
+  };
+
+  const getProfileImageUri = async () => {
+    try {
+      const uri = await AsyncStorage.getItem('profileImageUri');
+      if (uri) {
+        setProfileImageUri(uri);
+      }
+    } catch (error) {
+      console.log('AsyncStorage Error: ', error);
+    }
+  };
+
+  useEffect(() => {
+    getProfileImageUri();
+  }, []);
 
   const pickImage = async () => {
     try {
@@ -28,14 +70,52 @@ function Example() {
 
       if (image.path) {
         setProfileImageUri(image.path);
+        saveProfileImageUri(image.path);
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
   };
 
+  // const [userData, setUserData] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const userDataCollection = collection(firestore, 'userdata');
+
+  //     try {
+  //       const loggedInUserEmail = 'Ihsanmuer288@gmail.com'; // Replace with the actual email of the logged-in user
+
+  //       console.log('Logged-in User Email:', loggedInUserEmail);
+
+  //       const querySnapshot = await getDocs(
+  //         userDataCollection,
+  //         where('emailId', '==', loggedInUserEmail.trim())
+  //       );
+
+  //       console.log('Query Snapshot:', querySnapshot.docs.map(doc => doc.data()));
+
+  //       const documents = querySnapshot.docs.map(doc => doc.data());
+  //       setUserData(documents);
+  //     } catch (error) {
+  //       console.error('Error fetching data from Firestore:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+
+  //Logout//
+   const logout=()=>{
+    AsyncStorage.removeItem('userToken');
+    navigation.navigate('Login');
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
+     
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={pickImage}>
@@ -50,7 +130,7 @@ function Example() {
 
               <TouchableOpacity onPress={pickImage}>
                 <View style={styles.profileAction}>
-                  <Icon name="camera" size={15} color="black" />
+                  <Icon name="camera" size={15} color="white" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -58,37 +138,42 @@ function Example() {
 
           <View style={styles.profileBody}>
             <Text style={styles.profileName}>Ihsan Muneer</Text>
-            <Text style={styles.profileAddress}>Bhatti Boys Hostel 2</Text>
+            <Text style={styles.profileAddress}>Software Engineer</Text>
           </View>
 
           <TextInput
             style={styles.input}
-            placeholder="Ihsan Muneer"
+            placeholder="Name"
             secureTextEntry={true}
-            placeholderTextColor="black"
-            textAlign="center"
+            placeholderTextColor="lightgray"
+
+            // textAlign="center"
           />
 
           <TextInput
             style={styles.input}
             placeholder="ihsanmuneer288@gmail.com"
             secureTextEntry={true}
-            placeholderTextColor="black"
-            textAlign="center"
+            placeholderTextColor="lightgray"
+            // textAlign="center"
           />
+
           <TextInput
             style={styles.input}
             placeholder="passwords"
             secureTextEntry={true}
-            placeholderTextColor="black"
-            textAlign="center"
+            placeholderTextColor="lightgray"
+            // textAlign='left'
           />
-
-          <TouchableOpacity style={styles.getCode}>
+          <TouchableOpacity style={styles.getCode} onPress={()=>logout()}>
             <Text style={styles.loginButtonText}>Update</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <TouchableOpacity  onPress={()=>logout()}>
+        <Icon name="arrow-right" size={35} color="black"  style={styles.eye2}/>
+      
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -100,6 +185,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
+    backgroundColor: color.secondary,
   },
   profile: {
     padding: 24,
@@ -108,16 +194,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.secondary,
-    marginVertical: 70
+    marginVertical: 70,
   },
   profileAvatar: {
-    width: 120,
-    height: 120,
+    width: 130,
+    height: 130,
     borderRadius: 9999,
   },
   profileAvatarWrapper: {
     position: 'relative',
-    borderWidth: 3,
+    borderWidth: 4,
     borderRadius: 9999,
     borderColor: color.primary,
   },
@@ -132,6 +218,7 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     backgroundColor: color.primary,
   },
+
   profileName: {
     marginTop: 20,
     fontSize: 19,
@@ -176,6 +263,16 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'sans-serif-condensed',
   },
+  eye2: {
+    position: 'absolute',
+    right: 40,
+    bottom: 710,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 38,
+    height: 38,
+    borderRadius: 9999,
+  },
 });
 
-export default Example;
+export default ProfileScreen;

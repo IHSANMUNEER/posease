@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import color from '../components/colors';
 import imageS from '../Images/2.png';
-
+import { useNavigation } from "@react-navigation/native";
+import subscribe from './Subscribe';
 const ChangePassword = () => {
   const codeInputs = Array.from({ length: 4 }, (_, index) => useRef(null));
 
@@ -14,6 +15,7 @@ const ChangePassword = () => {
       }
   };
 
+  const navigation = useNavigation();
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -38,7 +40,7 @@ const ChangePassword = () => {
         </View>
        
 
-        <TouchableOpacity style={styles.getCode}>
+        <TouchableOpacity style={styles.getCode} onPress={()=>navigation.navigate('subscribe')}>
           <Text style={styles.loginButtonText}>Verify and Proceed</Text>
         </TouchableOpacity>
       </View>
@@ -94,9 +96,9 @@ const styles = StyleSheet.create({
   codeInput: {
     width: 50,
     height: 50,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'black',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: color.primary,
     textAlign: 'center',
     fontSize: 20,
     backgroundColor: 'white',

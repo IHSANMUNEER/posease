@@ -1,5 +1,4 @@
-// Import React and necessary components
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -7,14 +6,31 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
-  
+  TouchableOpacity,
+  alert,
+  Alert
 } from 'react-native';
 import color from '../components/colors';
 import imageS from '../Images/2.png';
-
-// Define the ChangePassword component
+import {auth} from '../firebase/firebase';
+import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
 const ChangePassword = () => {
+  const [email, setEmail] = useState('');
+
+  const changePasswordLink =() => {
+    
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log('success')
+        Alert.alert('SUCCESS','Password Reset link has been sent')
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage)
+      });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -27,14 +43,15 @@ const ChangePassword = () => {
         <TextInput
           style={styles.input}
           placeholder="Enter Email"
-          secureTextEntry={true}
+          secureTextEntry={false}
           placeholderTextColor="gray"
+          onChangeText={setEmail}
         />
 
         <TouchableOpacity
           style={styles.getCode}
-         >
-          <Text style={styles.loginButtonText}>Recover Password</Text>
+          onPress={() => changePasswordLink()}>
+          <Text style={styles.loginButtonText}>Recovery Link</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -64,7 +81,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 70,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 10
+    marginVertical: 10,
   },
   input: {
     width: '80%',
@@ -79,24 +96,23 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-condensed',
     backgroundColor: '#fff',
     color: 'black',
-    
   },
   getCode: {
-    width: "80%",
+    width: '80%',
     height: 50,
     marginVertical: 10,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: color.primary,
-    marginHorizontal :40
+    marginHorizontal: 40,
   },
   loginButtonText: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    fontFamily: "sans-serif-condensed",
-  }
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontFamily: 'sans-serif-condensed',
+  },
 });
 
 export default ChangePassword;
