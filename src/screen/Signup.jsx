@@ -4,16 +4,12 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {auth,app ,firestore} from '../firebase/firebase';
 import {
-  getFirestore,
   collection,
-  getDocs,
   addDoc,
-  onSnapshot,
   doc,
-  deleteDoc,
-  updateDoc,
+  getDocs,
   query,
-  where,
+  where
 } from 'firebase/firestore';
 
 import {
@@ -27,6 +23,7 @@ import {
   ScrollView,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
 
@@ -40,7 +37,7 @@ function Signup() {
   };
 
   const onPressHandler = () => {
-    navigation.navigate('profileScreen');
+    navigation.navigate('Login');
   };
 
   const [username, setUsername] = useState('');
@@ -71,6 +68,12 @@ function Signup() {
         .then(userCredential => {
           const user = userCredential.user;
           Alert.alert('User account created & signed in!');
+          AsyncStorage.setItem('userToken', 'user_authenticated');
+          /////////////
+          saveUserData();
+          fetchData();
+          /////////////
+          navigation.navigate('profileScreen')
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -97,15 +100,55 @@ function Signup() {
       const userDataCollection = collection(firestore, 'userdata');
   
       await addDoc(userDataCollection, {
+        id :auth.currentUser.uid,
         name: username,
         emailId: email,
+        passwordS :password
+
       });
+      
   
       console.log('User data added to Firestore successfully!');
     } catch (error) {
       console.error('Error adding user data to Firestore: ', error);
     }
   };
+
+
+  /////////////////////////////////
+   ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
+
+   const fetchData = async () => {
+    const userDataCollection = collection(firestore, 'userdata');
+
+    try {
+      const querySnapshot = await getDocs(
+        query(userDataCollection, where('id', '==', auth.currentUser.uid))
+        
+        
+      );
+       
+     const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
+     const Username = querySnapshot.docs.map(doc => doc.data().name);
+     const UserId = querySnapshot.docs.map(doc => doc.data().id);
+     const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
+     
+     await AsyncStorage.setItem(`userEmail_${auth.currentUser.uid}`, JSON.stringify(UserEmail));
+     await AsyncStorage.setItem(`userName_${auth.currentUser.uid}`, JSON.stringify(Username));
+     await AsyncStorage.setItem(`userPassword_${auth.currentUser.uid}`, JSON.stringify(Userpassword));
+     console.log(`userEmail_${auth.currentUser.uid}`)
+     console.log('to set', UserEmail);
+     console.log('to set', Username);
+     console.log('to set', Userpassword);
+     
+     
+    } catch (error) {
+      console.error('Error fetching data from Firestore:', error);
+    }
+  };
+
+  ///////////////////////////eye icon handle/////////////////
+  ////////////////////////////////
   
   return (
     <>
@@ -128,7 +171,7 @@ function Signup() {
                 style={styles.input}
                 onChangeText={setUsername}
               />
-              <Icon name="user" size={20} color="black" style={styles.user} />
+              <Icon name="user" size={20} color={colours.primary} style={styles.user} />
               <TextInput
                 value={email}
                 placeholder="Email"
@@ -140,7 +183,7 @@ function Signup() {
               <Icon
                 name="envelope"
                 size={20}
-                color="black"
+                color={colours.primary}
                 style={styles.email}
               />
               <TextInput
@@ -155,7 +198,7 @@ function Signup() {
                 <Icon
                   name={eye ? 'eye' : 'eye-slash'}
                   size={20}
-                  color="black"
+                  color={colours.primary}
                 />
               </TouchableOpacity>
               <TextInput
@@ -170,14 +213,14 @@ function Signup() {
                 <Icon
                   name={eye ? 'eye' : 'eye-slash'}
                   size={20}
-                  color="black"
+                  color={colours.primary}
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
                 onPress={async() => {
                   await handleSignUp();
-                  saveUserData();
+                 
                 }}>
                 <Text style={styles.buttonText}>SIGN UP</Text>
               </TouchableOpacity>
@@ -213,9 +256,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 200,
-    height: 200,
-    marginVertical: -40,
+    width: 100,
+    height: 100,
+    marginVertical: 40,
     marginBottom: 2,
     resizeMode: 'contain',
   },

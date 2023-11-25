@@ -1,5 +1,5 @@
  const colors = {
-    primary: "black",
+    primary: "brown",
     secondary: "#F8F9F9",
     text: "gray",
     inputText : 'black'

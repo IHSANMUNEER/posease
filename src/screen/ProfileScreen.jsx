@@ -12,6 +12,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+
 import {
   StyleSheet,
   SafeAreaView,
@@ -21,19 +22,88 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  useFocusEffect 
 } from 'react-native';
+
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
 import Loader from '../components/Loader';
-import { useNavigation } from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native';
 
 function ProfileScreen() {
+
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
+
+  const [photoUploaded, setPhotoUploaded] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+  
+  
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      const fetchData = async () => {
+        const user = auth.currentUser;
+        if (user) {
+          try {
+            const storedUserEmail = await AsyncStorage.getItem(`userEmail_${user.uid}`);
+            const storedUserName = await AsyncStorage.getItem(`userName_${user.uid}`);
+            const storedUserPassword = await AsyncStorage.getItem(`userPassword_${user.uid}`);
+            const userEmail = storedUserEmail ? storedUserEmail.replace(/[\[\]"]+/g, '') : '';
+            const userName = storedUserName ? storedUserName.replace(/[\[\]"]+/g, '') : '';
+            const userPassword = storedUserPassword ? storedUserPassword.replace(/[\[\]"]+/g, '') : '';
+
+            console.log('name', userEmail);
+            console.log('center');
+            console.log('username', storedUserName);
+            setUserEmail(userEmail);
+            setUserName(userName);
+            setUserPassword(userPassword)
+            
+          } catch (error) {
+            console.error('Error fetching data from AsyncStorage:', error);
+          }
+        }
+      };
+
+      fetchData();
+
+      return unsubscribe;
+    }, [navigation]);
+
+    return unsubscribe;
+  }, []);
+  
+  useEffect(() => {
+    if (photoUploaded) {
+      saveUserData();
+      setPhotoUploaded(false); 
+    }
+  }, [photoUploaded]);
+
+
+
+  const saveUserData = async () => {
+    try {
+      const userDataCollection = collection(firestore, 'userdata');
+      const userDoc = doc(userDataCollection,'mziFi1JrwdLKbFCx2rfI'); 
+      await updateDoc(userDoc, {
+        profileImage: profileImageUri,
+      });
+  
+      console.log('User data updated in Firestore successfully!');
+    } catch (error) {
+      console.error('Error updating user data in Firestore: ', error);
+    }
+  };
+
+  
 
   const navigation = useNavigation();
 
@@ -57,8 +127,10 @@ function ProfileScreen() {
   };
 
   useEffect(() => {
-    getProfileImageUri();
+     getProfileImageUri();
   }, []);
+
+ 
 
   const pickImage = async () => {
     try {
@@ -71,51 +143,26 @@ function ProfileScreen() {
       if (image.path) {
         setProfileImageUri(image.path);
         saveProfileImageUri(image.path);
+        setPhotoUploaded(true);
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
   };
 
-  // const [userData, setUserData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const userDataCollection = collection(firestore, 'userdata');
-
-  //     try {
-  //       const loggedInUserEmail = 'Ihsanmuer288@gmail.com'; // Replace with the actual email of the logged-in user
-
-  //       console.log('Logged-in User Email:', loggedInUserEmail);
-
-  //       const querySnapshot = await getDocs(
-  //         userDataCollection,
-  //         where('emailId', '==', loggedInUserEmail.trim())
-  //       );
-
-  //       console.log('Query Snapshot:', querySnapshot.docs.map(doc => doc.data()));
-
-  //       const documents = querySnapshot.docs.map(doc => doc.data());
-  //       setUserData(documents);
-  //     } catch (error) {
-  //       console.error('Error fetching data from Firestore:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-
-  //Logout//
-   const logout=()=>{
-    AsyncStorage.removeItem('userToken');
+  // Logout//
+  const logout = async () => {
+    await AsyncStorage.removeItem('userToken');
+    //await AsyncStorage.clear();
     navigation.navigate('Login');
-  }
+    console.log(userEmail)
+  };
+
 
 
   return (
     <SafeAreaView style={styles.container}>
-     
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={pickImage}>
@@ -137,43 +184,47 @@ function ProfileScreen() {
           </TouchableOpacity>
 
           <View style={styles.profileBody}>
-            <Text style={styles.profileName}>Ihsan Muneer</Text>
+            <Text style={styles.profileName}>{userName}</Text>
             <Text style={styles.profileAddress}>Software Engineer</Text>
           </View>
 
           <TextInput
             style={styles.input}
-            placeholder="Name"
+            placeholder={userName}
             secureTextEntry={true}
-            placeholderTextColor="lightgray"
-
-            // textAlign="center"
+            placeholderTextColor="black"
           />
 
           <TextInput
             style={styles.input}
-            placeholder="ihsanmuneer288@gmail.com"
+            placeholder={userEmail}
             secureTextEntry={true}
-            placeholderTextColor="lightgray"
-            // textAlign="center"
+            placeholderTextColor="black"
+           
           />
 
           <TextInput
             style={styles.input}
-            placeholder="passwords"
+            placeholder={userPassword}
             secureTextEntry={true}
-            placeholderTextColor="lightgray"
+            placeholderTextColor="black"
+            value={userPassword}
             // textAlign='left'
           />
-          <TouchableOpacity style={styles.getCode} onPress={()=>logout()}>
-            <Text style={styles.loginButtonText}>Update</Text>
+
+          <TouchableOpacity style={styles.getCode} onPress={() => logout()}>
+            <Text style={styles.loginButtonText}>Logout</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.getCode,{marginTop:-20}]} onPress={() => navigation.navigate('subscribe')}>
+            <Text style={styles.loginButtonText}>Subscription Plans</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.getCode,{marginTop:-20}]} onPress={() => navigation.navigate('subscribe')}>
+            <Text style={styles.loginButtonText}>Clear</Text>
           </TouchableOpacity>
         </View>
+
       </ScrollView>
-      <TouchableOpacity  onPress={()=>logout()}>
-        <Icon name="arrow-right" size={35} color="black"  style={styles.eye2}/>
       
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }

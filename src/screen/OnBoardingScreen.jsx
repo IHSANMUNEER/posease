@@ -80,8 +80,8 @@ const OnBoardingScreen = ({ navigation }) => {
       NextButtonComponent={Next}
       DoneButtonComponent={Done}
       DotComponent={Dots}
-      onSkip={() => navigation.replace("profileScreen")}
-      onDone={() => navigation.replace("subscribe")}
+      onSkip={() => navigation.replace("Signup")}
+      onDone={() => navigation.replace("Signup")}
       pages={[
         {
           backgroundColor: colours.secondary,

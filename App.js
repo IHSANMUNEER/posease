@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Stack1 } from './src/screen/Navigation.jsx';
 import { Stack2 } from './src/screen/Navigation.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from './src/components/Loader.jsx';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -26,7 +27,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return null; 
+    return <Loader/>; 
   }
 
   return loggedIn ? <Stack2 /> : <Stack1 />;

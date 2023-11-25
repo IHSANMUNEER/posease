@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../firebase/firebase';
+import {auth, firestore} from '../firebase/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -13,15 +13,28 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 
 import {useNavigation} from '@react-navigation/native';
-import profileScreen from './ProfileScreen';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
-import ChangePassword from './ChangePassword';
+import colors from '../components/colors';
 
 function Login() {
   const navigation = useNavigation();
+  const [waiting, setWaiting] = useState(false);
+  ///////////////////////////Handle SignIn for Formate/////////////////
 
   const handleAlert = (email, password) => {
     const isEmailValid = email.includes('@') && email.includes('.');
@@ -50,14 +63,45 @@ function Login() {
     }
   };
 
+  ///////////////////////////Hooks/////////////////
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [waiting, setWaiting] = useState(false);
+
   const [eye, setEye] = useState(true);
+
+  // ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
+
+  // const fetchData = async () => {
+  //   const userDataCollection = collection(firestore, 'userdata');
+
+  //   try {
+  //     const querySnapshot = await getDocs(
+  //       query(userDataCollection, where('id', '==', auth.currentUser.uid))
+
+  //     );
+
+  //    const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
+  //    const Username = querySnapshot.docs.map(doc => doc.data().name);
+  //    const UserId = querySnapshot.docs.map(doc => doc.data().id);
+
+  //    await AsyncStorage.setItem('userEmail', JSON.stringify(UserEmail));
+  //    await AsyncStorage.setItem('userName', JSON.stringify(Username));
+  //    console.log('to set',UserEmail);
+
+  //   } catch (error) {
+  //     console.error('Error fetching data from Firestore:', error);
+  //   }
+  // };
+
+  // ///////////////////////////eye icon handle/////////////////
 
   const handleEye = () => {
     setEye(!eye);
   };
+
+  ///////////////////////////Handle Login/////////////////
+
   const handleSignIn = async () => {
     if (!email.trim()) {
       Alert.alert('Invalid Email', 'Please enter a valid Email.');
@@ -69,39 +113,51 @@ function Login() {
     }
 
     if (password) {
-      await signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          const user = userCredential.user;
-          AsyncStorage.setItem('userToken', 'user_authenticated');
-          navigation.navigate('profileScreen');
-        })
-        .catch(error => {
-          if (error.code === 'auth/invalid-login-credentials') {
-            Alert.alert(
-              'Incorrect Credentials',
-              'Please enter correct email and password',
-            );
-          }
+      console.log('in sign in');
+      setWaiting(true); // Set waiting to true before the signInWithEmailAndPassword call
+      try {
+        await signInWithEmailAndPassword(auth, email, password)
+          .then(userCredential => {
+            const user = userCredential.user;
+            AsyncStorage.setItem('userToken', 'user_authenticated');
+            navigation.navigate('profileScreen');
+            setWaiting(false);
+          })
+          .catch(error => {
+            // Handle authentication errors
+            setWaiting(false); // Set waiting to false in case of an error
+            if (error.code === 'auth/invalid-login-credentials') {
+              Alert.alert(
+                'Incorrect Credentials',
+                'Please enter correct email and password',
+              );
+            }
 
-          if (error.code === 'auth/invalid-email') {
-            Alert.alert(
-              'That email address is invalid!',
-              'Please enter correct email and password',
-            );
-          }
-          if (error.code === 'auth/too-many-requests') {
-            Alert.alert('Too many requests', 'Try again later.');
-          }
+            if (error.code === 'auth/invalid-email') {
+              Alert.alert(
+                'That email address is invalid!',
+                'Please enter correct email and password',
+              );
+            }
+            if (error.code === 'auth/too-many-requests') {
+              Alert.alert('Too many requests', 'Try again later.');
+            }
 
-          console.error(error);
-        });
+            console.error(error);
+          });
+      } catch (error) {
+        console.error('Error signing in:', error);
+        setWaiting(false); // Set waiting to false in case of an error
+      }
     } else {
       Alert.alert(
         'Password Mismatch',
-        'Password And Confirm Password Sholud be Same.',
+        'Password And Confirm Password Should be Same.',
       );
     }
   };
+
+  ///////////////////////////UI/////////////////
 
   return (
     <>
@@ -124,7 +180,7 @@ function Login() {
             <Icon
               name="envelope"
               size={20}
-              color="black"
+              color= {colours.primary}
               style={styles.email}
             />
             <TextInput
@@ -136,19 +192,25 @@ function Login() {
               onChangeText={setPassword}
             />
             <TouchableOpacity style={styles.eye2} onPress={handleEye}>
-              <Icon name={eye ? 'eye' : 'eye-slash'} size={20} color="black" />
+              <Icon name={eye ? 'eye' : 'eye-slash'} size={20} color={colours.primary} />
             </TouchableOpacity>
             <Text
               style={styles.forgotPassword}
-              // onPress={navigation.navigate('ChangePassword')}
-              >
+              onPress={() => {
+                setWaiting(true);
+                setTimeout(() => {
+                  setWaiting(false);
+                  navigation.navigate('ChangePassword');
+                }, 1000);
+              }}>
               Forgot Your Password?
             </Text>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => {
+              onPress={async () => {
                 handleAlert(email, password);
-                handleSignIn();
+                setWaiting(true);
+                await handleSignIn();
               }}>
               <Text style={styles.loginButtonText}>LOGIN</Text>
             </TouchableOpacity>
@@ -156,7 +218,12 @@ function Login() {
               Don't Have an Account?{' '}
               <Text
                 style={styles.signupLink}
-                onPress={() => navigation.navigate('Signup')}>
+                onPress={() => {
+                  setWaiting(true);
+                  setTimeout(() => {
+                    navigation.navigate('Signup');
+                  }, 100);
+                }}>
                 Sign Up
               </Text>
             </Text>
@@ -179,8 +246,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     // marginBottom: 20,
     resizeMode: 'contain',
     marginTop: -90,

@@ -9,41 +9,16 @@ import OnBoardingScreen from './OnBoardingScreen';
 import Login from './Login';
 import Signup from './Signup';
 import colors from '../components/colors.jsx';
+import Loader from '../components/Loader.jsx';
 const MainStack = createStackNavigator();
 
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-      {/* <MainStack.Screen
+      <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
         options={{headerShown: false}}
-      /> */}
-      <MainStack.Screen
-        name="Signup"
-        component={Signup}
-        options={{
-          headerShown: true,
-          headerBackTitleVisible: false,
-          headerTitle: '',
-          headerStyle: {
-            height: 40,
-            backgroundColor: colors.secondary,
-          },
-        }}
-      />
-
-      <MainStack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: true,
-          headerBackTitleVisible: false,
-          headerTitle: '',
-          headerStyle: {
-            height: 40,
-          },
-        }}
       />
 
       <MainStack.Screen
@@ -59,10 +34,37 @@ const Stack1 = () => (
         }}
       />
       <MainStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+            backgroundColor: colors.secondary,
+          },
+        }}
+      />
+
+      <MainStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+          },
+        }}
+      />
+
+      <MainStack.Screen
         name="ConfirmationCodeInput"
         component={ConfirmationCodeInput}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -74,7 +76,7 @@ const Stack1 = () => (
         name="ConfirmPassword"
         component={ConfirmPassword}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -86,7 +88,7 @@ const Stack1 = () => (
         name="ChangePassword"
         component={ChangePassword}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -97,6 +99,19 @@ const Stack1 = () => (
       <MainStack.Screen
         name="subscribe"
         component={subscribe}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+          },
+        }}
+      />
+
+      <MainStack.Screen
+        name="Loader"
+        component={Loader}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,
@@ -129,7 +144,7 @@ const Stack2 = () => (
         name="ConfirmationCodeInput"
         component={ConfirmationCodeInput}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -141,7 +156,7 @@ const Stack2 = () => (
         name="ConfirmPassword"
         component={ConfirmPassword}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -153,7 +168,7 @@ const Stack2 = () => (
         name="ChangePassword"
         component={ChangePassword}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
@@ -171,6 +186,40 @@ const Stack2 = () => (
           headerStyle: {
             height: 40,
           },
+        }}
+      />
+      <MainStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+          },
+        }}
+      />
+      <MainStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+            backgroundColor: colors.secondary,
+          },
+        }}
+      />
+
+      <MainStack.Screen
+        name="Loader"
+        component={Loader}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false
         }}
       />
     </MainStack.Navigator>

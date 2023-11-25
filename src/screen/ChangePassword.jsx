@@ -8,33 +8,48 @@ import {
   View,
   TouchableOpacity,
   alert,
-  Alert
+  Alert,
 } from 'react-native';
+
+import Gif from 'react-native-gif';
 import color from '../components/colors';
-import imageS from '../Images/2.png';
+import Loader from '../components/Loader';
 import {auth} from '../firebase/firebase';
 import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
-const ChangePassword = () => {
-  const [email, setEmail] = useState('');
+import { useNavigation } from '@react-navigation/native';
 
-  const changePasswordLink =() => {
-    
+
+const ChangePassword = () => {
+ 
+  const navigation = useNavigation();
+
+
+  const [email, setEmail] = useState('');
+  const [waiting ,setWaiting] = useState(false)
+
+  const changePasswordLink = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        console.log('success')
-        Alert.alert('SUCCESS','Password Reset link has been sent')
+        console.log('success');
+        Alert.alert('SUCCESS', 'Password Reset link has been sent');
       })
       .catch(error => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
+        console.log(errorCode, errorMessage);
       });
   };
 
   return (
+    <>
+    {waiting && <Loader />}
+      {!waiting && (
     <ScrollView style={styles.container}>
       <View>
-        <Image style={styles.logo} source={imageS} />
+        <Gif
+          style={styles.logo}
+          source={require('../Images/2.png')}
+        />
         <Text style={styles.mainHeading}>Mail Address Here</Text>
         <Text style={styles.secondHeading}>
           Enter the email address associated with your account
@@ -55,7 +70,10 @@ const ChangePassword = () => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+      )}
+    </>
   );
+  
 };
 
 // Define the styles for the component
@@ -71,17 +89,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     resizeMode: 'contain',
-    marginHorizontal: 80,
-    marginVertical: 20,
+    marginHorizontal: 105,
+    marginVertical: 50,
   },
   secondHeading: {
     marginHorizontal: 70,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
+    color: color.primary,
   },
   input: {
     width: '80%',

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import color from '../components/colors';
-import imageS from '../Images/2.png';
+// import imageS from '../Images/2.gif';
 import { useNavigation } from "@react-navigation/native";
 import subscribe from './Subscribe';
 const ChangePassword = () => {
@@ -19,7 +19,7 @@ const ChangePassword = () => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Image style={styles.logo} source={imageS} />
+        {/* <Image style={styles.logo} source={imageS} /> */}
         <Text style={styles.mainHeading}>Get Your Code</Text>
         <Text style={styles.secondHeading}>
           Please enter the 4-digit code that was sent to your email address
