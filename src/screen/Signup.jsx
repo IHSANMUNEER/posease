@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from 'firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {auth,app ,firestore} from '../firebase/firebase';
+import {auth, app, firestore} from '../firebase/firebase';
+import Toast from 'react-native-toast-message';
 import {
   collection,
   addDoc,
   doc,
   getDocs,
   query,
-  where
+  where,
 } from 'firebase/firestore';
 
 import {
@@ -21,11 +25,22 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+ 
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
+
+////////Toast////////
+const tostSuccess = () => {
+  Toast.show({
+    type: 'success',
+    text1: 'Verify Email',
+    text2: 'verification email has been sent!!',
+  });
+};
+//////////////////////////
 
 function Signup() {
   const navigation = useNavigation();
@@ -48,7 +63,9 @@ function Signup() {
 
   const handleSignUp = async () => {
     if (!username.trim()) {
-      Alert.alert('Invalid Username', 'Please enter a valid username.');
+     // ToastAndroid.show('Invalid Username', 'Please enter a valid username.',ToastAndroid.SHORT);
+     Alert.alert('Enter Valid Email')
+ 
       return;
     }
     if (!email.trim()) {
@@ -67,22 +84,21 @@ function Signup() {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-         // Alert.alert('User account created & signed in!');
+          // Alert.alert('User account created & signed in!');
           AsyncStorage.setItem('userToken', 'user_authenticated');
-          /////////////
-          saveUserData();
-          fetchData();
-          /////////////
-          setTimeout(()=>{
-            navigation.navigate('profileScreen')
-          },5000)
-          setWaiting(true);
-       
-        
+          AsyncStorage.removeItem('emailS');
+          AsyncStorage.setItem('emailS', email);
+          sendEmailVerification(user).then(() => {
+            tostSuccess();
+            saveUserData();
+            fetchData();
+            navigation.navigate('Login');
+          });
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
-            Alert.alert('That email address is already in use!');
+            //Alert.alert('That email address is already in use!');
+            tostSuccess();
           }
 
           if (error.code === 'auth/invalid-email') {
@@ -101,54 +117,52 @@ function Signup() {
 
   const saveUserData = async () => {
     try {
-     
       const userDataCollection = collection(firestore, 'userdata');
-  
+
       await addDoc(userDataCollection, {
-        id :auth.currentUser.uid,
+        id: auth.currentUser.uid,
         name: username,
         emailId: email,
-        passwordS :password
-
+        passwordS: password,
       });
-      
-  
+
       console.log('User data added to Firestore successfully!');
     } catch (error) {
       console.error('Error adding user data to Firestore: ', error);
     }
   };
 
-
   /////////////////////////////////
-   ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
+  ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
 
-   const fetchData = async () => {
+  const fetchData = async () => {
     const userDataCollection = collection(firestore, 'userdata');
 
     try {
       const querySnapshot = await getDocs(
-        query(userDataCollection, where('id', '==', auth.currentUser.uid))
-        
-        
+        query(userDataCollection, where('emailId', '==', email)),
       );
-       
-     const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
-     const Username = querySnapshot.docs.map(doc => doc.data().name);
-     const UserId = auth.currentUser.uid;
-     const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
-     
-     await AsyncStorage.setItem(`userEmail_${auth.currentUser.uid}`, JSON.stringify(UserEmail));
-     await AsyncStorage.setItem(`userName_${auth.currentUser.uid}`, JSON.stringify(Username));
-     await AsyncStorage.setItem(`userPassword_${auth.currentUser.uid}`, JSON.stringify(Userpassword));
-     await AsyncStorage.setItem(`userId_${auth.currentUser.uid}`, JSON.stringify(UserId));
-     console.log(`userEmail_${auth.currentUser.uid}`)
-     console.log('to set', UserEmail);
-     console.log('to set', Username);
-     console.log('to set', Userpassword);
-     console.log('to set', UserId);
-     
-     
+
+      const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
+      const Username = querySnapshot.docs.map(doc => doc.data().name);
+      const UserId = auth.currentUser.uid;
+      const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
+
+      await AsyncStorage.setItem(
+        `userEmail_${email}`,
+        JSON.stringify(UserEmail),
+      );
+      await AsyncStorage.setItem(`userName_${email}`, JSON.stringify(Username));
+      await AsyncStorage.setItem(
+        `userPassword_${email}`,
+        JSON.stringify(Userpassword),
+      );
+      await AsyncStorage.setItem(`userId_${email}`, JSON.stringify(UserId));
+      console.log(`userEmail_${auth.currentUser.uid}`);
+      console.log('to set', UserEmail);
+      console.log('to set', Username);
+      console.log('to set', Userpassword);
+      console.log('to set', UserId);
     } catch (error) {
       console.error('Error fetching data from Firestore:', error);
     }
@@ -156,92 +170,95 @@ function Signup() {
 
   ///////////////////////////eye icon handle/////////////////
   ////////////////////////////////
-  
+
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
-        <ScrollView style={styles.container}>
-          <View style={styles.screen}>
-            <View style={styles.header}>
-              <Image
-                style={styles.logo}
-                source={require('../assets/logo.png')}
-              />
-              <Text style={styles.title}>Create Account</Text>
-            </View>
-            <View style={styles.form}>
-              <TextInput
-                value={username}
-                placeholder="Name"
-                placeholderTextColor="gray"
-                style={styles.input}
-                onChangeText={setUsername}
-              />
-              <Icon name="user" size={20} color={colours.primary} style={styles.user} />
-              <TextInput
-                value={email}
-                placeholder="Email"
-                placeholderTextColor="gray"
-                style={styles.input}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-              />
+      {/* {waiting && <Loader />} */}
+      {/* {!waiting && ( */}
+      <ScrollView style={styles.container}>
+        <View style={styles.screen}>
+          <View style={styles.header}>
+            <Image style={styles.logo} source={require('../assets/logo.png')} />
+            <Text style={styles.title}>Create Account</Text>
+          </View>
+          <View style={styles.form}>
+            <TextInput
+              value={username}
+              placeholder="Name"
+              placeholderTextColor="gray"
+              style={styles.input}
+              onChangeText={setUsername}
+            />
+            <Icon
+              name="user"
+              size={20}
+              color={colours.primary}
+              style={styles.user}
+            />
+            <TextInput
+              value={email}
+              placeholder="Email"
+              placeholderTextColor="gray"
+              style={styles.input}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+            <Icon
+              name="envelope"
+              size={20}
+              color={colours.primary}
+              style={styles.email}
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="gray"
+              secureTextEntry={eye}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.lock} onPress={handleEye}>
               <Icon
-                name="envelope"
+                name={eye ? 'eye' : 'eye-slash'}
                 size={20}
                 color={colours.primary}
-                style={styles.email}
               />
-              <TextInput
-                value={password}
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="gray"
-                secureTextEntry={eye}
-                onChangeText={setPassword}
+            </TouchableOpacity>
+            <TextInput
+              value={confirmpassword}
+              style={styles.input}
+              placeholder="Confirm Password"
+              placeholderTextColor="gray"
+              secureTextEntry={eye}
+              onChangeText={setConfirmPassword}
+            />
+            <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+              <Icon
+                name={eye ? 'eye' : 'eye-slash'}
+                size={20}
+                color={colours.primary}
               />
-              <TouchableOpacity style={styles.lock} onPress={handleEye}>
-                <Icon
-                  name={eye ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color={colours.primary}
-                />
-              </TouchableOpacity>
-              <TextInput
-                value={confirmpassword}
-                style={styles.input}
-                placeholder="Confirm Password"
-                placeholderTextColor="gray"
-                secureTextEntry={eye}
-                onChangeText={setConfirmPassword}
-              />
-              <TouchableOpacity style={styles.eye2} onPress={handleEye}>
-                <Icon
-                  name={eye ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color={colours.primary}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={async() => {
-                  await handleSignUp();
-                  setWaiting(true);
-                 
-                }}>
-                <Text style={styles.buttonText}>SIGN UP</Text>
-              </TouchableOpacity>
-              <Text style={styles.text}>
-                Already have an account?{' '}
-                <Text style={styles.textLink} onPress={onPressHandler}>
-                  Login
-                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                await handleSignUp();
+                tostSuccess();
+                
+                //setWaiting(true);
+              }}>
+              <Text style={styles.buttonText}>SIGN UP</Text>
+            </TouchableOpacity>
+            <Text style={styles.text}>
+              Already have an account?{' '}
+              <Text style={styles.textLink} onPress={onPressHandler}>
+                Login
               </Text>
-            </View>
+            </Text>
           </View>
-        </ScrollView>
-      )}
+        </View>
+      </ScrollView>
+      {/* )} */}
     </>
   );
 }

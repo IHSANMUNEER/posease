@@ -77,7 +77,7 @@ function Login() {
 
     try {
       const querySnapshot = await getDocs(
-        query(userDataCollection, where('id', '==', auth.currentUser.uid)),
+        query(userDataCollection, where('emailId', '==', email)),
       );
 
       const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
@@ -85,18 +85,16 @@ function Login() {
       const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
 
       const existingUserEmail = await AsyncStorage.getItem(
-        `userEmail_${auth.currentUser.uid}`,
+        `userEmail_${email}`,
       );
-      const existingUserName = await AsyncStorage.getItem(
-        `userName_${auth.currentUser.uid}`,
-      );
+      const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
       const existingUserPassword = await AsyncStorage.getItem(
-        `userPassword_${auth.currentUser.uid}`,
+        `userPassword_${email}`,
       );
 
       if (existingUserEmail === null) {
         await AsyncStorage.setItem(
-          `userEmail_${auth.currentUser.uid}`,
+          `userEmail_${email}`,
           JSON.stringify(UserEmail),
         );
         console.log('Setting userEmail:', UserEmail);
@@ -104,7 +102,7 @@ function Login() {
 
       if (existingUserName === null) {
         await AsyncStorage.setItem(
-          `userName_${auth.currentUser.uid}`,
+          `userName_${email}`,
           JSON.stringify(Username),
         );
         console.log('Setting userName:', Username);
@@ -112,7 +110,7 @@ function Login() {
 
       if (existingUserPassword === null) {
         await AsyncStorage.setItem(
-          `userPassword_${auth.currentUser.uid}`,
+          `userPassword_${email}`,
           JSON.stringify(Userpassword),
         );
         console.log('Setting userPassword:', Userpassword);
@@ -147,17 +145,24 @@ function Login() {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             const user = userCredential.user;
-            fetchData();
-            AsyncStorage.setItem('userToken', 'user_authenticated');
-            setTimeout(async()=>{
-              setWaiting(false)
-              navigation.navigate('profileScreen');
-            },4000)
-            
+            if (user.emailVerified) {
+              fetchData();
+              AsyncStorage.setItem('userToken', 'user_authenticated');
+              AsyncStorage.removeItem('emailS');
+              AsyncStorage.setItem('emailS', email);
+              setTimeout(async () => {
+                setWaiting(false);
+                navigation.navigate('profileScreen');
+              }, 5000);
+            } else {
+              Alert.alert(
+                'Email Not Verified',
+                'Please verify your email to sign in.',
+              );
+            }
           })
           .catch(error => {
-        
-            setWaiting(false); 
+            setWaiting(false);
             if (error.code === 'auth/invalid-login-credentials') {
               Alert.alert(
                 'Incorrect Credentials',
@@ -182,7 +187,7 @@ function Login() {
           });
       } catch (error) {
         console.error('Error signing in:', error);
-        setWaiting(false); 
+        setWaiting(false);
       }
     } else {
       Alert.alert(
@@ -196,8 +201,8 @@ function Login() {
 
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
             <Image style={styles.logo} source={require('../assets/logo.png')} />
@@ -248,7 +253,6 @@ function Login() {
               style={styles.loginButton}
               onPress={async () => {
                 handleAlert(email, password);
-                setWaiting(true);
                 await handleSignIn();
               }}>
               <Text style={styles.loginButtonText}>LOGIN</Text>
@@ -268,7 +272,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      )}
+      {/* )} */}
     </>
   );
 }

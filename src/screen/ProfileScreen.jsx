@@ -31,21 +31,23 @@ function ProfileScreen() {
   const [userPassword, setUserPassword] = useState('');
   const [userId, setUserId] = useState('');
   const [waiting, setWaiting] = useState(true);
+  const [editable,setEditable] = useState(false);
 
 
   useEffect(() => {
     console.log('here')
     const unsubscribe = navigation.addListener('focus', () => {
       const fetchData = async () => {
-        const user = auth.currentUser;
+         const user =  await AsyncStorage.getItem('emailS');
+        //const user  = 'd@gmail.com'
         console.log('user',user)
         if (user) {
           try {
             console.log('here2')
-            const storedUserEmail = await AsyncStorage.getItem(`userEmail_${user.uid}`);
-            const storedUserName = await AsyncStorage.getItem(`userName_${user.uid}`);
+            const storedUserEmail = await AsyncStorage.getItem(`userEmail_${user}`);
+            const storedUserName = await AsyncStorage.getItem(`userName_${user}`);
             console.log('here3')
-            const storedUserPassword = await AsyncStorage.getItem(`userPassword_${user.uid}`);
+            const storedUserPassword = await AsyncStorage.getItem(`userPassword_${user}`);
             const userEmail =  storedUserEmail ? storedUserEmail.replace(/[\[\]"]+/g, '') : '';
             setUserEmail(userEmail);
             const userName = storedUserName ? storedUserName.replace(/[\[\]"]+/g, '') : '';
@@ -193,6 +195,7 @@ function ProfileScreen() {
             placeholder={userName}
             secureTextEntry={true}
             placeholderTextColor="black"
+            editable={editable}
           />
 
           <TextInput
@@ -200,6 +203,7 @@ function ProfileScreen() {
             placeholder={userEmail}
             secureTextEntry={true}
             placeholderTextColor="black"
+            editable={editable}
           />
 
           <TextInput
@@ -208,7 +212,8 @@ function ProfileScreen() {
             secureTextEntry={true}
             placeholderTextColor="black"
             value={userPassword}
-            // textAlign='left'
+            editable={editable}
+          
           />
 
           <TouchableOpacity style={styles.getCode} onPress={()=>logout()}>
