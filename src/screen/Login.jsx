@@ -72,27 +72,55 @@ function Login() {
 
   // ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
 
-  // const fetchData = async () => {
-  //   const userDataCollection = collection(firestore, 'userdata');
+  const fetchData = async () => {
+    const userDataCollection = collection(firestore, 'userdata');
 
-  //   try {
-  //     const querySnapshot = await getDocs(
-  //       query(userDataCollection, where('id', '==', auth.currentUser.uid))
+    try {
+      const querySnapshot = await getDocs(
+        query(userDataCollection, where('id', '==', auth.currentUser.uid)),
+      );
 
-  //     );
+      const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
+      const Username = querySnapshot.docs.map(doc => doc.data().name);
+      const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
 
-  //    const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
-  //    const Username = querySnapshot.docs.map(doc => doc.data().name);
-  //    const UserId = querySnapshot.docs.map(doc => doc.data().id);
+      const existingUserEmail = await AsyncStorage.getItem(
+        `userEmail_${auth.currentUser.uid}`,
+      );
+      const existingUserName = await AsyncStorage.getItem(
+        `userName_${auth.currentUser.uid}`,
+      );
+      const existingUserPassword = await AsyncStorage.getItem(
+        `userPassword_${auth.currentUser.uid}`,
+      );
 
-  //    await AsyncStorage.setItem('userEmail', JSON.stringify(UserEmail));
-  //    await AsyncStorage.setItem('userName', JSON.stringify(Username));
-  //    console.log('to set',UserEmail);
+      if (existingUserEmail === null) {
+        await AsyncStorage.setItem(
+          `userEmail_${auth.currentUser.uid}`,
+          JSON.stringify(UserEmail),
+        );
+        console.log('Setting userEmail:', UserEmail);
+      }
 
-  //   } catch (error) {
-  //     console.error('Error fetching data from Firestore:', error);
-  //   }
-  // };
+      if (existingUserName === null) {
+        await AsyncStorage.setItem(
+          `userName_${auth.currentUser.uid}`,
+          JSON.stringify(Username),
+        );
+        console.log('Setting userName:', Username);
+      }
+
+      if (existingUserPassword === null) {
+        await AsyncStorage.setItem(
+          `userPassword_${auth.currentUser.uid}`,
+          JSON.stringify(Userpassword),
+        );
+        console.log('Setting userPassword:', Userpassword);
+      }
+    } catch (error) {
+      console.error('Error fetching data from Firestore:', error);
+    }
+  };
 
   // ///////////////////////////eye icon handle/////////////////
 
@@ -119,13 +147,17 @@ function Login() {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             const user = userCredential.user;
+            fetchData();
             AsyncStorage.setItem('userToken', 'user_authenticated');
-            navigation.navigate('profileScreen');
-            setWaiting(false);
+            setTimeout(async()=>{
+              setWaiting(false)
+              navigation.navigate('profileScreen');
+            },4000)
+            
           })
           .catch(error => {
-            // Handle authentication errors
-            setWaiting(false); // Set waiting to false in case of an error
+        
+            setWaiting(false); 
             if (error.code === 'auth/invalid-login-credentials') {
               Alert.alert(
                 'Incorrect Credentials',
@@ -142,12 +174,15 @@ function Login() {
             if (error.code === 'auth/too-many-requests') {
               Alert.alert('Too many requests', 'Try again later.');
             }
+            if (error.code === 'auth/network-request-failed') {
+              Alert.alert('No Internet Connection', 'connect to internet.');
+            }
 
             console.error(error);
           });
       } catch (error) {
         console.error('Error signing in:', error);
-        setWaiting(false); // Set waiting to false in case of an error
+        setWaiting(false); 
       }
     } else {
       Alert.alert(
@@ -180,7 +215,7 @@ function Login() {
             <Icon
               name="envelope"
               size={20}
-              color= {colours.primary}
+              color={colours.primary}
               style={styles.email}
             />
             <TextInput
@@ -192,7 +227,11 @@ function Login() {
               onChangeText={setPassword}
             />
             <TouchableOpacity style={styles.eye2} onPress={handleEye}>
-              <Icon name={eye ? 'eye' : 'eye-slash'} size={20} color={colours.primary} />
+              <Icon
+                name={eye ? 'eye' : 'eye-slash'}
+                size={20}
+                color={colours.primary}
+              />
             </TouchableOpacity>
             <Text
               style={styles.forgotPassword}
@@ -222,7 +261,7 @@ function Login() {
                   setWaiting(true);
                   setTimeout(() => {
                     navigation.navigate('Signup');
-                  }, 100);
+                  }, 30);
                 }}>
                 Sign Up
               </Text>
@@ -246,8 +285,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     // marginBottom: 20,
     resizeMode: 'contain',
     marginTop: -90,

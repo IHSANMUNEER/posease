@@ -31,7 +31,12 @@ const ChangePassword = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         console.log('success');
-        Alert.alert('SUCCESS', 'Password Reset link has been sent');
+        setTimeout(()=>{
+          navigation.navigate('profileScreen')
+        },1000)
+        setWaiting(true)
+        
+        //Alert.alert('SUCCESS', 'Password Reset link has been sent');
       })
       .catch(error => {
         const errorCode = error.code;

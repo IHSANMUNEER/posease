@@ -12,6 +12,7 @@ import colors from '../components/colors.jsx';
 import Loader from '../components/Loader.jsx';
 const MainStack = createStackNavigator();
 
+
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
@@ -128,6 +129,7 @@ const Stack1 = () => (
 const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
+   
       <MainStack.Screen
         name="profileScreen"
         component={profileScreen}
@@ -152,6 +154,18 @@ const Stack2 = () => (
           },
         }}
       />
+       <MainStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+          },
+        }}
+      />
       <MainStack.Screen
         name="ConfirmPassword"
         component={ConfirmPassword}
@@ -164,18 +178,7 @@ const Stack2 = () => (
           },
         }}
       />
-      <MainStack.Screen
-        name="ChangePassword"
-        component={ChangePassword}
-        options={{
-          headerShown: false,
-          headerBackTitleVisible: false,
-          headerTitle: '',
-          headerStyle: {
-            height: 40,
-          },
-        }}
-      />
+      
       <MainStack.Screen
         name="subscribe"
         component={subscribe}

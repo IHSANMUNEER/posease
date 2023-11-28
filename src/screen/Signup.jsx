@@ -67,13 +67,18 @@ function Signup() {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-          Alert.alert('User account created & signed in!');
+         // Alert.alert('User account created & signed in!');
           AsyncStorage.setItem('userToken', 'user_authenticated');
           /////////////
           saveUserData();
           fetchData();
           /////////////
-          navigation.navigate('profileScreen')
+          setTimeout(()=>{
+            navigation.navigate('profileScreen')
+          },5000)
+          setWaiting(true);
+       
+        
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -130,16 +135,18 @@ function Signup() {
        
      const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
      const Username = querySnapshot.docs.map(doc => doc.data().name);
-     const UserId = querySnapshot.docs.map(doc => doc.data().id);
+     const UserId = auth.currentUser.uid;
      const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
      
      await AsyncStorage.setItem(`userEmail_${auth.currentUser.uid}`, JSON.stringify(UserEmail));
      await AsyncStorage.setItem(`userName_${auth.currentUser.uid}`, JSON.stringify(Username));
      await AsyncStorage.setItem(`userPassword_${auth.currentUser.uid}`, JSON.stringify(Userpassword));
+     await AsyncStorage.setItem(`userId_${auth.currentUser.uid}`, JSON.stringify(UserId));
      console.log(`userEmail_${auth.currentUser.uid}`)
      console.log('to set', UserEmail);
      console.log('to set', Username);
      console.log('to set', Userpassword);
+     console.log('to set', UserId);
      
      
     } catch (error) {
@@ -220,6 +227,7 @@ function Signup() {
                 style={styles.button}
                 onPress={async() => {
                   await handleSignUp();
+                  setWaiting(true);
                  
                 }}>
                 <Text style={styles.buttonText}>SIGN UP</Text>
@@ -256,8 +264,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     marginVertical: 40,
     marginBottom: 2,
     resizeMode: 'contain',

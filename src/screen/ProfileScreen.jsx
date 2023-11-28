@@ -1,17 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {auth, app, firestore} from '../firebase/firebase';
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  onSnapshot,
-  doc,
-  deleteDoc,
-  updateDoc,
-  query,
-  where,
-} from 'firebase/firestore';
+import {auth, app, firestore,onAuthStateChanged} from '../firebase/firebase';
+import {collection, doc, updateDoc} from 'firebase/firestore';
 
 import {
   StyleSheet,
@@ -22,7 +11,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  useFocusEffect 
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
@@ -33,7 +21,6 @@ import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
 
 function ProfileScreen() {
-
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
@@ -42,68 +29,82 @@ function ProfileScreen() {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [userId, setUserId] = useState('');
+  const [waiting, setWaiting] = useState(true);
 
-  
-  
 
   useEffect(() => {
+    console.log('here')
     const unsubscribe = navigation.addListener('focus', () => {
       const fetchData = async () => {
         const user = auth.currentUser;
+        console.log('user',user)
         if (user) {
           try {
+            console.log('here2')
             const storedUserEmail = await AsyncStorage.getItem(`userEmail_${user.uid}`);
             const storedUserName = await AsyncStorage.getItem(`userName_${user.uid}`);
+            console.log('here3')
             const storedUserPassword = await AsyncStorage.getItem(`userPassword_${user.uid}`);
-            const userEmail = storedUserEmail ? storedUserEmail.replace(/[\[\]"]+/g, '') : '';
+            const userEmail =  storedUserEmail ? storedUserEmail.replace(/[\[\]"]+/g, '') : '';
+            setUserEmail(userEmail);
             const userName = storedUserName ? storedUserName.replace(/[\[\]"]+/g, '') : '';
+            setUserName(userName);
             const userPassword = storedUserPassword ? storedUserPassword.replace(/[\[\]"]+/g, '') : '';
+             setUserPassword(userPassword)
 
             console.log('name', userEmail);
             console.log('center');
             console.log('username', storedUserName);
-            setUserEmail(userEmail);
-            setUserName(userName);
-            setUserPassword(userPassword)
+            
+            
+           
             
           } catch (error) {
             console.error('Error fetching data from AsyncStorage:', error);
           }
         }
+        
       };
 
       fetchData();
 
       return unsubscribe;
-    }, [navigation]);
+    }, [navigation,userName]);
 
     return unsubscribe;
+    console.log('here3')
   }, []);
-  
+
+
+ 
+
+
+  ////////////////////////
+
+
+
+
   useEffect(() => {
     if (photoUploaded) {
       saveUserData();
-      setPhotoUploaded(false); 
+      setPhotoUploaded(false);
     }
   }, [photoUploaded]);
-
-
 
   const saveUserData = async () => {
     try {
       const userDataCollection = collection(firestore, 'userdata');
-      const userDoc = doc(userDataCollection,'mziFi1JrwdLKbFCx2rfI'); 
+      const userDoc = doc(userDataCollection, 'mziFi1JrwdLKbFCx2rfI');
       await updateDoc(userDoc, {
         profileImage: profileImageUri,
       });
-  
+
       console.log('User data updated in Firestore successfully!');
     } catch (error) {
       console.error('Error updating user data in Firestore: ', error);
     }
   };
-
-  
 
   const navigation = useNavigation();
 
@@ -127,10 +128,8 @@ function ProfileScreen() {
   };
 
   useEffect(() => {
-     getProfileImageUri();
+    getProfileImageUri();
   }, []);
-
- 
 
   const pickImage = async () => {
     try {
@@ -150,16 +149,17 @@ function ProfileScreen() {
     }
   };
 
-
   // Logout//
   const logout = async () => {
     await AsyncStorage.removeItem('userToken');
-    //await AsyncStorage.clear();
     navigation.navigate('Login');
-    console.log(userEmail)
+    
   };
 
-
+  const clear = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate('Login');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -200,7 +200,6 @@ function ProfileScreen() {
             placeholder={userEmail}
             secureTextEntry={true}
             placeholderTextColor="black"
-           
           />
 
           <TextInput
@@ -212,19 +211,21 @@ function ProfileScreen() {
             // textAlign='left'
           />
 
-          <TouchableOpacity style={styles.getCode} onPress={() => logout()}>
+          <TouchableOpacity style={styles.getCode} onPress={()=>logout()}>
             <Text style={styles.loginButtonText}>Logout</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.getCode,{marginTop:-20}]} onPress={() => navigation.navigate('subscribe')}>
+          <TouchableOpacity
+            style={[styles.getCode, {marginTop: -20}]}
+            onPress={() => navigation.navigate('subscribe')}>
             <Text style={styles.loginButtonText}>Subscription Plans</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.getCode,{marginTop:-20}]} onPress={() => navigation.navigate('subscribe')}>
+          <TouchableOpacity
+            style={[styles.getCode, {marginTop: -20}]}
+            onPress={() => clear()}>
             <Text style={styles.loginButtonText}>Clear</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
-      
     </SafeAreaView>
   );
 }

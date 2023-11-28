@@ -11,7 +11,7 @@ import {
 
 import color from '../components/colors.jsx';
 import css from '../components/css.jsx'
-import ImageS from '../Images/4.png';
+import ImageS from '../Images/2.png';
 
 const Subscribe = () => {
   return (

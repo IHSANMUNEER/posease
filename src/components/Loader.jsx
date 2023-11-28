@@ -14,10 +14,9 @@ const Loader = () => {
         backgroundColor: 'white',
       }}>
       <View>
-        {console.log('abc')}
-        <Text>Hello</Text>
+       
         <Lottie
-          style={{ width: 70, height: 100 }}
+          style={{ width: 100, height: 50 }}
           source={require('../assets/loader.json')}
           autoPlay
           loop
