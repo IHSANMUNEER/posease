@@ -83,11 +83,13 @@ function Login() {
       const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
       const Username = querySnapshot.docs.map(doc => doc.data().name);
       const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
+      const Profile = querySnapshot.docs.map(doc => doc.data().ProfileImage);
 
       const existingUserEmail = await AsyncStorage.getItem(
         `userEmail_${email}`,
       );
       const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
+      const existingUserImage = await AsyncStorage.getItem(`userProfile_${email}`);
       const existingUserPassword = await AsyncStorage.getItem(
         `userPassword_${email}`,
       );
@@ -112,6 +114,13 @@ function Login() {
         await AsyncStorage.setItem(
           `userPassword_${email}`,
           JSON.stringify(Userpassword),
+        );
+        console.log('Setting userPassword:', Userpassword);
+      }
+      if (existingUserImage === null) {
+        await AsyncStorage.setItem(
+          `userProfile_${email}`,
+          JSON.stringify(Profile),
         );
         console.log('Setting userPassword:', Userpassword);
       }
@@ -145,7 +154,7 @@ function Login() {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             const user = userCredential.user;
-            if (user.emailVerified) {
+             if (user.emailVerified) {
               fetchData();
               AsyncStorage.setItem('userToken', 'user_authenticated');
               AsyncStorage.removeItem('emailS');
@@ -201,8 +210,8 @@ function Login() {
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
+      {waiting && <Loader />}
+      {!waiting && (
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
             <Image style={styles.logo} source={require('../assets/logo.png')} />
@@ -272,7 +281,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      {/* )} */}
+      )}
     </>
   );
 }

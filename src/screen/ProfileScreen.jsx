@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {auth, app, firestore,onAuthStateChanged} from '../firebase/firebase';
+import {auth, app, firestore, onAuthStateChanged} from '../firebase/firebase';
 import {collection, doc, updateDoc} from 'firebase/firestore';
 
 import {
@@ -31,61 +31,71 @@ function ProfileScreen() {
   const [userPassword, setUserPassword] = useState('');
   const [userId, setUserId] = useState('');
   const [waiting, setWaiting] = useState(true);
-  const [editable,setEditable] = useState(false);
-
+  const [editable, setEditable] = useState(false);
 
   useEffect(() => {
-    console.log('here')
-    const unsubscribe = navigation.addListener('focus', () => {
-      const fetchData = async () => {
-         const user =  await AsyncStorage.getItem('emailS');
-        //const user  = 'd@gmail.com'
-        console.log('user',user)
-        if (user) {
-          try {
-            console.log('here2')
-            const storedUserEmail = await AsyncStorage.getItem(`userEmail_${user}`);
-            const storedUserName = await AsyncStorage.getItem(`userName_${user}`);
-            console.log('here3')
-            const storedUserPassword = await AsyncStorage.getItem(`userPassword_${user}`);
-            const userEmail =  storedUserEmail ? storedUserEmail.replace(/[\[\]"]+/g, '') : '';
-            setUserEmail(userEmail);
-            const userName = storedUserName ? storedUserName.replace(/[\[\]"]+/g, '') : '';
-            setUserName(userName);
-            const userPassword = storedUserPassword ? storedUserPassword.replace(/[\[\]"]+/g, '') : '';
-             setUserPassword(userPassword)
-
-            console.log('name', userEmail);
-            console.log('center');
-            console.log('username', storedUserName);
-            
-            
-           
-            
-          } catch (error) {
-            console.error('Error fetching data from AsyncStorage:', error);
-          }
-        }
+    console.log('here');
+    const unsubscribe = navigation.addListener(
+      'focus',
+      () => {
+        const fetchData = async () => {
+          const user = await AsyncStorage.getItem('emailS');
         
-      };
+          console.log('user', user);
+          if (user) {
+            try {
+              console.log('here2');
+              const storedUserEmail = await AsyncStorage.getItem(
+                `userEmail_${user}`,
+              );
+              const storedUserName = await AsyncStorage.getItem(
+                `userName_${user}`,
+              );
+              console.log('here3');
+              const storedUserPassword = await AsyncStorage.getItem(
+                `userPassword_${user}`,
+              );
+              const storedUserImage = await AsyncStorage.getItem(
+                `userProfile_${user}`,
+              );
+              const userEmail = storedUserEmail
+                ? storedUserEmail.replace(/[\[\]"]+/g, '')
+                : '';
+              setUserEmail(userEmail);
+              const userName = storedUserName
+                ? storedUserName.replace(/[\[\]"]+/g, '')
+                : '';
+              setUserName(userName);
+              const userPassword = storedUserPassword
+                ? storedUserPassword.replace(/[\[\]"]+/g, '')
+                : '';
+              setUserPassword(userPassword);
+              const userImage = storedUserImage
+                ? storedUserImage.replace(/[\[\]"]+/g, '')
+                : '';
+              setProfileImageUri(userImage);
+              console.log('profile',profileImageUri)
+              console.log('name', userEmail);
+              console.log('center');
+              console.log('username', storedUserName);
+            } catch (error) {
+              console.error('Error fetching data from AsyncStorage:', error);
+            }
+          }
+        };
 
-      fetchData();
+        fetchData();
 
-      return unsubscribe;
-    }, [navigation,userName]);
+        return unsubscribe;
+      },
+      [navigation, userName],
+    );
 
     return unsubscribe;
-    console.log('here3')
+    console.log('here3');
   }, []);
 
-
- 
-
-
   ////////////////////////
-
-
-
 
   useEffect(() => {
     if (photoUploaded) {
@@ -97,7 +107,7 @@ function ProfileScreen() {
   const saveUserData = async () => {
     try {
       const userDataCollection = collection(firestore, 'userdata');
-      const userDoc = doc(userDataCollection, 'mziFi1JrwdLKbFCx2rfI');
+      const userDoc = doc(userDataCollection, where('emailId', '==', email));
       await updateDoc(userDoc, {
         profileImage: profileImageUri,
       });
@@ -112,7 +122,8 @@ function ProfileScreen() {
 
   const saveProfileImageUri = async uri => {
     try {
-      await AsyncStorage.setItem('profileImageUri', uri);
+      const user = await AsyncStorage.getItem('emailS');
+      await AsyncStorage.setItem(`userProfile_${user}`, uri);
     } catch (error) {
       console.log('AsyncStorage Error: ', error);
     }
@@ -120,7 +131,7 @@ function ProfileScreen() {
 
   const getProfileImageUri = async () => {
     try {
-      const uri = await AsyncStorage.getItem('profileImageUri');
+      const uri = await AsyncStorage.getItem('');
       if (uri) {
         setProfileImageUri(uri);
       }
@@ -155,7 +166,6 @@ function ProfileScreen() {
   const logout = async () => {
     await AsyncStorage.removeItem('userToken');
     navigation.navigate('Login');
-    
   };
 
   const clear = async () => {
@@ -213,10 +223,9 @@ function ProfileScreen() {
             placeholderTextColor="black"
             value={userPassword}
             editable={editable}
-          
           />
 
-          <TouchableOpacity style={styles.getCode} onPress={()=>logout()}>
+          <TouchableOpacity style={styles.getCode} onPress={() => logout()}>
             <Text style={styles.loginButtonText}>Logout</Text>
           </TouchableOpacity>
           <TouchableOpacity
