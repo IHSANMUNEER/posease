@@ -10,9 +10,11 @@ const css={
         marginHorizontal: 20,
         padding: 15,
         borderRadius: 20,
-        borderColor: '#cc634e',
+        borderColor: colors.primary,
+        borderWidth: 2,
+        //borderColor: '#cc634e',
         fontFamily: 'sans-serif-condensed',
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         color: 'black',
         elevation: 5
       },

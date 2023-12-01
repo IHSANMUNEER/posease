@@ -26,14 +26,18 @@ import {
   where,
 } from 'firebase/firestore';
 
+
 import {useNavigation} from '@react-navigation/native';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
+import LoginAni from '../components/LoginAni';
 import colors from '../components/colors';
 
 function Login() {
   const navigation = useNavigation();
+  //////////////////Hooks/////////////////
   const [waiting, setWaiting] = useState(false);
+
   ///////////////////////////Handle SignIn for Formate/////////////////
 
   const handleAlert = (email, password) => {
@@ -85,7 +89,7 @@ function Login() {
       const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
       const Profile = querySnapshot.docs.map(doc => doc.data().profileImage);
       const docId = querySnapshot.docs[0].id;
-      // console.log('doc id',docId)
+     
 
       const existingUserEmail = await AsyncStorage.getItem(`userEmail_${email}`,);
       const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
@@ -103,6 +107,7 @@ function Login() {
         console.log('Setting userEmail:', UserEmail);
       }
 
+
       if (existingUserName === null) {
         await AsyncStorage.setItem(
           `userName_${email}`,
@@ -111,6 +116,7 @@ function Login() {
         console.log('Setting userName:', Username);
       }
 
+
       if (existingUserPassword === null) {
         await AsyncStorage.setItem(
           `userPassword_${email}`,
@@ -118,6 +124,7 @@ function Login() {
         );
         console.log('Setting userPassword:', Userpassword);
       }
+
       if (existingUserImage === null) {
         await AsyncStorage.setItem(
           `userProfile_${email}`,
@@ -125,6 +132,7 @@ function Login() {
         );
        
       }
+
       if (existingUserDocId === null) {
         await AsyncStorage.setItem(
           `userDoc_${email}`,
@@ -218,12 +226,13 @@ function Login() {
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
+      {waiting && <Loader />}
+      {!waiting && (
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
-            <Image style={styles.logo} source={require('../assets/logo.png')} />
-            <Text style={styles.title}>POSEASE</Text>
+            {/* <Image style={styles.logo} source={require('../assets/logo.png')} /> */}
+            <LoginAni/>
+            <Text style={styles.title}>Guess who's back? You are!</Text>
           </View>
           <View style={styles.form}>
             <TextInput
@@ -289,7 +298,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      {/* )} */}
+      )}
     </>
   );
 }
@@ -313,7 +322,7 @@ const styles = StyleSheet.create({
     marginTop: -90,
   },
   title: {
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: 'bold',
     color: colours.primary,
     marginBottom: 10,

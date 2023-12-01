@@ -4,7 +4,7 @@ import ChangePassword from './ChangePassword.jsx';
 import ConfirmPassword from './ConfirmPassword.jsx';
 import ConfirmationCodeInput from './ConfirmationCode.jsx';
 import profileScreen from './ProfileScreen';
-import subscribe from './Subscribe.jsx';
+import Subscribe from './Subscribe.jsx';
 import OnBoardingScreen from './OnBoardingScreen';
 import Login from './Login';
 import Signup from './Signup';
@@ -16,6 +16,19 @@ const MainStack = createStackNavigator();
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
+    <MainStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+            backgroundColor: colors.secondary,
+          },
+        }}
+      />
       <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
@@ -34,19 +47,7 @@ const Stack1 = () => (
           },
         }}
       />
-      <MainStack.Screen
-        name="Signup"
-        component={Signup}
-        options={{
-          headerShown: false,
-          headerBackTitleVisible: false,
-          headerTitle: '',
-          headerStyle: {
-            height: 40,
-            backgroundColor: colors.secondary,
-          },
-        }}
-      />
+      
 
       <MainStack.Screen
         name="Login"
@@ -98,8 +99,8 @@ const Stack1 = () => (
         }}
       />
       <MainStack.Screen
-        name="subscribe"
-        component={subscribe}
+        name="Subscribe"
+        component={Subscribe}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,
@@ -129,8 +130,7 @@ const Stack1 = () => (
 const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-   
-      <MainStack.Screen
+    <MainStack.Screen
         name="profileScreen"
         component={profileScreen}
         options={{
@@ -142,6 +142,20 @@ const Stack2 = () => (
           },
         }}
       />
+    <MainStack.Screen
+        name="Subscribe"
+        component={Subscribe}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 40,
+          },
+        }}
+      />
+   
+      
       <MainStack.Screen
         name="ConfirmationCodeInput"
         component={ConfirmationCodeInput}
@@ -179,18 +193,7 @@ const Stack2 = () => (
         }}
       />
       
-      <MainStack.Screen
-        name="subscribe"
-        component={subscribe}
-        options={{
-          headerShown: false,
-          headerBackTitleVisible: false,
-          headerTitle: '',
-          headerStyle: {
-            height: 40,
-          },
-        }}
-      />
+     
       <MainStack.Screen
         name="Login"
         component={Login}

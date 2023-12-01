@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, va} from 'react';
 import {auth, app, firestore, onAuthStateChanged} from '../firebase/firebase';
-import {collection, doc, updateDoc,where} from 'firebase/firestore';
+import {collection, doc, updateDoc, where} from 'firebase/firestore';
 
 import {
   StyleSheet,
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  Alert,
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
@@ -20,11 +21,14 @@ import color from '../components/colors.jsx';
 import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
 
+//////////////////////Main Component////////////////////
+
 function ProfileScreen() {
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
 
+  ///////////////////////Hooks////////////////////////////
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -32,9 +36,16 @@ function ProfileScreen() {
   const [docId1, setdocId] = useState('');
   const [waiting, setWaiting] = useState(true);
   const [editable, setEditable] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [eye, setEye] = useState(true);
+
+  //////////////////////////////////////////////////////
+
+  const navigation = useNavigation();
+
+  /////////////////////Use Effect To fetch data from async storagre////////////////
 
   useEffect(() => {
-    console.log('here');
     const unsubscribe = navigation.addListener(
       'focus',
       () => {
@@ -58,9 +69,7 @@ function ProfileScreen() {
               const storedUserImage = await AsyncStorage.getItem(
                 `userProfile_${user}`,
               );
-              const storedDocId = await AsyncStorage.getItem(
-                `userDoc_${user}`,
-              );
+              const storedDocId = await AsyncStorage.getItem(`userDoc_${user}`);
 
               const userEmail = storedUserEmail
                 ? storedUserEmail.replace(/[\[\]"]+/g, '')
@@ -81,33 +90,30 @@ function ProfileScreen() {
               const userDoc = storedDocId
                 ? storedDocId.replace(/[\[\]"]+/g, '')
                 : '';
-              setdocId(userDoc)
-                console.log('user doc', userDoc)
+              setdocId(userDoc);
 
-              
+              console.log('user doc', userDoc);
               console.log('profile', profileImageUri);
               console.log('name', userEmail);
               console.log('center');
               console.log('username', storedUserName);
-              console.log('Pdoc',docId1)
+              console.log('Pdoc', docId1);
             } catch (error) {
               console.error('Error fetching data from AsyncStorage:', error);
             }
           }
         };
-
         fetchData();
-
         return unsubscribe;
       },
-      [navigation, userName],
+      [navigation, userName, newName],
     );
-
     return unsubscribe;
-    console.log('here3');
   }, []);
 
-  ////////////////////////
+  ////////////////////////////////////////////
+
+  /////////////Check if user uplaod photo then save data to firestore//////////
 
   useEffect(() => {
     if (photoUploaded) {
@@ -115,14 +121,17 @@ function ProfileScreen() {
       setPhotoUploaded(false);
     }
   }, [photoUploaded]);
+  /////////////////////////////////////////////
+
+  ///////////////Saving profile data to fire store//////////////
 
   const saveUserData = async () => {
     try {
       const userDataCollection = collection(firestore, 'userdata');
-      //console.log(userEmail)
-      const userDoc = doc(userDataCollection,docId1)
+      const userDoc = doc(userDataCollection, docId1);
       await updateDoc(userDoc, {
         profileImage: profileImageUri,
+        name: newName,
       });
 
       console.log('User data updated in Firestore successfully!');
@@ -131,8 +140,7 @@ function ProfileScreen() {
     }
   };
 
-  const navigation = useNavigation();
-
+  ////////////When user have no internet connection set profile image from async///////
   const saveProfileImageUri = async uri => {
     try {
       const user = await AsyncStorage.getItem('emailS');
@@ -142,6 +150,18 @@ function ProfileScreen() {
     }
   };
 
+  ///////////////////saving profile updating in async///////////
+  const saveProfileEdit = async uri => {
+    try {
+      const user = await AsyncStorage.getItem('emailS');
+      await AsyncStorage.setItem(`userName_${user}`, newName);
+      setUserName(newName);
+    } catch (error) {
+      console.log('AsyncStorage Error: ', error);
+    }
+  };
+
+  ////////////When user have no internet connection get profile image from async///////
   const getProfileImageUri = async () => {
     try {
       const uri = await AsyncStorage.getItem('');
@@ -156,6 +176,8 @@ function ProfileScreen() {
   useEffect(() => {
     getProfileImageUri();
   }, []);
+
+  //////////////Picks the image from user storage///////////////
 
   const pickImage = async () => {
     try {
@@ -174,21 +196,37 @@ function ProfileScreen() {
       console.log('ImagePicker Error: ', error);
     }
   };
+  ////////////////////////////////
 
-  // Logout//
+  // ////////////////////////////Logout////////////////////
   const logout = async () => {
     await AsyncStorage.removeItem('userToken');
+    await AsyncStorage.removeItem(`userName_${userEmail}`);
     navigation.navigate('Login');
   };
+  ///////////////////////////////////////////////////////
 
+  /////////////////Clear asusnc storage//////////////
   const clear = async () => {
     await AsyncStorage.clear();
     navigation.navigate('Login');
   };
+  ///////////////////////////////////////////////
+  /////////////////////Enable Edit///////////////
+  const editProfile = () => {
+    setEditable(true);
+    Alert.alert('Edit', 'you can edit your username now!!');
+  };
+  ////////////////////////////////////////////
+  //////////////////////Eye//////////////////
+
+  const handleEye = () => {
+    setEye(!eye);
+  };
+  //////////////////////
 
   return (
     <SafeAreaView style={styles.container}>
-   
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={pickImage}>
@@ -214,12 +252,25 @@ function ProfileScreen() {
             <Text style={styles.profileAddress}>Software Engineer</Text>
           </View>
 
+          <TouchableOpacity
+            style={[styles.editBtn, {marginVertical: 5}]}
+            onPress={editProfile}>
+            <Text style={styles.editText}>Edit Profile</Text>
+          </TouchableOpacity>
+
           <TextInput
             style={styles.input}
             placeholder={userName}
-            secureTextEntry={true}
+            secureTextEntry={false}
             placeholderTextColor="black"
             editable={editable}
+            onChangeText={txt => setNewName(txt)}
+          />
+          <Icon
+            name="user"
+            size={20}
+            color={color.primary}
+            style={styles.user}
           />
 
           <TextInput
@@ -227,38 +278,52 @@ function ProfileScreen() {
             placeholder={userEmail}
             secureTextEntry={true}
             placeholderTextColor="black"
-            editable={editable}
+            editable={false}
+          />
+          <Icon
+            name="envelope"
+            size={20}
+            color={color.primary}
+            style={styles.email}
           />
 
           <TextInput
             style={styles.input}
             placeholder={userPassword}
-            secureTextEntry={true}
+            secureTextEntry={eye}
             placeholderTextColor="black"
             value={userPassword}
-            editable={editable}
+            editable={false}
           />
+
+          <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+            <Icon
+              name={eye ? 'eye' : 'eye-slash'}
+              size={20}
+              color={color.primary}
+            />
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={[styles.getCode, {marginTop: 15}]}
-            onPress={() => navigation.navigate('subscribe')}>
-            <Text style={styles.loginButtonText}>Subscription Plans</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.getCode, {marginTop: -20}]}
-            onPress={() => clear()}>
-            <Text style={styles.loginButtonText}>Clear</Text>
+            onPress={async () => {
+              await saveUserData();
+              await saveProfileEdit();
+              setEditable(false)
+            }}>
+            <Text style={styles.loginButtonText}>Update</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.logoutIcon}
-      onPress={()=>logout()}>
-      <Icon name="sign-out-alt" size={40} color={color.primary}  />
+
+      <TouchableOpacity style={styles.logoutIcon} onPress={() => logout()}>
+        <Icon name="sign-out-alt" size={25} color={color.primary} />
       </TouchableOpacity>
-     
     </SafeAreaView>
   );
 }
 
+/////////////////Style Sheet///////////////////
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -338,8 +403,24 @@ const styles = StyleSheet.create({
     backgroundColor: color.primary,
     marginHorizontal: 40,
   },
+  editBtn: {
+    width: '25%',
+    height: 25,
+    marginVertical: 30,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: color.primary,
+    marginHorizontal: 40,
+  },
   loginButtonText: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontFamily: 'sans-serif-condensed',
+  },
+  editText: {
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#FFFFFF',
     fontFamily: 'sans-serif-condensed',
@@ -354,12 +435,46 @@ const styles = StyleSheet.create({
     height: 38,
     borderRadius: 9999,
   },
-  logoutIcon : {
+  logoutIcon: {
     position: 'absolute',
     right: 17,
-    bottom: 700,
-    
-  }
+    bottom: 730,
+  },
+  editIcon: {
+    position: 'absolute',
+    right: 140,
+    bottom: 492,
+  },
+  user: {
+    position: 'absolute',
+    right: 60,
+    bottom: 267,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 28,
+    height: 28,
+    borderRadius: 9999,
+  },
+  email: {
+    position: 'absolute',
+    right: 60,
+    bottom: 197,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 28,
+    height: 28,
+    borderRadius: 9999,
+  },
+  eye2: {
+    position: 'absolute',
+    right: 70,
+    bottom: 128,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 28,
+    height: 28,
+    borderRadius: 9999,
+  },
 });
 
 export default ProfileScreen;

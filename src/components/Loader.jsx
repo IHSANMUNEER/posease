@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'lottie-react-native';
-import { View, Dimensions, Text } from 'react-native';
+import {View, Dimensions, Text} from 'react-native';
 import colours from './colors';
 
 const Loader = () => {
@@ -11,12 +11,11 @@ const Loader = () => {
         justifyContent: 'center',
         height: Dimensions.get('window').height,
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'black',
       }}>
       <View>
-       
         <Lottie
-          style={{ width: 100, height: 50 }}
+          style={{width: 100, height: 100}}
           source={require('../assets/loader.json')}
           autoPlay
           loop
@@ -25,7 +24,6 @@ const Loader = () => {
     </View>
   );
 };
-
 
 
 export default Loader;

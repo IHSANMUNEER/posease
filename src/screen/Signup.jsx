@@ -29,6 +29,7 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
+import SignUpAni from '../components/SignUpAni';
 import Loader from '../components/Loader';
 import Toast from '../components/Toat';
 
@@ -179,7 +180,8 @@ function Signup() {
       <ScrollView style={styles.container}>
         <View style={styles.screen}>
           <View style={styles.header}>
-            <Image style={styles.logo} source={require('../assets/logo.png')} />
+            {/* <Image style={styles.logo} source={require('../assets/logo.png')} /> */}
+            <SignUpAni/>
             <Text style={styles.title}>Create Account</Text>
           </View>
           <View style={styles.form}>
