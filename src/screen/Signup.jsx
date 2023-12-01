@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   createUserWithEmailAndPassword,
@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {auth, app, firestore} from '../firebase/firebase';
-import Toast from 'react-native-toast-message';
+
 import {
   collection,
   addDoc,
@@ -25,24 +25,23 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
- 
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
+import Toast from '../components/Toat';
 
-////////Toast////////
-const tostSuccess = () => {
-  Toast.show({
-    type: 'success',
-    text1: 'Verify Email',
-    text2: 'verification email has been sent!!',
-  });
-};
-//////////////////////////
+
+
 
 function Signup() {
+
+  ////////Toast////////
+
+
+//////////////////////////
+
   const navigation = useNavigation();
 
   const [eye, setEye] = useState(true);
@@ -53,6 +52,7 @@ function Signup() {
 
   const onPressHandler = () => {
     navigation.navigate('Login');
+    setWaiting(false);
   };
 
   const [username, setUsername] = useState('');
@@ -63,10 +63,10 @@ function Signup() {
 
   const handleSignUp = async () => {
     if (!username.trim()) {
-     // ToastAndroid.show('Invalid Username', 'Please enter a valid username.',ToastAndroid.SHORT);
-     Alert.alert('Enter Valid Email')
- 
-      return;
+      // ToastAndroid.show('Invalid Username', 'Please enter a valid username.',ToastAndroid.SHORT);
+       Alert.alert('Enter Valid Email');
+      //  <Toast ref={ToastRef} message="Hello!"/>
+      // return;
     }
     if (!email.trim()) {
       Alert.alert('Invalid Email', 'Please enter a valid Email.');
@@ -84,21 +84,21 @@ function Signup() {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-          // Alert.alert('User account created & signed in!');
+           Alert.alert('User account created & signed in!');
           AsyncStorage.setItem('userToken', 'user_authenticated');
           AsyncStorage.removeItem('emailS');
           AsyncStorage.setItem('emailS', email);
           sendEmailVerification(user).then(() => {
-            tostSuccess();
+           
             saveUserData();
             fetchData();
-            navigation.navigate('Login');
+            //navigation.navigate('Login');
           });
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
-            //Alert.alert('That email address is already in use!');
-            tostSuccess();
+            Alert.alert('That email address is already in use!');
+           
           }
 
           if (error.code === 'auth/invalid-email') {
@@ -170,11 +170,12 @@ function Signup() {
 
   ///////////////////////////eye icon handle/////////////////
   ////////////////////////////////
+  
 
   return (
     <>
-      {/* {waiting && <Loader />} */}
-      {/* {!waiting && ( */}
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
       <ScrollView style={styles.container}>
         <View style={styles.screen}>
           <View style={styles.header}>
@@ -243,9 +244,8 @@ function Signup() {
               style={styles.button}
               onPress={async () => {
                 await handleSignUp();
-                tostSuccess();
+               
                 
-                //setWaiting(true);
               }}>
               <Text style={styles.buttonText}>SIGN UP</Text>
             </TouchableOpacity>

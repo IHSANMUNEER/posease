@@ -83,16 +83,17 @@ function Login() {
       const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
       const Username = querySnapshot.docs.map(doc => doc.data().name);
       const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
-      const Profile = querySnapshot.docs.map(doc => doc.data().ProfileImage);
+      const Profile = querySnapshot.docs.map(doc => doc.data().profileImage);
+      const docId = querySnapshot.docs[0].id;
+      // console.log('doc id',docId)
 
-      const existingUserEmail = await AsyncStorage.getItem(
-        `userEmail_${email}`,
-      );
+      const existingUserEmail = await AsyncStorage.getItem(`userEmail_${email}`,);
       const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
       const existingUserImage = await AsyncStorage.getItem(`userProfile_${email}`);
-      const existingUserPassword = await AsyncStorage.getItem(
-        `userPassword_${email}`,
-      );
+      const existingUserPassword = await AsyncStorage.getItem(`userPassword_${email}`);
+      const existingUserDocId = await AsyncStorage.getItem(`userDoc_${email}`);
+
+    
 
       if (existingUserEmail === null) {
         await AsyncStorage.setItem(
@@ -122,7 +123,14 @@ function Login() {
           `userProfile_${email}`,
           JSON.stringify(Profile),
         );
-        console.log('Setting userPassword:', Userpassword);
+       
+      }
+      if (existingUserDocId === null) {
+        await AsyncStorage.setItem(
+          `userDoc_${email}`,
+          JSON.stringify(docId),
+        );
+       
       }
     } catch (error) {
       console.error('Error fetching data from Firestore:', error);
@@ -154,7 +162,7 @@ function Login() {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             const user = userCredential.user;
-             if (user.emailVerified) {
+            //  if (user.emailVerified) {
               fetchData();
               AsyncStorage.setItem('userToken', 'user_authenticated');
               AsyncStorage.removeItem('emailS');
@@ -163,12 +171,12 @@ function Login() {
                 setWaiting(false);
                 navigation.navigate('profileScreen');
               }, 5000);
-            } else {
-              Alert.alert(
-                'Email Not Verified',
-                'Please verify your email to sign in.',
-              );
-            }
+            // } else {
+            //   Alert.alert(
+            //     'Email Not Verified',
+            //     'Please verify your email to sign in.',
+            //   );
+            // }
           })
           .catch(error => {
             setWaiting(false);
@@ -210,8 +218,8 @@ function Login() {
 
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
             <Image style={styles.logo} source={require('../assets/logo.png')} />
@@ -281,7 +289,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      )}
+      {/* )} */}
     </>
   );
 }

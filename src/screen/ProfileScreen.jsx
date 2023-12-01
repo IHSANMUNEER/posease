@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {auth, app, firestore, onAuthStateChanged} from '../firebase/firebase';
-import {collection, doc, updateDoc} from 'firebase/firestore';
+import {collection, doc, updateDoc,where} from 'firebase/firestore';
 
 import {
   StyleSheet,
@@ -29,7 +29,7 @@ function ProfileScreen() {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [userId, setUserId] = useState('');
+  const [docId1, setdocId] = useState('');
   const [waiting, setWaiting] = useState(true);
   const [editable, setEditable] = useState(false);
 
@@ -40,7 +40,7 @@ function ProfileScreen() {
       () => {
         const fetchData = async () => {
           const user = await AsyncStorage.getItem('emailS');
-        
+
           console.log('user', user);
           if (user) {
             try {
@@ -58,6 +58,10 @@ function ProfileScreen() {
               const storedUserImage = await AsyncStorage.getItem(
                 `userProfile_${user}`,
               );
+              const storedDocId = await AsyncStorage.getItem(
+                `userDoc_${user}`,
+              );
+
               const userEmail = storedUserEmail
                 ? storedUserEmail.replace(/[\[\]"]+/g, '')
                 : '';
@@ -74,10 +78,18 @@ function ProfileScreen() {
                 ? storedUserImage.replace(/[\[\]"]+/g, '')
                 : '';
               setProfileImageUri(userImage);
-              console.log('profile',profileImageUri)
+              const userDoc = storedDocId
+                ? storedDocId.replace(/[\[\]"]+/g, '')
+                : '';
+              setdocId(userDoc)
+                console.log('user doc', userDoc)
+
+              
+              console.log('profile', profileImageUri);
               console.log('name', userEmail);
               console.log('center');
               console.log('username', storedUserName);
+              console.log('Pdoc',docId1)
             } catch (error) {
               console.error('Error fetching data from AsyncStorage:', error);
             }
@@ -107,7 +119,8 @@ function ProfileScreen() {
   const saveUserData = async () => {
     try {
       const userDataCollection = collection(firestore, 'userdata');
-      const userDoc = doc(userDataCollection, where('emailId', '==', email));
+      //console.log(userEmail)
+      const userDoc = doc(userDataCollection,docId1)
       await updateDoc(userDoc, {
         profileImage: profileImageUri,
       });
@@ -175,6 +188,7 @@ function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+   
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={pickImage}>
@@ -224,12 +238,8 @@ function ProfileScreen() {
             value={userPassword}
             editable={editable}
           />
-
-          <TouchableOpacity style={styles.getCode} onPress={() => logout()}>
-            <Text style={styles.loginButtonText}>Logout</Text>
-          </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.getCode, {marginTop: -20}]}
+            style={[styles.getCode, {marginTop: 15}]}
             onPress={() => navigation.navigate('subscribe')}>
             <Text style={styles.loginButtonText}>Subscription Plans</Text>
           </TouchableOpacity>
@@ -240,6 +250,11 @@ function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <TouchableOpacity style={styles.logoutIcon}
+      onPress={()=>logout()}>
+      <Icon name="sign-out-alt" size={40} color={color.primary}  />
+      </TouchableOpacity>
+     
     </SafeAreaView>
   );
 }
@@ -339,6 +354,12 @@ const styles = StyleSheet.create({
     height: 38,
     borderRadius: 9999,
   },
+  logoutIcon : {
+    position: 'absolute',
+    right: 17,
+    bottom: 700,
+    
+  }
 });
 
 export default ProfileScreen;
