@@ -151,7 +151,7 @@ function ProfileScreen() {
   };
 
   ///////////////////saving profile updating in async///////////
-  const saveProfileEdit = async uri => {
+  const saveProfileEdit = async() => {
     try {
       const user = await AsyncStorage.getItem('emailS');
       await AsyncStorage.setItem(`userName_${user}`, newName);
@@ -201,12 +201,11 @@ function ProfileScreen() {
   // ////////////////////////////Logout////////////////////
   const logout = async () => {
     await AsyncStorage.removeItem('userToken');
-    await AsyncStorage.removeItem(`userName_${userEmail}`);
     navigation.navigate('Login');
   };
   ///////////////////////////////////////////////////////
 
-  /////////////////Clear asusnc storage//////////////
+  /////////////////Clear asysnc storage//////////////
   const clear = async () => {
     await AsyncStorage.clear();
     navigation.navigate('Login');

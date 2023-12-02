@@ -17,7 +17,7 @@ import Loader from '../components/Loader';
 import {auth} from '../firebase/firebase';
 import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-
+import ForgotAni from '../components/ForgotAni';
 
 const ChangePassword = () => {
  
@@ -36,7 +36,7 @@ const ChangePassword = () => {
         },1000)
         setWaiting(true)
         
-        //Alert.alert('SUCCESS', 'Password Reset link has been sent');
+        Alert.alert('SUCCESS', 'Password Reset link has been sent');
       })
       .catch(error => {
         const errorCode = error.code;
@@ -51,10 +51,9 @@ const ChangePassword = () => {
       {!waiting && (
     <ScrollView style={styles.container}>
       <View>
-        <Gif
-          style={styles.logo}
-          source={require('../Images/2.png')}
-        />
+       
+         <ForgotAni/>
+        
         <Text style={styles.mainHeading}>Mail Address Here</Text>
         <Text style={styles.secondHeading}>
           Enter the email address associated with your account
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
-    color: color.primary,
+    color: 'gray',
   },
   input: {
     width: '80%',

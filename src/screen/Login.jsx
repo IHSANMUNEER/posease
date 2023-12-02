@@ -177,8 +177,8 @@ function Login() {
               AsyncStorage.setItem('emailS', email);
               setTimeout(async () => {
                 setWaiting(false);
-                navigation.navigate('profileScreen');
-              }, 5000);
+                navigation.navigate('Userdashboard');
+              }, 1000);
             // } else {
             //   Alert.alert(
             //     'Email Not Verified',
@@ -226,11 +226,10 @@ function Login() {
 
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
-            {/* <Image style={styles.logo} source={require('../assets/logo.png')} /> */}
             <LoginAni/>
             <Text style={styles.title}>Guess who's back? You are!</Text>
           </View>
@@ -298,7 +297,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      )}
+      {/* )} */}
     </>
   );
 }

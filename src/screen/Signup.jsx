@@ -51,16 +51,18 @@ function Signup() {
     setEye(!eye);
   };
 
-  const onPressHandler = () => {
-    navigation.navigate('Login');
-    setWaiting(false);
-  };
+ 
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
+  
+  const onPressHandler = () => {
+    navigation.navigate('Login');
+    //setWaiting(false);
+  };
 
   const handleSignUp = async () => {
     if (!username.trim()) {
