@@ -26,17 +26,22 @@ import {
   where,
 } from 'firebase/firestore';
 
-
 import {useNavigation} from '@react-navigation/native';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
 import LoginAni from '../components/LoginAni';
 import colors from '../components/colors';
+import InLoader from '../components/InLoader';
 
 function Login() {
   const navigation = useNavigation();
   //////////////////Hooks/////////////////
   const [waiting, setWaiting] = useState(false);
+
+  ////////////Loading///////////////
+  const loading = () => {
+    <InLoader />;
+  };
 
   ///////////////////////////Handle SignIn for Formate/////////////////
 
@@ -89,15 +94,18 @@ function Login() {
       const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
       const Profile = querySnapshot.docs.map(doc => doc.data().profileImage);
       const docId = querySnapshot.docs[0].id;
-     
 
-      const existingUserEmail = await AsyncStorage.getItem(`userEmail_${email}`,);
+      const existingUserEmail = await AsyncStorage.getItem(
+        `userEmail_${email}`,
+      );
       const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
-      const existingUserImage = await AsyncStorage.getItem(`userProfile_${email}`);
-      const existingUserPassword = await AsyncStorage.getItem(`userPassword_${email}`);
+      const existingUserImage = await AsyncStorage.getItem(
+        `userProfile_${email}`,
+      );
+      const existingUserPassword = await AsyncStorage.getItem(
+        `userPassword_${email}`,
+      );
       const existingUserDocId = await AsyncStorage.getItem(`userDoc_${email}`);
-
-    
 
       if (existingUserEmail === null) {
         await AsyncStorage.setItem(
@@ -107,7 +115,6 @@ function Login() {
         console.log('Setting userEmail:', UserEmail);
       }
 
-
       if (existingUserName === null) {
         await AsyncStorage.setItem(
           `userName_${email}`,
@@ -115,7 +122,6 @@ function Login() {
         );
         console.log('Setting userName:', Username);
       }
-
 
       if (existingUserPassword === null) {
         await AsyncStorage.setItem(
@@ -130,15 +136,10 @@ function Login() {
           `userProfile_${email}`,
           JSON.stringify(Profile),
         );
-       
       }
 
       if (existingUserDocId === null) {
-        await AsyncStorage.setItem(
-          `userDoc_${email}`,
-          JSON.stringify(docId),
-        );
-       
+        await AsyncStorage.setItem(`userDoc_${email}`, JSON.stringify(docId));
       }
     } catch (error) {
       console.error('Error fetching data from Firestore:', error);
@@ -171,14 +172,14 @@ function Login() {
           .then(userCredential => {
             const user = userCredential.user;
             //  if (user.emailVerified) {
-              fetchData();
-              AsyncStorage.setItem('userToken', 'user_authenticated');
-              AsyncStorage.removeItem('emailS');
-              AsyncStorage.setItem('emailS', email);
-              setTimeout(async () => {
-                setWaiting(false);
-                navigation.navigate('Userdashboard');
-              }, 1000);
+            fetchData();
+            AsyncStorage.setItem('userToken', 'user_authenticated');
+            AsyncStorage.removeItem('emailS');
+            AsyncStorage.setItem('emailS', email);
+            setTimeout(async () => {
+              setWaiting(false);
+              navigation.navigate('Userdashboard');
+            }, 1000);
             // } else {
             //   Alert.alert(
             //     'Email Not Verified',
@@ -226,78 +227,80 @@ function Login() {
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.screen}>
-            <LoginAni/>
-            <Text style={styles.title}>Guess who's back? You are!</Text>
-          </View>
-          <View style={styles.form}>
-            <TextInput
-              value={email}
-              placeholder="Email"
-              placeholderTextColor="gray"
-              style={styles.input}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
+      {waiting && <Loader />}
+      {!waiting && (
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.screen}>
+          <LoginAni />
+          <Text style={styles.title}>Guess who's back? You are!</Text>
+        </View>
+        <View style={styles.form}>
+          <TextInput
+            value={email}
+            placeholder="Email"
+            placeholderTextColor="gray"
+            style={styles.input}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          <Icon
+            name="envelope"
+            size={20}
+            color={colours.primary}
+            style={styles.email}
+          />
+          <TextInput
+            value={password}
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="gray"
+            secureTextEntry={eye}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity style={styles.eye2} onPress={handleEye}>
             <Icon
-              name="envelope"
+              name={eye ? 'eye' : 'eye-slash'}
               size={20}
               color={colours.primary}
-              style={styles.email}
             />
-            <TextInput
-              value={password}
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="gray"
-              secureTextEntry={eye}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity style={styles.eye2} onPress={handleEye}>
-              <Icon
-                name={eye ? 'eye' : 'eye-slash'}
-                size={20}
-                color={colours.primary}
-              />
-            </TouchableOpacity>
+          </TouchableOpacity>
+          <Text
+            style={styles.forgotPassword}
+            onPress={() => {
+              setWaiting(true);
+              setTimeout(() => {
+                setWaiting(false);
+                navigation.navigate('ChangePassword');
+              }, 1000);
+            }}>
+            Forgot Your Password?
+          </Text>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={async () => {
+              handleAlert(email, password);
+              await handleSignIn();
+            }}>
+            
+            <Text style={styles.loginButtonText}>LOGIN</Text>
+            
+          </TouchableOpacity>
+          <Text style={styles.noAccount}>
+            Don't Have an Account?{' '}
             <Text
-              style={styles.forgotPassword}
+              style={styles.signupLink}
               onPress={() => {
                 setWaiting(true);
                 setTimeout(() => {
-                  setWaiting(false);
-                  navigation.navigate('ChangePassword');
-                }, 1000);
+                  navigation.navigate('Signup');
+                }, 30);
               }}>
-              Forgot Your Password?
+              Sign Up
             </Text>
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={async () => {
-                handleAlert(email, password);
-                await handleSignIn();
-              }}>
-              <Text style={styles.loginButtonText}>LOGIN</Text>
-            </TouchableOpacity>
-            <Text style={styles.noAccount}>
-              Don't Have an Account?{' '}
-              <Text
-                style={styles.signupLink}
-                onPress={() => {
-                  setWaiting(true);
-                  setTimeout(() => {
-                    navigation.navigate('Signup');
-                  }, 30);
-                }}>
-                Sign Up
-              </Text>
-            </Text>
-          </View>
-        </ScrollView>
-      {/* )} */}
+          </Text>
+        </View>
+      </ScrollView>
+      )}
     </>
   );
 }

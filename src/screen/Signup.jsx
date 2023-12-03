@@ -95,7 +95,7 @@ function Signup() {
            
             saveUserData();
             fetchData();
-            //navigation.navigate('Login');
+            navigation.navigate('Login');
           });
         })
         .catch(error => {
@@ -177,8 +177,8 @@ function Signup() {
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
+      {waiting && <Loader />}
+      {!waiting && (
       <ScrollView style={styles.container}>
         <View style={styles.screen}>
           <View style={styles.header}>
@@ -262,7 +262,7 @@ function Signup() {
           </View>
         </View>
       </ScrollView>
-      {/* )} */}
+      )}
     </>
   );
 }
