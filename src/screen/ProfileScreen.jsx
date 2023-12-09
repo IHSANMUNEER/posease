@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   logoutIcon: {
     position: 'absolute',
     right: 17,
-    bottom: 730,
+    bottom: 680,
   },
   editIcon: {
     position: 'absolute',

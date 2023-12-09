@@ -5,7 +5,7 @@ import {
   sendEmailVerification,
 } from 'firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {auth, app, firestore} from '../firebase/firebase';
+import {auth, firestore} from '../firebase/firebase';
 
 import {
   collection,
@@ -31,18 +31,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
 import SignUpAni from '../components/SignUpAni';
 import Loader from '../components/Loader';
-import Toast from '../components/Toat';
-
-
-
+import Toast from 'react-native-toast-message';
 
 function Signup() {
-
-  ////////Toast////////
-
-
-//////////////////////////
-
   const navigation = useNavigation();
 
   const [eye, setEye] = useState(true);
@@ -51,48 +42,38 @@ function Signup() {
     setEye(!eye);
   };
 
- 
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
-  
+
   const onPressHandler = () => {
     navigation.navigate('Login');
-    //setWaiting(false);
   };
 
   const handleSignUp = async () => {
     if (!username.trim()) {
-      // ToastAndroid.show('Invalid Username', 'Please enter a valid username.',ToastAndroid.SHORT);
-       Alert.alert('Enter Valid Email');
-      //  <Toast ref={ToastRef} message="Hello!"/>
-      // return;
+      showToast();
     }
     if (!email.trim()) {
-      Alert.alert('Invalid Email', 'Please enter a valid Email.');
-      return;
+      showToast();
     }
     if (!password.trim()) {
-      Alert.alert('Invalid Password', 'Please enter a valid Password.');
-      return;
+      showToast();
     }
     if (!confirmpassword.trim()) {
-      Alert.alert('Invalid Password', 'Please enter a valid Password.');
-      return;
+      showToast();
     }
     if (password == confirmpassword) {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-           Alert.alert('User account created & signed in!');
+          showAccountCreated();
           AsyncStorage.setItem('userToken', 'user_authenticated');
           AsyncStorage.removeItem('emailS');
           AsyncStorage.setItem('emailS', email);
           sendEmailVerification(user).then(() => {
-           
             saveUserData();
             fetchData();
             navigation.navigate('Login');
@@ -100,21 +81,17 @@ function Signup() {
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
-            Alert.alert('That email address is already in use!');
-           
+            showEmailInUse();
           }
 
           if (error.code === 'auth/invalid-email') {
-            Alert.alert('That email address is invalid!');
+            showToast();
           }
 
           console.error(error);
         });
     } else {
-      Alert.alert(
-        'Password Mismatch',
-        'Password And Confirm Password Sholud be Same.',
-      );
+      passwordConfirm();
     }
   };
 
@@ -135,8 +112,7 @@ function Signup() {
     }
   };
 
-  /////////////////////////////////
-  ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
+  ///////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
 
   const fetchData = async () => {
     const userDataCollection = collection(firestore, 'userdata');
@@ -171,98 +147,124 @@ function Signup() {
     }
   };
 
-  ///////////////////////////eye icon handle/////////////////
-  ////////////////////////////////
-  
+  ///////////////////////////Toast/////////////////
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Authentication Failed',
+      text2:
+        'Invalid Email or Password. Please enter a valid email address and password.',
+    });
+  };
+  const showAccountCreated = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Account Created',
+      text2: 'Account has been created now you can login with your credentials',
+    });
+  };
+  const showEmailInUse = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Email In Use',
+      text2: 'This email is alraedy registered',
+    });
+  };
+  const passwordConfirm = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Password Mismatch',
+      text2: 'Password and confirm password should be same',
+    });
+  };
+  ///////////////////////////////////////////////////////////
 
   return (
     <>
       {waiting && <Loader />}
       {!waiting && (
-      <ScrollView style={styles.container}>
-        <View style={styles.screen}>
-          <View style={styles.header}>
-            {/* <Image style={styles.logo} source={require('../assets/logo.png')} /> */}
-            <SignUpAni/>
-            <Text style={styles.title}>Create Account</Text>
-          </View>
-          <View style={styles.form}>
-            <TextInput
-              value={username}
-              placeholder="Name"
-              placeholderTextColor="gray"
-              style={styles.input}
-              onChangeText={setUsername}
-            />
-            <Icon
-              name="user"
-              size={20}
-              color={colours.primary}
-              style={styles.user}
-            />
-            <TextInput
-              value={email}
-              placeholder="Email"
-              placeholderTextColor="gray"
-              style={styles.input}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-            <Icon
-              name="envelope"
-              size={20}
-              color={colours.primary}
-              style={styles.email}
-            />
-            <TextInput
-              value={password}
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="gray"
-              secureTextEntry={eye}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity style={styles.lock} onPress={handleEye}>
+        <ScrollView style={styles.container}>
+          <View style={styles.screen}>
+            <View style={styles.header}>
+              <SignUpAni />
+              <Text style={styles.title}>Create Account</Text>
+            </View>
+            <View style={styles.form}>
+              <TextInput
+                value={username}
+                placeholder="Name"
+                placeholderTextColor="gray"
+                style={styles.input}
+                onChangeText={setUsername}
+              />
               <Icon
-                name={eye ? 'eye' : 'eye-slash'}
+                name="user"
                 size={20}
                 color={colours.primary}
+                style={styles.user}
               />
-            </TouchableOpacity>
-            <TextInput
-              value={confirmpassword}
-              style={styles.input}
-              placeholder="Confirm Password"
-              placeholderTextColor="gray"
-              secureTextEntry={eye}
-              onChangeText={setConfirmPassword}
-            />
-            <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+              <TextInput
+                value={email}
+                placeholder="Email"
+                placeholderTextColor="gray"
+                style={styles.input}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
               <Icon
-                name={eye ? 'eye' : 'eye-slash'}
+                name="envelope"
                 size={20}
                 color={colours.primary}
+                style={styles.email}
               />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={async () => {
-                await handleSignUp();
-               
-                
-              }}>
-              <Text style={styles.buttonText}>SIGN UP</Text>
-            </TouchableOpacity>
-            <Text style={styles.text}>
-              Already have an account?{' '}
-              <Text style={styles.textLink} onPress={onPressHandler}>
-                Login
+              <TextInput
+                value={password}
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor="gray"
+                secureTextEntry={eye}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity style={styles.lock} onPress={handleEye}>
+                <Icon
+                  name={eye ? 'eye' : 'eye-slash'}
+                  size={20}
+                  color={colours.primary}
+                />
+              </TouchableOpacity>
+              <TextInput
+                value={confirmpassword}
+                style={styles.input}
+                placeholder="Confirm Password"
+                placeholderTextColor="gray"
+                secureTextEntry={eye}
+                onChangeText={setConfirmPassword}
+              />
+              <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+                <Icon
+                  name={eye ? 'eye' : 'eye-slash'}
+                  size={20}
+                  color={colours.primary}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={async () => {
+                  await handleSignUp();
+                }}>
+                <Text style={styles.buttonText}>SIGN UP</Text>
+              </TouchableOpacity>
+              <Text style={styles.text}>
+                Already have an account?{' '}
+                <Text style={styles.textLink} onPress={onPressHandler}>
+                  Login
+                </Text>
               </Text>
-            </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       )}
+      <Toast />
     </>
   );
 }
@@ -283,13 +285,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  logo: {
-    width: 200,
-    height: 200,
-    marginVertical: 40,
-    marginBottom: 2,
-    resizeMode: 'contain',
   },
   title: {
     fontSize: 35,

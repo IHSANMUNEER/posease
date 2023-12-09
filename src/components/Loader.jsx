@@ -11,11 +11,11 @@ const Loader = () => {
         justifyContent: 'center',
         height: Dimensions.get('window').height,
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#FAF9F6',
       }}>
       <View>
         <Lottie
-          style={{width: 100, height: 100}}
+          style={{width: 200, height: 200}}
           source={require('../assets/loader.json')}
           autoPlay
           loop

@@ -1,86 +1,90 @@
 import React, {useState} from 'react';
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
   TouchableOpacity,
-  alert,
-  Alert,
 } from 'react-native';
 
-import Gif from 'react-native-gif';
 import color from '../components/colors';
 import Loader from '../components/Loader';
 import {auth} from '../firebase/firebase';
 import {getAuth, sendPasswordResetEmail} from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import ForgotAni from '../components/ForgotAni';
+import Toast from 'react-native-toast-message';
 
 const ChangePassword = () => {
- 
   const navigation = useNavigation();
 
-
   const [email, setEmail] = useState('');
-  const [waiting ,setWaiting] = useState(false)
+  const [waiting, setWaiting] = useState(false);
 
   const changePasswordLink = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        console.log('success');
-        setTimeout(()=>{
-          navigation.navigate('profileScreen')
-        },1000)
-        setWaiting(true)
-        
-        Alert.alert('SUCCESS', 'Password Reset link has been sent');
+        showToast();
       })
       .catch(error => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+        showError();
       });
+  };
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Open Your Email',
+      text2: 'Password reset link has been sent.',
+    });
+  };
+  const showError = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Email Not Found',
+      text2: 'This email is not registered.',
+    });
   };
 
   return (
     <>
-    {waiting && <Loader />}
+      {waiting && <Loader />}
       {!waiting && (
-    <ScrollView style={styles.container}>
-      <View>
-       
-         <ForgotAni/>
-        
-        <Text style={styles.mainHeading}>Mail Address Here</Text>
-        <Text style={styles.secondHeading}>
-          Enter the email address associated with your account
-        </Text>
+        <ScrollView style={styles.container}>
+          <View>
+            <ForgotAni />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Email"
-          secureTextEntry={false}
-          placeholderTextColor="gray"
-          onChangeText={setEmail}
-        />
+            <Text style={styles.mainHeading}>Mail Address Here</Text>
+            <Text style={styles.secondHeading}>
+              Enter the email address associated with your account
+            </Text>
 
-        <TouchableOpacity
-          style={styles.getCode}
-          onPress={() => changePasswordLink()}>
-          <Text style={styles.loginButtonText}>Recovery Link</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Email"
+              secureTextEntry={false}
+              placeholderTextColor="gray"
+              onChangeText={txt => setEmail(txt)}
+            />
+
+            <TouchableOpacity
+              style={styles.getCode}
+              onPress={()=>changePasswordLink()}>
+              <Text style={styles.loginButtonText}>Recovery Link</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       )}
+      <Toast />
     </>
   );
-  
 };
 
-// Define the styles for the component
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

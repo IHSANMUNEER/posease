@@ -10,7 +10,7 @@ const SignUpAni = () => {
       height: 100,
       width: 150,
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: '#FAF9F6',
     //   marginHorizontal: 190,
       marginVertical: 50
     }}>

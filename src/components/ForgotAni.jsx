@@ -10,9 +10,10 @@ const ForgotAni = () => {
       height: 150,
       width: 200,
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: '#FAF9F6',
       marginHorizontal: 80,
-      marginVertical: 50
+      marginVertical: 50,
+      marginTop:  100
     }}>
     <View>
       <Lottie

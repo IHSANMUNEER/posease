@@ -11,12 +11,18 @@ import Signup from './Signup';
 import colors from '../components/colors.jsx';
 import Loader from '../components/Loader.jsx';
 import Userdashboard from './Userdashboard.jsx';
+import test from './test.js';
 
 const MainStack = createStackNavigator();
 
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
+    {/* <MainStack.Screen
+        name="test"
+        component={test}
+        options={{headerShown: false}}
+      /> */}
       <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
@@ -49,6 +55,8 @@ const Stack1 = () => (
           },
         }}
       />
+
+      
 
       <MainStack.Screen
         name="profileScreen"
@@ -144,7 +152,12 @@ const Stack1 = () => (
 const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-    <MainStack.Screen
+      {/* <MainStack.Screen
+        name="test"
+        component={test}
+        options={{headerShown: false}}
+      /> */}
+      <MainStack.Screen
         name="Userdashboard"
         component={Userdashboard}
         options={{
@@ -172,7 +185,6 @@ const Stack2 = () => (
         }}
       />
 
-     
       <MainStack.Screen
         name="Subscribe"
         component={Subscribe}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Button
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
@@ -16,56 +17,61 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
 import UploadInputAni from '../components/UploadInput.jsx';
 import Modal from 'react-native-modal';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-function ProfileScreen() {
+import Toast from 'react-native-toast-message';
+
+function test() {
   const navigation = useNavigation();
 
-  const [profileImageUri, setProfileImageUri] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
-  );
+  const [profileImageUri, setProfileImageUri] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU')
+  const [resultImageUri, setresultImageUri] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1701629128/npnjovcyxjhua3iznm9d.jpg')
+  
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [screen, setScreen] = useState('');
   const [name, setName] = useState('');
 
   const daysOfWeek = [
-    {screen: 'Profile', icon: 'user'},
-    {screen: 'Subscription', icon: 'dollar-sign'},
+    { screen: 'Profile', icon: 'user' },
+    { screen: 'Subscription', icon: 'dollar-sign' },
   ];
 
   /////////////////////Use Effect To fetch data from async storage////////////////
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const user = await AsyncStorage.getItem('emailS');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const user = await AsyncStorage.getItem('emailS');
 
-      console.log('user', user);
-      if (user) {
-        try {
-          const storedUserImage = await AsyncStorage.getItem(
-            `userProfile_${user}`,
-          );
-          const userImage = storedUserImage
-            ? storedUserImage.replace(/[\[\]"]+/g, '')
-            : '';
-          setProfileImageUri(userImage);
+  //     console.log('user', user);
+  //     if (user) {
+  //       try {
+  //         const storedUserImage = await AsyncStorage.getItem(
+  //           `userProfile_${user}`
+  //         );
+  //         const userImage = storedUserImage
+  //           ? storedUserImage.replace(/[\[\]"]+/g, '')
+  //           : '';
+  //         setProfileImageUri(userImage);
 
-          const storedUserName = await AsyncStorage.getItem(`userName_${user}`);
-          const userName = storedUserName
-            ? storedUserName.replace(/[\[\]"]+/g, '')
-            : '';
-          setName(userName);
+  //         const storedUserName = await AsyncStorage.getItem(
+  //           `userName_${user}`
+  //         );
+  //         const userName = storedUserName
+  //           ? storedUserName.replace(/[\[\]"]+/g, '')
+  //           : '';
+  //         setName(userName);
 
-          console.log('profile here', profileImageUri);
-          console.log('name here', userName);
-        } catch (error) {
-          console.error('Error fetching data from AsyncStorage:', error);
-        }
-      }
-    };
-    fetchData();
-  }, [name]);
+  //         console.log('profile here', profileImageUri);
+  //         console.log('name here', userName);
+  //       } catch (error) {
+  //         console.error('Error fetching data from AsyncStorage:', error);
+  //       }
+  //     }
+  //   };
+  //   fetchData();
+  // }, [name]);
 
   ////////////////////////////////////////////
   //////////////////Naviagtion//////
@@ -93,8 +99,9 @@ function ProfileScreen() {
       });
 
       if (media.path) {
-        setProfileImageUri(media.path);
+        setresultImageUri(media.path);
         saveProfileImageUri(media.path);
+        
         setPhotoUploaded(true);
       }
     } catch (error) {
@@ -102,34 +109,78 @@ function ProfileScreen() {
     }
   };
 
-  const saveProfileImageUri = path => {
-    // Add your logic for saving the image path to storage (if needed)
-  };
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
+  useEffect(()=>{
+    predictImage()
+  },[photoUploaded])
+
+  const predictImage = async () => {
+    console.log('here1')
+    if (profileImageUri) {
+      const formData = new FormData();
+      formData.append('image', {
+        uri: resultImageUri,
+        type: 'image/jpeg',
+        name: 'profile_image.jpg',
+      });
+
+      try {
+        const response = await axios.post(
+          'http://4be6-34-145-131-99.ngrok.io/predict',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log('here2')
+          const result = await response.data;
+                const imageUrl = result.image_url;
+                setresultImageUri(imageUrl);
+                console.log('Processed Image URL:',imageUrl);
+        } else {
+          console.error('Prediction failed:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending prediction request:', error);
+      }
+    } else {
+      console.warn('Please select an image first.');
+    }
+  };
+
+
+
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋'
+    });
+  }
+
   return (
+    <>
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text
           style={[
             styles.text,
-            {
-              fontWeight: 'bold',
-              fontSize: 25,
-              position: 'absolute',
-              left: 10,
-              top: 15,
-            },
+            { fontWeight: 'bold', fontSize: 25, position: 'absolute', left: 10, top: 15 },
           ]}>
-          {name}
+          Test Screen
         </Text>
         <TouchableOpacity onPress={toggleModal}>
           <Image
             style={styles.logo}
-            source={profileImageUri ? {uri: profileImageUri} : null}
+            source={profileImageUri ? { uri: profileImageUri } : null }
           />
         </TouchableOpacity>
         <UploadInputAni />
@@ -139,11 +190,15 @@ function ProfileScreen() {
             Select Image/Video
           </Text>
         </View>
+
+        <View style={{height : 300 , width : 300 , marginHorizontal : 30, borderWidth : 5 , borderColor: '#A77A00', marginVertical: 20, borderRadius : 25}}>
+        <Image
+             style={{height : 290 , width : 290  , borderRadius : 20}}
+            source={resultImageUri ? { uri: resultImageUri } : null}
+          />
+        </View>
       </ScrollView>
 
-      {/* <TouchableOpacity style={styles.logoutIcon} onPress={toggleModal}>
-        <Icon name="sign-out-alt" size={30} color={color.primary} />
-      </TouchableOpacity> */}
 
       <Modal
         isVisible={isModalVisible}
@@ -156,10 +211,11 @@ function ProfileScreen() {
             showsHorizontalScrollIndicator={false}
             data={daysOfWeek}
             horizontal={true}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.modal1}
-                onPress={() => setScreen(item.screen)}>
+                onPress={() => setScreen(item.screen)}
+              >
                 <View style={styles.iconContainer}>
                   <Icon name={item.icon} size={20} color={color.primary} />
                   <Text style={styles.text2} key={item.screen}>
@@ -172,6 +228,13 @@ function ProfileScreen() {
         </View>
       </Modal>
     </SafeAreaView>
+    <Button
+      title='Show toast'
+      onPress={showToast}
+    />
+
+    <Toast/>
+    </>
   );
 }
 
@@ -234,7 +297,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: color.primary,
-    borderRadius: 0,
+    borderRadius: 20,
     padding: 22,
     justifyContent: 'center',
     alignItems: 'center',
@@ -255,7 +318,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  }
 });
 
-export default ProfileScreen;
+export default test;

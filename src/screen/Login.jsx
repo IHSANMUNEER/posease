@@ -7,41 +7,22 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
   Alert,
   ScrollView,
 } from 'react-native';
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  onSnapshot,
-  doc,
-  deleteDoc,
-  updateDoc,
-  query,
-  where,
-} from 'firebase/firestore';
+import {collection, getDocs, query, where} from 'firebase/firestore';
 
 import {useNavigation} from '@react-navigation/native';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
 import LoginAni from '../components/LoginAni';
-import colors from '../components/colors';
-import InLoader from '../components/InLoader';
+import Toast from 'react-native-toast-message';
 
 function Login() {
   const navigation = useNavigation();
-  //////////////////Hooks/////////////////
   const [waiting, setWaiting] = useState(false);
-
-  ////////////Loading///////////////
-  const loading = () => {
-    <InLoader />;
-  };
 
   ///////////////////////////Handle SignIn for Formate/////////////////
 
@@ -50,25 +31,9 @@ function Login() {
     const isPasswordValid = password.length >= 6;
 
     if (!isEmailValid) {
-      Alert.alert('Invalid Email', 'Please enter a valid email address.', [
-        {
-          text: 'OK',
-          onPress: () => console.log('OK Pressed'),
-          style: 'default',
-        },
-      ]);
+      showToast();
     } else if (!isPasswordValid) {
-      Alert.alert(
-        'Invalid Password',
-        'Password must be at least 6 characters long.',
-        [
-          {
-            text: 'OK',
-            onPress: () => console.log('OK Pressed'),
-            style: 'default',
-          },
-        ],
-      );
+      showToast();
     }
   };
 
@@ -156,17 +121,15 @@ function Login() {
 
   const handleSignIn = async () => {
     if (!email.trim()) {
-      Alert.alert('Invalid Email', 'Please enter a valid Email.');
-      return;
+      showToast();
     }
     if (!password.trim()) {
-      Alert.alert('Invalid Password', 'Please enter a valid Password.');
-      return;
+      showToast();
     }
 
     if (password) {
       console.log('in sign in');
-      setWaiting(true); // Set waiting to true before the signInWithEmailAndPassword call
+      setWaiting(true);
       try {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
@@ -197,16 +160,13 @@ function Login() {
             }
 
             if (error.code === 'auth/invalid-email') {
-              Alert.alert(
-                'That email address is invalid!',
-                'Please enter correct email and password',
-              );
+              InvalidMail();
             }
             if (error.code === 'auth/too-many-requests') {
-              Alert.alert('Too many requests', 'Try again later.');
+              Tomanyrequest();
             }
             if (error.code === 'auth/network-request-failed') {
-              Alert.alert('No Internet Connection', 'connect to internet.');
+              Internet();
             }
 
             console.error(error);
@@ -215,92 +175,117 @@ function Login() {
         console.error('Error signing in:', error);
         setWaiting(false);
       }
-    } else {
-      Alert.alert(
-        'Password Mismatch',
-        'Password And Confirm Password Should be Same.',
-      );
     }
   };
 
-  ///////////////////////////UI/////////////////
+  ///////////////////////////Toast/////////////////
+
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Authentication Failed',
+      text2:
+        'Invalid Email or Password. Please enter a valid email address and password.',
+    });
+  };
+  const InvalidMail = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Authentication Failed',
+      text2: 'Invalid Email. Please enter a valid email address.',
+    });
+  };
+  const Tomanyrequest = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'To Many Requests',
+      text2: 'Too many requests Try again later.',
+    });
+  };
+  const Internet = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'No Internet Connection',
+      text2: 'Connect to internet.',
+    });
+  };
 
   return (
     <>
       {waiting && <Loader />}
       {!waiting && (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.screen}>
-          <LoginAni />
-          <Text style={styles.title}>Guess who's back? You are!</Text>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            value={email}
-            placeholder="Email"
-            placeholderTextColor="gray"
-            style={styles.input}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-          <Icon
-            name="envelope"
-            size={20}
-            color={colours.primary}
-            style={styles.email}
-          />
-          <TextInput
-            value={password}
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="gray"
-            secureTextEntry={eye}
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.screen}>
+            <LoginAni />
+            <Text style={styles.title}>Guess who's back? You are!</Text>
+          </View>
+          <View style={styles.form}>
+            <TextInput
+              value={email}
+              placeholder="Email"
+              placeholderTextColor="gray"
+              style={styles.input}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
             <Icon
-              name={eye ? 'eye' : 'eye-slash'}
+              name="envelope"
               size={20}
               color={colours.primary}
+              style={styles.email}
             />
-          </TouchableOpacity>
-          <Text
-            style={styles.forgotPassword}
-            onPress={() => {
-              setWaiting(true);
-              setTimeout(() => {
-                setWaiting(false);
-                navigation.navigate('ChangePassword');
-              }, 1000);
-            }}>
-            Forgot Your Password?
-          </Text>
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={async () => {
-              handleAlert(email, password);
-              await handleSignIn();
-            }}>
-            
-            <Text style={styles.loginButtonText}>LOGIN</Text>
-            
-          </TouchableOpacity>
-          <Text style={styles.noAccount}>
-            Don't Have an Account?{' '}
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="gray"
+              secureTextEntry={eye}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+              <Icon
+                name={eye ? 'eye' : 'eye-slash'}
+                size={20}
+                color={colours.primary}
+              />
+            </TouchableOpacity>
             <Text
-              style={styles.signupLink}
+              style={styles.forgotPassword}
               onPress={() => {
                 setWaiting(true);
                 setTimeout(() => {
-                  navigation.navigate('Signup');
-                }, 30);
+                  setWaiting(false);
+                  navigation.navigate('ChangePassword');
+                }, 1000);
               }}>
-              Sign Up
+              Forgot Your Password?
             </Text>
-          </Text>
-        </View>
-      </ScrollView>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={async () => {
+                handleAlert(email, password);
+                await handleSignIn();
+                
+              }}>
+              <Text style={styles.loginButtonText}>LOGIN</Text>
+            </TouchableOpacity>
+            <Text style={styles.noAccount}>
+              Don't Have an Account?{' '}
+              <Text
+                style={styles.signupLink}
+                onPress={() => {
+                  setWaiting(true);
+                  setTimeout(() => {
+                    navigation.navigate('Signup');
+                  }, 30);
+                }}>
+                Sign Up
+              </Text>
+            </Text>
+          </View>
+        </ScrollView>
       )}
+      <Toast />
     </>
   );
 }
@@ -316,13 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
-    width: 200,
-    height: 200,
-    // marginBottom: 20,
-    resizeMode: 'contain',
-    marginTop: -90,
-  },
+  
   title: {
     fontSize: 25,
     fontWeight: 'bold',

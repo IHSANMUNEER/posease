@@ -11,7 +11,7 @@ const LoginAni = () => {
           height: 170,
           width: 160,
           alignItems: 'center',
-          backgroundColor: 'black',
+          backgroundColor: '#FAF9F6',
           marginHorizontal: 90,
           marginVertical: 5
         }}>

@@ -10,7 +10,7 @@ const UploadInputAni = () => {
       height: 230,
       width: 220,
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: '#FAF9F6',
    
       marginVertical: 70,
       marginHorizontal: 80,

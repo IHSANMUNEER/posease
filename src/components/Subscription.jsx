@@ -12,7 +12,7 @@ const Subscription = () => {
       height: 150,
       width: 150,
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: '#FAF9F6',
       marginHorizontal: 90,
       marginVertical: 40
     }}>
