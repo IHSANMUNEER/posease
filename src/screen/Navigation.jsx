@@ -12,17 +12,32 @@ import colors from '../components/colors.jsx';
 import Loader from '../components/Loader.jsx';
 import Userdashboard from './Userdashboard.jsx';
 import test from './test.js';
+import Tabs from '../components/TabBar.jsx';
+
+import Table1 from './Table.jsx';
+import Settings from './Settings.jsx';
+
+
 
 const MainStack = createStackNavigator();
 
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-    {/* <MainStack.Screen
+      {/* <MainStack.Screen
         name="test"
         component={test}
         options={{headerShown: false}}
       /> */}
+
+      
+
+      <MainStack.Screen
+        name="Tabs"
+        component={Tabs}
+        options={{headerShown: false}}
+      />
+
       <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
@@ -38,7 +53,6 @@ const Stack1 = () => (
           headerStyle: {
             height: 50,
             backgroundColor: colors.primary,
-            elevation: 100,
           },
         }}
       />
@@ -56,8 +70,6 @@ const Stack1 = () => (
         }}
       />
 
-      
-
       <MainStack.Screen
         name="profileScreen"
         component={profileScreen}
@@ -69,6 +81,12 @@ const Stack1 = () => (
             height: 40,
           },
         }}
+      />
+      <MainStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{headerShown: false}}
+
       />
 
       <MainStack.Screen
@@ -145,6 +163,12 @@ const Stack1 = () => (
           },
         }}
       />
+
+      <MainStack.Screen
+        name="Table1"
+        component={Table1}
+        options={{headerShown: false}}
+      />
     </MainStack.Navigator>
   </NavigationContainer>
 );
@@ -157,6 +181,14 @@ const Stack2 = () => (
         component={test}
         options={{headerShown: false}}
       /> */}
+
+      
+
+      <MainStack.Screen
+        name="Tabs"
+        component={Tabs}
+        options={{headerShown: false}}
+      />
       <MainStack.Screen
         name="Userdashboard"
         component={Userdashboard}
@@ -184,6 +216,12 @@ const Stack2 = () => (
           },
         }}
       />
+      <MainStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{headerShown: false}}
+
+      />
 
       <MainStack.Screen
         name="Subscribe"
@@ -268,6 +306,12 @@ const Stack2 = () => (
           headerShown: false,
           headerBackTitleVisible: false,
         }}
+      />
+
+      <MainStack.Screen
+        name="Table1"
+        component={Table1}
+        options={{headerShown: false}}
       />
     </MainStack.Navigator>
   </NavigationContainer>

@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
+import Toast from 'react-native-toast-message';
 import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
 
@@ -133,7 +134,7 @@ function ProfileScreen() {
         profileImage: profileImageUri,
         name: newName,
       });
-
+      showSuccess()
       console.log('User data updated in Firestore successfully!');
     } catch (error) {
       console.error('Error updating user data in Firestore: ', error);
@@ -214,7 +215,7 @@ function ProfileScreen() {
   /////////////////////Enable Edit///////////////
   const editProfile = () => {
     setEditable(true);
-    Alert.alert('Edit', 'you can edit your username now!!');
+    showToast()
   };
   ////////////////////////////////////////////
   //////////////////////Eye//////////////////
@@ -224,7 +225,37 @@ function ProfileScreen() {
   };
   //////////////////////
 
+  const showToast = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Edit Your Name',
+      text2:
+        'Now You Can Edit Your UserName.',
+    });
+  };
+
+  const showSuccess = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2:
+        'Changes is successfully updated',
+    });
+  };
+
+  const showError = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2:
+        'Changes is not saved',
+    });
+  };
+
+  ////////////////////////
+
   return (
+    <>
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.profile}>
@@ -319,6 +350,8 @@ function ProfileScreen() {
         <Icon name="sign-out-alt" size={25} color={color.primary} />
       </TouchableOpacity>
     </SafeAreaView>
+    <Toast/>
+    </>
   );
 }
 
@@ -437,7 +470,7 @@ const styles = StyleSheet.create({
   logoutIcon: {
     position: 'absolute',
     right: 17,
-    bottom: 680,
+    bottom: 630,
   },
   editIcon: {
     position: 'absolute',

@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import color from '../components/colors';
-// import imageS from '../Images/2.gif';
 import { useNavigation } from "@react-navigation/native";
 import subscribe from './Subscribe';
+
+
 const ChangePassword = () => {
   const codeInputs = Array.from({ length: 4 }, (_, index) => useRef(null));
 
@@ -19,8 +20,8 @@ const ChangePassword = () => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        {/* <Image style={styles.logo} source={imageS} /> */}
-        <Text style={styles.mainHeading}>Get Your Code</Text>
+      
+        <Text style={styles.mainHeading}>Enter Varification Code</Text>
         <Text style={styles.secondHeading}>
           Please enter the 4-digit code that was sent to your email address
         </Text>
@@ -58,6 +59,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 150
+
   },
   logo: {
     width: 200,
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
+    color : color.text
   },
   getCode: {
     width: '80%',

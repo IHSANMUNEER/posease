@@ -17,9 +17,11 @@ import color from '../components/colors.jsx';
 import UploadInputAni from '../components/UploadInput.jsx';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
+import TabNavigator from '../components/TabBar.jsx';
+import {useFocusEffect} from '@react-navigation/native';
 
-function ProfileScreen() {
-  const navigation = useNavigation();
+function ProfileScreen({navigation}) {
+  //const navigation = useNavigation();
 
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
@@ -37,35 +39,45 @@ function ProfileScreen() {
   /////////////////////Use Effect To fetch data from async storage////////////////
 
   useEffect(() => {
-    const fetchData = async () => {
-      const user = await AsyncStorage.getItem('emailS');
+    const unsubscribe = navigation.addListener(
+      'focus',
+      () => {
+        const fetchData = async () => {
+          const user = await AsyncStorage.getItem('emailS');
 
-      console.log('user', user);
-      if (user) {
-        try {
-          const storedUserImage = await AsyncStorage.getItem(
-            `userProfile_${user}`,
-          );
-          const userImage = storedUserImage
-            ? storedUserImage.replace(/[\[\]"]+/g, '')
-            : '';
-          setProfileImageUri(userImage);
+          console.log('user', user);
+          if (user) {
+            try {
+              const storedUserImage = await AsyncStorage.getItem(
+                `userProfile_${user}`,
+              );
+              const userImage = storedUserImage
+                ? storedUserImage.replace(/[\[\]"]+/g, '')
+                : '';
+              setProfileImageUri(userImage);
 
-          const storedUserName = await AsyncStorage.getItem(`userName_${user}`);
-          const userName = storedUserName
-            ? storedUserName.replace(/[\[\]"]+/g, '')
-            : '';
-          setName(userName);
+              const storedUserName = await AsyncStorage.getItem(
+                `userName_${user}`,
+              );
+              const userName = storedUserName
+                ? storedUserName.replace(/[\[\]"]+/g, '')
+                : '';
+              setName(userName);
 
-          console.log('profile here', profileImageUri);
-          console.log('name here', userName);
-        } catch (error) {
-          console.error('Error fetching data from AsyncStorage:', error);
-        }
-      }
-    };
-    fetchData();
-  }, [name]);
+              console.log('profile here', profileImageUri);
+              console.log('name here', userName);
+            } catch (error) {
+              console.error('Error fetching data from AsyncStorage:', error);
+            }
+          }
+        };
+        fetchData();
+        return unsubscribe;
+      },
+      [navigation],
+    );
+    return unsubscribe;
+  }, []);
 
   ////////////////////////////////////////////
   //////////////////Naviagtion//////
@@ -118,10 +130,11 @@ function ProfileScreen() {
             styles.text,
             {
               fontWeight: 'bold',
-              fontSize: 25,
+              fontSize: 15,
               position: 'absolute',
-              left: 10,
-              top: 15,
+
+              marginVertical: 20,
+              marginHorizontal: 70,
             },
           ]}>
           {name}
@@ -136,16 +149,12 @@ function ProfileScreen() {
 
         <View style={styles.placeholderText}>
           <Text style={styles.text} onPress={() => pickImageOrVideo()}>
-            Select Image/Video
+            Upload Image/Video
           </Text>
         </View>
       </ScrollView>
 
-      {/* <TouchableOpacity style={styles.logoutIcon} onPress={toggleModal}>
-        <Icon name="sign-out-alt" size={30} color={color.primary} />
-      </TouchableOpacity> */}
-
-      <Modal
+      {/* <Modal
         isVisible={isModalVisible}
         onBackdropPress={toggleModal}
         animationIn="slideInUp" // Slide in from bottom
@@ -170,7 +179,7 @@ function ProfileScreen() {
             )}
           />
         </View>
-      </Modal>
+      </Modal> */}
     </SafeAreaView>
   );
 }
@@ -199,7 +208,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: 'sans-serif-condensed',
-    color: color.primary,
+    color: 'black',
   },
   text2: {
     fontSize: 20,
@@ -209,8 +218,8 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 99,
     justifyContent: 'center',
     alignItems: 'center',
@@ -219,8 +228,8 @@ const styles = StyleSheet.create({
     marginTop: 150,
     borderWidth: 2,
     borderColor: color.primary,
-    right: -100,
-    top: -150,
+    right: 180,
+    top: -140,
   },
   logoutIcon: {
     position: 'absolute',

@@ -5,18 +5,19 @@ const css={
     input: {
       
         width: '90%',
-        height: 120,
+        height: 84,
         marginVertical: 10,
         marginHorizontal: 20,
         padding: 15,
         borderRadius: 20,
         borderColor: colors.primary,
-        borderWidth: 2,
-        //borderColor: '#cc634e',
+        borderWidth: 1,
+      
         fontFamily: 'sans-serif-condensed',
         backgroundColor: colors.secondary,
         color: 'black',
-        elevation: 5
+        elevation: 2
+        
       },
       
 }

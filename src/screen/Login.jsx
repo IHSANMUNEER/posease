@@ -212,8 +212,8 @@ function Login() {
 
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
             <LoginAni />
@@ -284,7 +284,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      )}
+      {/* )} */}
       <Toast />
     </>
   );

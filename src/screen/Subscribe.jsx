@@ -20,18 +20,18 @@ const Subscribe = () => {
       <View>
       <Subscription/>
         
-        <Text style={styles.mainHeading}>Subscription Plans</Text>
+        <Text style={styles.mainHeading}>Choose your plan</Text>
         <Text style={styles.secondHeading}>
           Subscribed users can save their records for future use
         </Text>
         <TouchableOpacity style={css.input}>
-          <Text style={styles.plan}>12 months         49.99$</Text>
-          <Text style={styles.plandes}>5 $ per month</Text>
-          <Text style={styles.plandes}>cancel anytime</Text>
+          <Text style={styles.plan}>Monthly</Text>
+          <Text style={styles.plandes}>$29,99 / mo</Text>
+         
         </TouchableOpacity>
         <TouchableOpacity style={css.input}>
-          <Text style={styles.plan}>1 month              4.99$</Text>
-          <Text style={styles.plandes}>cancel anytime</Text>
+          <Text style={styles.plan}>Annual</Text>
+          <Text style={styles.plandes}>$15,99 / mo ($192 / year)</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: color.primary,
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginHorizontal: 30,
+    marginHorizontal: 10,
     marginVertical: 15,
   },
   secondHeading: {
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
   plan: {
     color: color.primary,
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 20,
     fontFamily: 'sans-serif-condensed',
   },
   plandes: {
-    color: color.primary,
+    color: '#3B3C36',
     fontWeight: 'bold',
     fontSize: 15,
     fontFamily: 'sans-serif-condensed',
