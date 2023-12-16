@@ -17,21 +17,11 @@ import Tabs from '../components/TabBar.jsx';
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
 
-
-
 const MainStack = createStackNavigator();
 
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-      {/* <MainStack.Screen
-        name="test"
-        component={test}
-        options={{headerShown: false}}
-      /> */}
-
-      
-
       <MainStack.Screen
         name="Tabs"
         component={Tabs}
@@ -86,7 +76,6 @@ const Stack1 = () => (
         name="Settings"
         component={Settings}
         options={{headerShown: false}}
-
       />
 
       <MainStack.Screen
@@ -169,6 +158,12 @@ const Stack1 = () => (
         component={Table1}
         options={{headerShown: false}}
       />
+
+      <MainStack.Screen
+        name="test"
+        component={test}
+        options={{headerShown: false}}
+      />
     </MainStack.Navigator>
   </NavigationContainer>
 );
@@ -176,14 +171,6 @@ const Stack1 = () => (
 const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-      {/* <MainStack.Screen
-        name="test"
-        component={test}
-        options={{headerShown: false}}
-      /> */}
-
-      
-
       <MainStack.Screen
         name="Tabs"
         component={Tabs}
@@ -220,7 +207,6 @@ const Stack2 = () => (
         name="Settings"
         component={Settings}
         options={{headerShown: false}}
-
       />
 
       <MainStack.Screen
@@ -311,6 +297,11 @@ const Stack2 = () => (
       <MainStack.Screen
         name="Table1"
         component={Table1}
+        options={{headerShown: false}}
+      />
+      <MainStack.Screen
+        name="test"
+        component={test}
         options={{headerShown: false}}
       />
     </MainStack.Navigator>

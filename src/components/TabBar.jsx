@@ -9,6 +9,7 @@ import Subscribe from '../screen/Subscribe';
 import Setting from '../screen/Settings'
 import Home from '../screen/Userdashboard';
 import Records from '../screen/Table'
+import test from '../screen/test'
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 const Tab = createBottomTabNavigator();
@@ -72,6 +73,7 @@ const TabNavigator = () => {
         component={Setting}
         options={{headerShown: false}}
       />
+      
      
     </Tab.Navigator>
   );

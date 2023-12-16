@@ -69,14 +69,18 @@ function Signup() {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-          showAccountCreated();
+          //showAccountCreated();
           AsyncStorage.setItem('userToken', 'user_authenticated');
           AsyncStorage.removeItem('emailS');
           AsyncStorage.setItem('emailS', email);
           sendEmailVerification(user).then(() => {
+            Varefication();
+            setTimeout(()=>{
+              navigation.navigate('Login');
+            },3000)
             saveUserData();
             fetchData();
-            navigation.navigate('Login');
+            
           });
         })
         .catch(error => {
@@ -175,6 +179,13 @@ function Signup() {
       type: 'error',
       text1: 'Password Mismatch',
       text2: 'Password and confirm password should be same',
+    });
+  };
+  const Varefication = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Verify Email',
+      text2: 'Please Verify Email',
     });
   };
   ///////////////////////////////////////////////////////////

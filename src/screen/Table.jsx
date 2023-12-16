@@ -4,8 +4,12 @@ import { Table, Row } from 'react-native-table-component';
 import colors from '../components/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 class Table1 extends Component {
+
+  
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -21,22 +25,21 @@ class Table1 extends Component {
 
   generateData = () => {
     const data = [];
-    for (let i = 0; i < 20; i += 1) {
+    for (let i = 1; i < 11; i += 1) {
       const dataRow = [`ID${i}`, `Description${i}`];
       data.push(dataRow);
     }
     this.setState({ data });
   };
+   
 
   render() {
+   
     const { tableHead, widthArr, data } = this.state;
 
     return (
       <View style={styles.container}>
-      <Text style={styles.title}>Records</Text>
-      {/* <View style={styles.search}>
-      <Text style={{ color: colors.text }}>Ihsan</Text>
-      </View> */}
+        <Text style={styles.title}>Records</Text>
         <Table borderStyle={{ borderColor: colors.primary }}>
           <Row
             data={tableHead}
@@ -50,7 +53,7 @@ class Table1 extends Component {
           data={data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
-            <TouchableOpacity>
+            <TouchableOpacity >
               <View
                 style={[
                   styles.row,
@@ -60,18 +63,14 @@ class Table1 extends Component {
                 <Row
                   data={item}
                   widthArr={widthArr}
-                  textStyle={styles.text}
+                  textStyle={styles.text} // Change here to use styles.text
                 />
-                {/* <Icon
-                  name="dot-circle"
-                  size={15}
-                  color=' gray'
-                  style={styles.email}
-                /> */}
               </View>
             </TouchableOpacity>
           )}
         />
+
+       
       </View>
     );
   }
@@ -84,23 +83,13 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: colors.secondary,
   },
-  title:{
+  title: {
     color: colors.primary,
     fontWeight: '900',
     textAlign: 'center',
     fontSize: 30,
-    marginBottom: 10
+    marginBottom: 10,
   },
-  search: {
-    height: 40,
-    width: '80%',
-    backgroundColor: colors.primary,
-    marginBottom: 10, // Add margin bottom for spacing
-    borderRadius: 8, // Add border radius for a rounded look
-    justifyContent: 'center', // Center the text vertically
-    paddingLeft: 10, // Add left padding for text
-  },
-  
   head: {
     height: 50,
     backgroundColor: colors.primary,
@@ -124,16 +113,8 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     borderColor: colors.primary,
     flexDirection: 'row',
-    alignItems: 'center', // Align icon vertically
-    justifyContent: 'space-between', // Space out text and icon
-  },
-  email: {
-    
-    position: 'absolute',
-    right: 290,
-    bottom: 186,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
 });
 

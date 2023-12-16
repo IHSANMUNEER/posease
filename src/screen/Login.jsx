@@ -134,7 +134,7 @@ function Login() {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             const user = userCredential.user;
-            //  if (user.emailVerified) {
+            if (user.emailVerified) {
             fetchData();
             AsyncStorage.setItem('userToken', 'user_authenticated');
             AsyncStorage.removeItem('emailS');
@@ -143,12 +143,12 @@ function Login() {
               setWaiting(false);
               navigation.navigate('Userdashboard');
             }, 1000);
-            // } else {
-            //   Alert.alert(
-            //     'Email Not Verified',
-            //     'Please verify your email to sign in.',
-            //   );
-            // }
+            } else {
+              Alert.alert(
+                'Email Not Verified',
+                'Please verify your email to sign in.',
+              );
+            }
           })
           .catch(error => {
             setWaiting(false);
