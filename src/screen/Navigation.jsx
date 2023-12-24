@@ -19,6 +19,9 @@ import Privacy from './Privacy.jsx';
 import Support from './HelpSupport.jsx';
 import Terms from './TermsAndConditions.jsx';
 import Report from './ReportProblem.jsx';
+import PaymentSuccess from './PaymentSuccess.jsx';
+import TipsDetail from './TipsDetail.jsx';
+import DoctorDetail from '../components/DoctorDetail.jsx';
 
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
@@ -182,7 +185,7 @@ const Stack2 = () => (
     <MainStack.Navigator>
       
    
-   
+    
     
       <MainStack.Screen
         name="Tabs"
@@ -365,6 +368,23 @@ const Stack2 = () => (
        <MainStack.Screen
         name="Report"
         component={Report}
+        options={{headerShown: true,
+          headerTitle: ''}}
+      />
+      <MainStack.Screen
+        name="PaymentSuccess"
+        component={PaymentSuccess}
+        options={{headerShown: false}}
+      />
+      <MainStack.Screen
+        name="TipsDetail"
+        component={TipsDetail}
+        options={{headerShown: true,
+          headerTitle: ''}}
+      />
+      <MainStack.Screen
+        name="DoctorDetail"
+        component={DoctorDetail}
         options={{headerShown: true,
           headerTitle: ''}}
       />

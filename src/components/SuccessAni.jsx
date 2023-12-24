@@ -2,24 +2,24 @@ import React from 'react';
 import Lottie from 'lottie-react-native';
 import {View} from 'react-native';
 
-const UploadInputAni = () => {
+const SuccessAni = () => {
   return(
     <View
     style={{
       justifyContent: 'center',
-      height: 50,
-      width: 50,
+      height: 300,
+      width: 300,
       alignItems: 'center',
       backgroundColor: 'white',
    
-      marginVertical: 4,
-      marginHorizontal: 110,
+      marginVertical: 100,
+      marginHorizontal: 60,
       borderRadius:999
     }}>
     <View>
       <Lottie
-        style={{width: 50, height: 100}}
-        source={require('../assets/upload.json')}
+        style={{width: 300, height: 300}}
+        source={require('../assets/Success.json')}
         autoPlay
         loop
       />
@@ -28,4 +28,4 @@ const UploadInputAni = () => {
   )
 };
 
-export default UploadInputAni;
+export default SuccessAni;

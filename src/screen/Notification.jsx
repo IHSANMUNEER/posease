@@ -155,7 +155,7 @@ const NotificationsScreen = ({navigation}) => {
                   backgroundColor: 'rgba(15, 52, 96, 0.1)',
                 }}>
                 <MaterialCommunityIcons
-                  name="bell-badge"
+                  name="doctor"
                   size={28}
                   color={Colors.primaryColor}
                 />

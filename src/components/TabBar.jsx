@@ -46,7 +46,7 @@ const TabNavigator = () => {
         },
         tabBarActiveTintColor: '#404040',
         tabBarInactiveTintColor: '#B9BCBE',
-        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 60 , marginHorizontal: 0 , borderRadius : 10 },
+        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 60 , marginHorizontal: 0 , borderRadius : 0 },
         tabBarLabelStyle: { marginBottom: 15 },
         tabBarIconStyle: { marginBottom: -5 }
       })}>

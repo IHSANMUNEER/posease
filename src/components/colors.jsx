@@ -2,7 +2,8 @@
     primary: "#2E7A86",
     secondary: "white",
     text: "black",
-    inputText : 'black'
+    inputText : 'black',
+    star:'#dec541'
   };
   
   export default colors

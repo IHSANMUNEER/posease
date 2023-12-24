@@ -11,7 +11,7 @@ const ForgotAni = () => {
       width: 200,
       alignItems: 'center',
       backgroundColor: 'white',
-      marginHorizontal: 80,
+      marginHorizontal: 110,
       marginVertical: 50,
       marginTop:  100
     }}>

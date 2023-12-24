@@ -4,7 +4,9 @@ import colors from '../components/colors';
 import CardAni from '../components/CardAni';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TextInput, DefaultTheme } from 'react-native-paper';
+import { TextInput, DefaultTheme} from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import PaymentSuccess from './PaymentSuccess';
 
 const CreditCardInputScreen = () => {
   const [name, setName] = useState('');
@@ -13,6 +15,8 @@ const CreditCardInputScreen = () => {
   const [cvc, setCVC] = useState('');
   const [isCardNumberFocused, setIsCardNumberFocused] = useState(false);
   const [isExpiryDateFocused, setIsExpiryDateFocused] = useState(false);
+
+  const navigation = useNavigation();
 
   const handleNameChange = input => {
     setName(input);
@@ -95,6 +99,7 @@ const CreditCardInputScreen = () => {
               onChangeText={handleNameChange}
               theme={theme}
               style={styles.textInput}
+             
             />
           </View>
 
@@ -147,7 +152,7 @@ const CreditCardInputScreen = () => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleSave}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('PaymentSuccess')}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
         </View>
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
   },
   textInput:{
     backgroundColor: 'white',
-
+    borderRadius: 10,
   },
   title: {
     color: colors.primary,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,95 +7,73 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList,
+  RefreshControl,
 } from 'react-native';
-
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
 import UploadInputAni from '../components/UploadInput.jsx';
-import Results from './ShowResults.jsx';
 import Tips from '../components/Tips.jsx';
-import Modal from 'react-native-modal';
-import {useNavigation} from '@react-navigation/native';
-import TabNavigator from '../components/TabBar.jsx';
-import {useFocusEffect} from '@react-navigation/native';
+import Doctors from '../components/Doctors.jsx';
 
-function ProfileScreen({navigation}) {
-  //const navigation = useNavigation();
 
+function ProfileScreen({ navigation }) {
   const [profileImageUri, setProfileImageUri] = useState(
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
+  );
+  const [testImageUri, settestImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [screen, setScreen] = useState('');
   const [name, setName] = useState('');
-
-  const daysOfWeek = [
-    {screen: 'Profile', icon: 'user'},
-    {screen: 'Subscription', icon: 'dollar-sign'},
-  ];
-
-  /////////////////////Use Effect To fetch data from async storage////////////////
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener(
-      'focus',
-      () => {
-        const fetchData = async () => {
-          const user = await AsyncStorage.getItem('emailS');
+    fetchData();
+  }, [refreshing]);
 
-          console.log('user', user);
-          if (user) {
-            try {
-              const storedUserImage = await AsyncStorage.getItem(
-                `userProfile_${user}`,
-              );
-              const userImage = storedUserImage
-                ? storedUserImage.replace(/[\[\]"]+/g, '')
-                : '';
-              setProfileImageUri(userImage);
+  const fetchData = async () => {
+    const user = await AsyncStorage.getItem('emailS');
 
-              const storedUserName = await AsyncStorage.getItem(
-                `userName_${user}`,
-              );
-              const userName = storedUserName
-                ? storedUserName.replace(/[\[\]"]+/g, '')
-                : '';
-              setName(userName);
+    if (user) {
+      try {
+        const storedUserImage = await AsyncStorage.getItem(
+          `userProfile_${user}`,
+        );
+        const userImage = storedUserImage
+          ? storedUserImage.replace(/[\[\]"]+/g, '')
+          : '';
+        setProfileImageUri(userImage);
 
-              console.log('profile here', profileImageUri);
-              console.log('name here', userName);
-            } catch (error) {
-              console.error('Error fetching data from AsyncStorage:', error);
-            }
-          }
-        };
-        fetchData();
-        return unsubscribe;
-      },
-      [navigation],
-    );
-    return unsubscribe;
-  }, []);
-
-  ////////////////////////////////////////////
-  //////////////////Naviagtion//////
-  useEffect(() => {
-    renderScreen();
-  }, [screen]);
-
-  const renderScreen = () => {
-    if (screen == 'Profile') {
-      navigation.navigate('profileScreen');
-    }
-    if (screen == 'Subscription') {
-      navigation.navigate('Subscribe');
+        const storedUserName = await AsyncStorage.getItem(
+          `userName_${user}`,
+        );
+        const userName = storedUserName
+          ? storedUserName.replace(/[\[\]"]+/g, '')
+          : '';
+        setName(userName);
+      } catch (error) {
+        console.error('Error fetching data from AsyncStorage:', error);
+      }
     }
   };
-  ////////////////////////////////
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+
+    try {
+      // Your refresh logic here, e.g., fetching new data from an API
+      await fetchData();
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      // After refreshing is complete, set refreshing to false
+      setRefreshing(false);
+    }
+  }, []);
 
   const pickImageOrVideo = async () => {
     try {
@@ -107,10 +85,10 @@ function ProfileScreen({navigation}) {
       });
 
       if (media.path) {
-        setProfileImageUri(media.path);
-        saveProfileImageUri(media.path);
+        settestImageUri(media.path);
+        //saveProfileImageUri(media.path);
         setPhotoUploaded(true);
-        navigation.navigate('Results')
+        navigation.navigate('Results');
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
@@ -127,7 +105,12 @@ function ProfileScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <Text
           style={[
             styles.text,
@@ -135,57 +118,36 @@ function ProfileScreen({navigation}) {
               fontWeight: 'bold',
               fontSize: 15,
               position: 'absolute',
-
               marginVertical: 20,
               marginHorizontal: 70,
             },
-          ]}>
+          ]}
+        >
           {name}
         </Text>
         <TouchableOpacity onPress={toggleModal}>
           <Image
             style={styles.logo}
-            source={profileImageUri ? {uri: profileImageUri} : null}
+            source={profileImageUri ? { uri: profileImageUri } : null}
           />
         </TouchableOpacity>
-       
-       <TouchableOpacity activeOpacity={1} onPress={() => pickImageOrVideo()} >
-        <View style={styles.placeholderText}>
-          <UploadInputAni />
-          <Text style={styles.text} onPress={() => pickImageOrVideo()}>
-            Upload Image/Video
-          </Text>
-        </View>
-        </TouchableOpacity>
-        <Tips/>
-      </ScrollView>
 
-      {/* <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={toggleModal}
-        animationIn="slideInUp" // Slide in from bottom
-        animationOut="slideOutDown" // Slide out to bottom
-        style={styles.modal}>
-        <View style={styles.modalContainer}>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            data={daysOfWeek}
-            horizontal={true}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                style={styles.modal1}
-                onPress={() => setScreen(item.screen)}>
-                <View style={styles.iconContainer}>
-                  <Icon name={item.icon} size={20} color={color.primary} />
-                  <Text style={styles.text2} key={item.screen}>
-                    {item.screen}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </Modal> */}
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => pickImageOrVideo()}
+        >
+          <View style={styles.placeholderText}>
+            <UploadInputAni />
+            <Text style={styles.text} onPress={() => pickImageOrVideo()}>
+              Upload Image/Video
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <Text style={styles.title}>Today Tips</Text>
+        <Tips />
+        <Doctors/>
+     
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -194,6 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.secondary,
+    elevation: 10
   },
   scrollView: {
     flexGrow: 1,
@@ -201,35 +164,26 @@ const styles = StyleSheet.create({
   },
 
   placeholderText: {
-    width: 280,
-    height: 140,
+    width: 300,
+    height: 100,
     borderRadius: 20,
-    marginHorizontal: 70,
-    //marginVertical: 120,
-    borderWidth: 3,
+    marginHorizontal: 60,
+    borderWidth: 2,
     borderColor: color.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    borderStyle: 'dotted',
-
-    borderStyle: 'dotted',
+    borderStyle: 'dashed',
     overflow: 'hidden',
-    marginTop: 220
-
+    marginTop: 200,
+    
   },
+
   text: {
-    fontSize: 17,
+    fontSize: 15,
     fontFamily: 'sans-serif-condensed',
     color: 'black',
-    fontWeight: 'bold'
-  },
-  text2: {
-    fontSize: 20,
-    fontFamily: 'sans-serif-condensed',
-    color: color.primary,
     fontWeight: 'bold',
   },
-
   logo: {
     width: 50,
     height: 50,
@@ -244,40 +198,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     top: -140,
   },
-  logoutIcon: {
-    position: 'absolute',
-    right: 17,
-    bottom: 30,
-  },
+  title: {
+    color: color.primary,
+    fontWeight: '900',
+    textAlign: 'left',
+    fontSize: 18,
+    marginHorizontal: 30,
+    marginTop: 50,
 
-  modal: {
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
-  modalContainer: {
-    backgroundColor: color.primary,
-    borderRadius: 0,
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modal1: {
-    height: 100,
-    width: 110,
-    marginHorizontal: 5,
-    backgroundColor: color.secondary,
-    borderRadius: 20,
-    fontSize: 20,
-    fontFamily: 'sans-serif-condensed',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  }
 });
 
 export default ProfileScreen;

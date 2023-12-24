@@ -1,64 +1,65 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import color from '../components/colors.jsx';
 import css from '../components/css.jsx';
 import Subscription from '../components/Subscription.jsx';
 import TabNavigator from '../components/TabBar.jsx';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useFocusEffect } from '@react-navigation/native';
 import CreditCardInputScreen from './Payment.jsx';
+import Loader from '../components/Loader.jsx';
+
 const Subscribe = () => {
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [waiting, setWaiting] = useState(false);
+  const navigation = useNavigation();
 
   const handlePlanSelection = (plan) => {
     setSelectedPlan(plan);
   };
 
-  const navigation =useNavigation();
+  const handleContinuePress = () => {
+    setWaiting(true);
+    setTimeout(()=>{
+      navigation.navigate('CreditCardInputScreen');
+    })
+    
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setWaiting(false);
+    }, [])
+  );
+
   return (
     <ScrollView style={styles.container}>
-      <View>
-        <Subscription />
-
-        <Text style={styles.mainHeading}>Choose your plan</Text>
-        <Text style={styles.secondHeading}>
-          Subscribed users can save their records for future use
-        </Text>
-
-        <TouchableOpacity
-          style={[
-            css.input,
-            selectedPlan === 'Monthly' && styles.selectedPlan,
-          ]}
-          onPress={() => handlePlanSelection('Monthly')}
-          activeOpacity={1} // Set activeOpacity to 1 to remove touchable effect
-        >
-          <Text style={styles.plan}>Monthly</Text>
-          <Text style={styles.plandes}>$29.99 / mo</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            css.input,
-            selectedPlan === 'Annual' && styles.selectedPlan,
-          ]}
-          onPress={() => handlePlanSelection('Annual')}
-          activeOpacity={1} // Set activeOpacity to 1 to remove touchable effect
-        >
-          <Text style={styles.plan}>Annual</Text>
-          <Text style={styles.plandes}>$15.99 / mo ($192 / year)</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.continue} onPress={()=>navigation.navigate('CreditCardInputScreen')}>
-          <Text style={styles.buttontext}>Continue</Text>
-        </TouchableOpacity>
-      </View>
-      {/* <TabNavigator/> */}
+      {waiting && <Loader />}
+      {!waiting && (
+        <View>
+          <Subscription />
+          <Text style={styles.mainHeading}>Choose your plan</Text>
+          <Text style={styles.secondHeading}>
+            Subscribed users can save their records for future use
+          </Text>
+          <TouchableOpacity
+            style={[css.input, selectedPlan === 'Monthly' && styles.selectedPlan]}
+            onPress={() => handlePlanSelection('Monthly')}
+            activeOpacity={1}>
+            <Text style={styles.plan}>Monthly</Text>
+            <Text style={styles.plandes}>$29.99 / mo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[css.input, selectedPlan === 'Annual' && styles.selectedPlan]}
+            onPress={() => handlePlanSelection('Annual')}
+            activeOpacity={1}>
+            <Text style={styles.plan}>Annual</Text>
+            <Text style={styles.plandes}>$15.99 / mo ($192 / year)</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.continue} onPress={handleContinuePress}>
+            <Text style={styles.buttontext}>Continue</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     borderColor: color.primary,
     borderWidth: 3,
   },
-  continue:{
+  continue: {
     width: '90%',
     height: 60,
     marginVertical: 30,
@@ -108,16 +109,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: color.primary,
     marginHorizontal: 20,
-    fontWeight: '900'
-
-
+    fontWeight: '900',
   },
-  buttontext:{
+  buttontext: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',
     fontFamily: 'sans-serif-condensed',
-  }
+  },
 });
 
 export default Subscribe;
