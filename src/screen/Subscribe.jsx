@@ -1,39 +1,64 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   View,
   Text,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 
 import color from '../components/colors.jsx';
 import css from '../components/css.jsx';
-import Lottie from 'lottie-react-native';
 import Subscription from '../components/Subscription.jsx';
-
+import TabNavigator from '../components/TabBar.jsx';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import CreditCardInputScreen from './Payment.jsx';
 const Subscribe = () => {
+  const [selectedPlan, setSelectedPlan] = useState('');
+
+  const handlePlanSelection = (plan) => {
+    setSelectedPlan(plan);
+  };
+
+  const navigation =useNavigation();
   return (
     <ScrollView style={styles.container}>
       <View>
-      <Subscription/>
-        
+        <Subscription />
+
         <Text style={styles.mainHeading}>Choose your plan</Text>
         <Text style={styles.secondHeading}>
           Subscribed users can save their records for future use
         </Text>
-        <TouchableOpacity style={css.input}>
+
+        <TouchableOpacity
+          style={[
+            css.input,
+            selectedPlan === 'Monthly' && styles.selectedPlan,
+          ]}
+          onPress={() => handlePlanSelection('Monthly')}
+          activeOpacity={1} // Set activeOpacity to 1 to remove touchable effect
+        >
           <Text style={styles.plan}>Monthly</Text>
-          <Text style={styles.plandes}>$29,99 / mo</Text>
-         
+          <Text style={styles.plandes}>$29.99 / mo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={css.input}>
+
+        <TouchableOpacity
+          style={[
+            css.input,
+            selectedPlan === 'Annual' && styles.selectedPlan,
+          ]}
+          onPress={() => handlePlanSelection('Annual')}
+          activeOpacity={1} // Set activeOpacity to 1 to remove touchable effect
+        >
           <Text style={styles.plan}>Annual</Text>
-          <Text style={styles.plandes}>$15,99 / mo ($192 / year)</Text>
+          <Text style={styles.plandes}>$15.99 / mo ($192 / year)</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.continue} onPress={()=>navigation.navigate('CreditCardInputScreen')}>
+          <Text style={styles.buttontext}>Continue</Text>
         </TouchableOpacity>
       </View>
+      {/* <TabNavigator/> */}
     </ScrollView>
   );
 };
@@ -58,7 +83,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: color.text,
   },
-
   plan: {
     color: color.primary,
     fontWeight: 'bold',
@@ -71,13 +95,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'sans-serif-condensed',
   },
-  logo: {
-    width: 150,
-    height: 150,
-    resizeMode: 'contain',
-    marginHorizontal: 100,
-    marginTop: 70,
+  selectedPlan: {
+    borderColor: color.primary,
+    borderWidth: 3,
   },
+  continue:{
+    width: '90%',
+    height: 60,
+    marginVertical: 30,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: color.primary,
+    marginHorizontal: 20,
+    fontWeight: '900'
+
+
+  },
+  buttontext:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontFamily: 'sans-serif-condensed',
+  }
 });
 
 export default Subscribe;

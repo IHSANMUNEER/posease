@@ -7,18 +7,18 @@ const UploadInputAni = () => {
     <View
     style={{
       justifyContent: 'center',
-      height: 200,
-      width: 200,
+      height: 100,
+      width: 100,
       alignItems: 'center',
-      backgroundColor: '#FAF9F6',
+      backgroundColor: 'white',
    
-      marginVertical: 70,
-      marginHorizontal: 90,
+      marginVertical: 1,
+      marginHorizontal: 110,
       borderRadius:999
     }}>
     <View>
       <Lottie
-        style={{width: 200, height: 200}}
+        style={{width: 100, height: 100}}
         source={require('../assets/upload.json')}
         autoPlay
         loop

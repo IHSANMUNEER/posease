@@ -1,6 +1,6 @@
  const colors = {
     primary: "#2E7A86",
-    secondary: "#FAF9F6",
+    secondary: "white",
     text: "black",
     inputText : 'black'
   };

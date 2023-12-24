@@ -3,22 +3,23 @@ import Lottie from 'lottie-react-native';
 import {View, Dimensions, Text} from 'react-native';
 import colours from './colors';
 
-const LoginAni = () => {
+const CardAni = () => {
     return(
         <View
         style={{
           justifyContent: 'center',
-          height: 170,
-          width: 160,
+          height: 300,
+          width: 300,
           alignItems: 'center',
           backgroundColor: 'white',
-          marginHorizontal: 90,
-          marginVertical: 5
+          marginHorizontal: 15,
+          marginVertical: 1,
+          marginBottom: -15
         }}>
         <View>
           <Lottie
-            style={{width: 210, height: 160}}
-            source={require('../assets/login.json')}
+            style={{width: 300, height: 300}}
+            source={require('../assets/Creditcard.json')}
             autoPlay
             loop
           />
@@ -28,4 +29,4 @@ const LoginAni = () => {
     };
 
 
-export default LoginAni;
+export default CardAni;

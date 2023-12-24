@@ -15,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
 import UploadInputAni from '../components/UploadInput.jsx';
+import Results from './ShowResults.jsx';
+import Tips from '../components/Tips.jsx';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
 import TabNavigator from '../components/TabBar.jsx';
@@ -108,6 +110,7 @@ function ProfileScreen({navigation}) {
         setProfileImageUri(media.path);
         saveProfileImageUri(media.path);
         setPhotoUploaded(true);
+        navigation.navigate('Results')
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
@@ -145,13 +148,16 @@ function ProfileScreen({navigation}) {
             source={profileImageUri ? {uri: profileImageUri} : null}
           />
         </TouchableOpacity>
-        <UploadInputAni />
-
+       
+       <TouchableOpacity activeOpacity={1} onPress={() => pickImageOrVideo()} >
         <View style={styles.placeholderText}>
+          <UploadInputAni />
           <Text style={styles.text} onPress={() => pickImageOrVideo()}>
             Upload Image/Video
           </Text>
         </View>
+        </TouchableOpacity>
+        <Tips/>
       </ScrollView>
 
       {/* <Modal
@@ -195,20 +201,27 @@ const styles = StyleSheet.create({
   },
 
   placeholderText: {
-    width: 150,
-    height: 50,
+    width: 280,
+    height: 140,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 110,
-    marginVertical: -10,
+    marginHorizontal: 70,
+    //marginVertical: 120,
     borderWidth: 3,
     borderColor: color.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderStyle: 'dotted',
+
+    borderStyle: 'dotted',
+    overflow: 'hidden',
+    marginTop: 220
+
   },
   text: {
-    fontSize: 16,
+    fontSize: 17,
     fontFamily: 'sans-serif-condensed',
     color: 'black',
+    fontWeight: 'bold'
   },
   text2: {
     fontSize: 20,
@@ -228,7 +241,7 @@ const styles = StyleSheet.create({
     marginTop: 150,
     borderWidth: 2,
     borderColor: color.primary,
-    right: 180,
+    marginHorizontal: 10,
     top: -140,
   },
   logoutIcon: {

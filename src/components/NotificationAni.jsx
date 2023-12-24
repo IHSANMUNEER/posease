@@ -3,22 +3,22 @@ import Lottie from 'lottie-react-native';
 import {View, Dimensions, Text} from 'react-native';
 import colours from './colors';
 
-const LoginAni = () => {
+const NotificationAni = () => {
     return(
         <View
         style={{
           justifyContent: 'center',
-          height: 170,
-          width: 160,
+          height: 200,
+          width: 200,
           alignItems: 'center',
-          backgroundColor: 'white',
+          backgroundColor: '#FAF9F6',
           marginHorizontal: 90,
           marginVertical: 5
         }}>
         <View>
           <Lottie
-            style={{width: 210, height: 160}}
-            source={require('../assets/login.json')}
+            style={{width: 200, height: 200}}
+            source={require('../assets/Notification.json')}
             autoPlay
             loop
           />
@@ -28,4 +28,4 @@ const LoginAni = () => {
     };
 
 
-export default LoginAni;
+export default NotificationAni;

@@ -13,26 +13,35 @@ import Loader from '../components/Loader.jsx';
 import Userdashboard from './Userdashboard.jsx';
 import test from './test.js';
 import Tabs from '../components/TabBar.jsx';
+import Results from './ShowResults.jsx';
+import EditProfile from './EditProfile.jsx';
+import Privacy from './Privacy.jsx';
+import Support from './HelpSupport.jsx';
+import Terms from './TermsAndConditions.jsx';
+import Report from './ReportProblem.jsx';
 
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
+import Notification from './Notification.jsx';
+import CreditCardInputScreen from './Payment.jsx';
 
 const MainStack = createStackNavigator();
 
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
+     
+    <MainStack.Screen
+        name="Onboarding"
+        component={OnBoardingScreen}
+        options={{headerShown: false}}
+      />
       <MainStack.Screen
         name="Tabs"
         component={Tabs}
         options={{headerShown: false}}
       />
 
-      <MainStack.Screen
-        name="Onboarding"
-        component={OnBoardingScreen}
-        options={{headerShown: false}}
-      />
       <MainStack.Screen
         name="Userdashboard"
         component={Userdashboard}
@@ -171,11 +180,17 @@ const Stack1 = () => (
 const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
+      
+   
+   
+    
       <MainStack.Screen
         name="Tabs"
         component={Tabs}
         options={{headerShown: false}}
       />
+
+      
       <MainStack.Screen
         name="Userdashboard"
         component={Userdashboard}
@@ -293,6 +308,14 @@ const Stack2 = () => (
           headerBackTitleVisible: false,
         }}
       />
+       <MainStack.Screen
+        name="CreditCardInputScreen"
+        component={CreditCardInputScreen}
+        options={{headerShown: true,
+          headerTitle: ''
+    
+        }}
+      />
 
       <MainStack.Screen
         name="Table1"
@@ -303,6 +326,47 @@ const Stack2 = () => (
         name="test"
         component={test}
         options={{headerShown: false}}
+      />
+      <MainStack.Screen
+        name="Notification"
+        component={Notification}
+        options={{headerShown: false}}
+      />
+      
+    <MainStack.Screen
+        name="Results"
+        component={Results}
+        options={{headerShown: false}}
+      />
+    <MainStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{headerShown: false}}
+      />
+        <MainStack.Screen
+          name="Privacy"
+        component={Privacy}
+        options={{headerShown: true,
+          headerTitle: ''}
+        }
+      />
+       <MainStack.Screen
+        name="Support"
+        component={Support}
+        options={{headerShown: true,
+          headerTitle: ''}}
+      />
+       <MainStack.Screen
+        name="Terms"
+        component={Terms}
+        options={{headerShown: true,
+          headerTitle: ''}}
+      />
+       <MainStack.Screen
+        name="Report"
+        component={Report}
+        options={{headerShown: true,
+          headerTitle: ''}}
       />
     </MainStack.Navigator>
   </NavigationContainer>

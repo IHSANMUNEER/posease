@@ -19,13 +19,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
 import Toast from 'react-native-toast-message';
-import EditProfile from './EditProfile';
 import Loader from '../components/Loader';
 import {useNavigation} from '@react-navigation/native';
 
 //////////////////////Main Component////////////////////
 
-function ProfileScreen() {
+function EditProfile() {
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
@@ -283,18 +282,13 @@ function ProfileScreen() {
             <Text style={styles.profileAddress}>Software Engineer</Text>
           </View>
 
-          <TouchableOpacity
-            style={[styles.editBtn, {marginVertical: 5}]}
-            onPress={()=>navigation.navigate('EditProfile')}>
-            <Text style={styles.editText}>Edit Profile</Text>
-          </TouchableOpacity>
 
           <TextInput
             style={styles.input}
             placeholder={userName}
             secureTextEntry={false}
             placeholderTextColor="black"
-            editable={editable}
+            editable={true}
             onChangeText={txt => setNewName(txt)}
           />
           <Icon
@@ -335,7 +329,7 @@ function ProfileScreen() {
             />
           </TouchableOpacity>
 
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={[styles.getCode, {marginTop: 15}]}
             onPress={async () => {
               await saveUserData();
@@ -343,7 +337,7 @@ function ProfileScreen() {
               setEditable(false)
             }}>
             <Text style={styles.loginButtonText}>Update</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -481,7 +475,7 @@ const styles = StyleSheet.create({
   user: {
     position: 'absolute',
     right: 60,
-    bottom: 175,
+    bottom: 267,
     alignItems: 'center',
     justifyContent: 'center',
     width: 28,
@@ -490,8 +484,8 @@ const styles = StyleSheet.create({
   },
   email: {
     position: 'absolute',
-    right: 65,
-    bottom: 104,
+    right: 60,
+    bottom: 197,
     alignItems: 'center',
     justifyContent: 'center',
     width: 28,
@@ -501,7 +495,7 @@ const styles = StyleSheet.create({
   eye2: {
     position: 'absolute',
     right: 70,
-    bottom: 36,
+    bottom: 128,
     alignItems: 'center',
     justifyContent: 'center',
     width: 28,
@@ -510,4 +504,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default EditProfile;

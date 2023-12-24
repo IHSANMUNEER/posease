@@ -10,7 +10,7 @@ const ForgotAni = () => {
       height: 150,
       width: 200,
       alignItems: 'center',
-      backgroundColor: '#FAF9F6',
+      backgroundColor: 'white',
       marginHorizontal: 80,
       marginVertical: 50,
       marginTop:  100

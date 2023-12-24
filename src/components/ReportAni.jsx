@@ -1,25 +1,24 @@
 import React from 'react';
 import Lottie from 'lottie-react-native';
 import {View, Dimensions, Text} from 'react-native';
-import colours from './colors';
 
-
-const Subscription = () => {
+const ReportAni = () => {
   return(
     <View
     style={{
       justifyContent: 'center',
-      height: 150,
-      width: 150,
+      height: 300,
+      width: 300,
       alignItems: 'center',
       backgroundColor: 'white',
-      marginHorizontal: 110,
-      marginVertical: 40
+      marginHorizontal: 20,
+      marginVertical: 5,
+     
     }}>
     <View>
       <Lottie
-        style={{width: 150, height: 150}}
-        source={require('../assets/subscribe.json')}
+        style={{width: 300, height: 300}}
+        source={require('../assets/Report.json')}
         autoPlay
         loop
       />
@@ -28,4 +27,4 @@ const Subscription = () => {
   )
 };
 
-export default Subscription;
+export default ReportAni;

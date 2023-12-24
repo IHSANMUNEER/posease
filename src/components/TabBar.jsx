@@ -9,6 +9,8 @@ import Subscribe from '../screen/Subscribe';
 import Setting from '../screen/Settings'
 import Home from '../screen/Userdashboard';
 import Records from '../screen/Table'
+import Notification from '../screen/Notification'
+
 import test from '../screen/test'
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -30,8 +32,8 @@ const TabNavigator = () => {
 
           if (rn === 'Profile') {
             iconName = focused ? 'user' : 'user';
-          } else if (rn === 'Subscribe') {
-            iconName = focused ? 'dollar-sign' : 'dollar-sign';
+          } else if (rn === 'Notification') {
+            iconName = focused ? 'bell' : 'bell';
           } else if(rn === 'Setting'){
             iconName = focused ? 'cog' : 'cog';
           }else if(rn === 'Home'){
@@ -44,9 +46,9 @@ const TabNavigator = () => {
         },
         tabBarActiveTintColor: '#404040',
         tabBarInactiveTintColor: '#B9BCBE',
-        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 20, height: 71 , marginHorizontal: 10 , borderRadius : 20 },
+        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 60 , marginHorizontal: 0 , borderRadius : 10 },
         tabBarLabelStyle: { marginBottom: 15 },
-        tabBarIconStyle: { marginBottom: -10 }
+        tabBarIconStyle: { marginBottom: -5 }
       })}>
        <Tab.Screen
         name="Home"
@@ -59,8 +61,8 @@ const TabNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="Subscribe"
-        component={Subscribe}
+        name="Notification"
+        component={Notification}
         options={{headerShown: false}}
       />
       <Tab.Screen
@@ -73,6 +75,7 @@ const TabNavigator = () => {
         component={Setting}
         options={{headerShown: false}}
       />
+     
       
      
     </Tab.Navigator>

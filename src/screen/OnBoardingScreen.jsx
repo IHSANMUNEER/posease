@@ -85,15 +85,15 @@ const OnBoardingScreen = ({ navigation }) => {
       pages={[
         {
           backgroundColor: colours.secondary,
-            image: <Image style={styles.image} source={require('../assets/2.png')} />,
+            image: <Image style={styles.image} source={require('../Images/logo.png')} />,
           title: (
             <Text style={styles.title}>
-             Live Your Life Healthy
+             PosEase
             </Text>
           ),
           subtitle: (
             <Text style={styles.text}>
-             Embrace wellness as a lifestyle choice, prioritizing nutrition and fitness to enhance your overall well-being and vitality
+             Empowering Posture Excellence: Unleashing the Power of Pose Detection for Holistic Well-being and Personal Growth.
             </Text>
           ),
         },
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     color: colours.primary,
+    fontWeight: 'bold'
   },
   text: {
     color: colours.text,

@@ -5,16 +5,17 @@ import colors from '../components/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
+import Search from '../components/Search';
 
 class Table1 extends Component {
 
-  
+
   
   constructor(props) {
     super(props);
     this.state = {
       tableHead: ['ID', 'Description'],
-      widthArr: [160, 168],
+      widthArr: [195, 195],
       data: [],
     };
   }
@@ -25,7 +26,7 @@ class Table1 extends Component {
 
   generateData = () => {
     const data = [];
-    for (let i = 1; i < 11; i += 1) {
+    for (let i = 1; i < 20; i += 1) {
       const dataRow = [`ID${i}`, `Description${i}`];
       data.push(dataRow);
     }
@@ -38,8 +39,10 @@ class Table1 extends Component {
     const { tableHead, widthArr, data } = this.state;
 
     return (
+
       <View style={styles.container}>
         <Text style={styles.title}>Records</Text>
+        <Search/>
         <Table borderStyle={{ borderColor: colors.primary }}>
           <Row
             data={tableHead}
