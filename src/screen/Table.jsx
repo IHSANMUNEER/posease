@@ -8,7 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 import Search from '../components/Search';
 
 
+
 class Table1 extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -42,9 +44,11 @@ class Table1 extends Component {
   };
 
   render() {
+    
     const { tableHead, widthArr, searchTerm, filteredData } = this.state;
 
     return (
+      
       <View style={styles.container}>
         <Text style={styles.title}>Records</Text>
         <TextInput
@@ -74,7 +78,7 @@ class Table1 extends Component {
           data={filteredData}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
-            <TouchableOpacity>
+            <TouchableOpacity >
               <View
                 style={[
                   styles.row,
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   email:{
     position: 'absolute',
     marginHorizontal:30,
-    marginVertical:95
+    marginVertical:92
 
   },
  

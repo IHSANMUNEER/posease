@@ -4,13 +4,10 @@ import {useRoute} from '@react-navigation/native';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import colors from '../components/colors';
 import Doctors from './Doctors';
-import { useNavigation } from '@react-navigation/native';
 
-const DoctorDetail = () => {
+const NotiDetail = () => {
   const route = useRoute();
   const {item} = route.params;
-
-  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -19,11 +16,9 @@ const DoctorDetail = () => {
           <Card.Cover source={{uri: item.image}} style={styles.cover} />
           <View style={styles.textContainer}>
             <Text variant="titleLarge" style={styles.title}>
-              {item.doctorName}
+              {item.title}
             </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
-              {item.type}
-            </Text>
+      
           </View>
         </View>
         <Text
@@ -31,9 +26,12 @@ const DoctorDetail = () => {
             styles.title,
             {marginHorizontal: 20, marginVertical: 20, fontSize: 20},
           ]}>
-          Education
+          Details
         </Text>
-        <Text variant="bodyMedium" style={styles.education}>
+        <Text variant="bodyMedium" style={styles.subtitle}>
+              {item.description}
+            </Text>
+        {/* <Text variant="bodyMedium" style={styles.education}>
           {item.education.map((qualification, index) => (
             <React.Fragment key={index}>
               {index > 0 && '\n'}{' '}
@@ -41,15 +39,15 @@ const DoctorDetail = () => {
               <Text>{qualification}</Text>
             </React.Fragment>
           ))}
-        </Text>
-        <TouchableOpacity
+        </Text> */}
+        {/* <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('ChatScreen',{doctorInfo: item  }) }>
+          onPress={() => navigation.navigate('PaymentSuccess')}>
           <Text style={styles.buttonText}>Connect</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Card>
       <View style={{marginVertical: 50}}>
-      <Doctors/>
+      
       </View>
      
     </View>
@@ -64,10 +62,10 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '95%',
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: 'hidden',
     elevation: 10,
-    backgroundColor: '#eeeeee' 
+    backgroundColor: '#eeeeee'
   },
   contentContainer: {
     flexDirection: 'row',
@@ -80,19 +78,21 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.primary,
     marginVertical: 10,
-    marginHorizontal:10
+    marginHorizontal: 8
   },
   textContainer: {
     marginLeft: 10,
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: colors.primary,
   },
   subtitle: {
     fontSize: 16,
     color: 'black',
+    marginHorizontal: 20,
+    marginBottom:20
   },
   button: {
     backgroundColor: colors.primary,
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorDetail;
+export default NotiDetail;

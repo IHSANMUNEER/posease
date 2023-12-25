@@ -41,7 +41,7 @@ const ChangePassword = () => {
         </View>
        
 
-        <TouchableOpacity style={styles.getCode} onPress={()=>navigation.navigate('subscribe')}>
+        <TouchableOpacity style={styles.getCode} onPress={()=>navigation.navigate('ConfirmPassword')}>
           <Text style={styles.loginButtonText}>Verify and Proceed</Text>
         </TouchableOpacity>
       </View>
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
     color : color.text
   },
   getCode: {
-    width: '80%',
+    width: '75%',
     height: 50,
-    marginVertical: 10,
+    marginVertical: 40,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.primary,
-    marginHorizontal: 40,
+    marginHorizontal: 50,
   },
   loginButtonText: {
     fontSize: 20,
@@ -98,15 +98,15 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   codeInput: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 12,
     borderWidth: 2,
     borderColor: color.primary,
     textAlign: 'center',
     fontSize: 20,
     backgroundColor: 'white',
-    marginHorizontal: 11,
+    marginHorizontal: 10,
     marginVertical: 10,
     color : 'black'
   },

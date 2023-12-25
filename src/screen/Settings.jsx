@@ -18,7 +18,7 @@ const Settings = () => {
           <View style={styles.first}>
             <Text style={styles.text} onPress={()=>navigation.navigate('EditProfile')}>Edit Profile</Text>
             <Icon name="user" size={20} color="#544c4c" style={styles.email} />
-            <Text style={styles.text}>Security</Text>
+            <Text style={styles.text} onPress={()=>navigation.navigate('ConfirmationCodeInput')}>Security</Text>
             <Icon
               name="shield-alt"
               size={20}
@@ -49,14 +49,14 @@ const Settings = () => {
               name="question-circle"
               size={20}
               color="#544c4c"
-              style={[styles.privacy, {bottom: 57}]}
+              style={[styles.privacy, {bottom: 60}]}
             />
             <Text style={styles.text} onPress={()=>navigation.navigate('Terms')}>Terms and Policies</Text>
             <Icon
               name="exclamation-circle"
               size={20}
               color="#544c4c"
-              style={[styles.notification, , {bottom: 13}]}
+              style={[styles.notification, , {bottom: 20}]}
             />
           </View>
           <Text style={styles.subhead}>Actions</Text>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   lock: {
     position: 'absolute',
     marginHorizontal: 20,
-    bottom: 10,
+    bottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

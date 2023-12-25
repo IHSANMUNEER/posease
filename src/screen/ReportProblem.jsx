@@ -5,6 +5,7 @@ import colors from '../components/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReportAni from '../components/ReportAni';
 import { ScrollView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 const Report = () => {
   const [text, setText] = React.useState("");
@@ -15,6 +16,19 @@ const Report = () => {
       primary: colors.primary, // Set your desired primary color
     },
   };
+
+  const feedback = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Thank You',
+      text2: 'your feedback is submmitted.',
+      position: 'top',
+      
+
+    });
+  };
+
+  
 
   return (
     <>
@@ -34,11 +48,12 @@ const Report = () => {
           
         </View>
         </ScrollView>
-        <TouchableOpacity style={styles.continue}>
+        <TouchableOpacity style={styles.continue} onPress={()=>feedback()}>
           <Text style={styles.buttontext}>Submit</Text>
         </TouchableOpacity>
         
       </SafeAreaView>
+      <Toast />
     </>
   );
 };

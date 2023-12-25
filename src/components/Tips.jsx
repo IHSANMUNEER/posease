@@ -66,7 +66,7 @@ const Tips = () => {
         </Card.Content>
         <Card.Cover
           source={{uri: item.image}}
-          style={{width: '98%' , borderRadius:10 ,marginHorizontal: 2.5 ,height:'55%'  }}
+          style={{width: '97%' , borderRadius:10 ,marginHorizontal: 3 ,height:'58%'  }}
         />
       </Card>
     </TouchableOpacity>

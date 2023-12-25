@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     width: '98%',
     borderRadius: 10,
     overflow: 'hidden',
-    elevation: 5, // Box shadow
+    elevation: 5, 
+    backgroundColor: '#eeeeee'
   },
   cover: {
     height: 300,

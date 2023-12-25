@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: 300,
-    height: 400,
+    height: 300,
     marginRight: 10,
     borderRadius: 10,
     overflow: 'hidden',

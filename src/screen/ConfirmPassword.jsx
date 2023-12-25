@@ -12,13 +12,17 @@ import {
 } from 'react-native';
 import color from '../components/colors';
 import imageS from '../Images/3.png';
+import ForgotAni from '../components/ForgotAni';
+import { useNavigation } from '@react-navigation/native';
+
 
 // Define the ChangePassword component
 const ChangePassword = () => {
+  const navigation = useNavigation();
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Image style={styles.logo} source={imageS} />
+         <ForgotAni/>
         <Text style={styles.mainHeading}>Enter New Password</Text>
         <Text style={styles.secondHeading}>
           Your new password must be different from previous password and at least 6 characters
@@ -39,6 +43,7 @@ const ChangePassword = () => {
 
         <TouchableOpacity
           style={styles.getCode}
+          onPress={()=>navigation.navigate('Setting')}
          >
           <Text style={styles.loginButtonText}>Continue</Text>
         </TouchableOpacity>
@@ -55,15 +60,16 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: color.primary,
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: -10
   },
   logo: {
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginHorizontal: 80,
+    marginHorizontal: 90,
     marginVertical: 30,
   },
   secondHeading: {
@@ -74,12 +80,12 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    height: 50,
+    height: 55,
     marginVertical: 10,
     marginHorizontal: 40,
     padding: 15,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 20,
     borderColor: color.primary,
     borderWidth: 1.5,
     fontFamily: 'sans-serif-condensed',

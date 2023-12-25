@@ -50,6 +50,7 @@ function Signup() {
 
   const onPressHandler = () => {
     navigation.navigate('Login');
+    setWaiting(false)
   };
 
   const handleSignUp = async () => {
@@ -69,13 +70,14 @@ function Signup() {
       await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
           const user = userCredential.user;
-          //showAccountCreated();
+          
           AsyncStorage.setItem('userToken', 'user_authenticated');
           AsyncStorage.removeItem('emailS');
           AsyncStorage.setItem('emailS', email);
           sendEmailVerification(user).then(() => {
             Varefication();
             setTimeout(()=>{
+              
               navigation.navigate('Login');
             },3000)
             saveUserData();
@@ -192,8 +194,8 @@ function Signup() {
 
   return (
     <>
-      {waiting && <Loader />}
-      {!waiting && (
+      {/* {waiting && <Loader />}
+      {!waiting && ( */}
         <ScrollView style={styles.container}>
           <View style={styles.screen}>
             <View style={styles.header}>
@@ -274,7 +276,7 @@ function Signup() {
             </View>
           </View>
         </ScrollView>
-      )}
+      {/* )} */}
       <Toast />
     </>
   );

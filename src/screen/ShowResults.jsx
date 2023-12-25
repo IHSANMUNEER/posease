@@ -9,7 +9,9 @@ import Search from '../components/Search';
 import { Rating } from 'react-native-ratings';
 
 
+
 const Results = () => {
+  const navigation =  useNavigation();
     const imageUrl = 'https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg'
   return (
     <View style={styles.container}>
@@ -25,7 +27,7 @@ const Results = () => {
       </View>
       <Rating style={{marginTop: 50 }}/>
 
-      <TouchableOpacity style={styles.continue}>
+      <TouchableOpacity style={styles.continue} onPress={()=>navigation.navigate('Table1')}>
           <Text style={styles.buttontext}>Save Feedback</Text>
         </TouchableOpacity>
     </View>
@@ -56,10 +58,10 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 400,
     height: 300,
-    marginRight: 10,
-    borderRadius: 10,
+    marginHorizontal: -3,
+    borderRadius: 20,
     overflow: 'hidden',
-    borderWidth: 3,
+    borderWidth: 5,
     borderColor: colors.primary
 
   },
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'cover',
+    
   },
   continue:{
     width: '90%',

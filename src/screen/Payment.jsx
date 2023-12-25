@@ -33,10 +33,7 @@ const CreditCardInputScreen = () => {
   };
 
   const handleCardNumberChange = input => {
-    // Remove non-numeric characters from input
     const cleanedInput = input.replace(/\D/g, '');
-
-    // Format the card number with spaces while focused
     let formattedCardNumber = '';
     for (let i = 0; i < cleanedInput.length; i++) {
       if (i > 0 && i % 4 === 0) {
@@ -49,10 +46,7 @@ const CreditCardInputScreen = () => {
   };
 
   const handleExpiryDateChange = input => {
-    // Remove non-numeric characters from input
     const cleanedInput = input.replace(/\D/g, '');
-
-    // Format the expiry date with a slash after two digits for the month while focused
     if (cleanedInput.length <= 2) {
       setExpiryDate(cleanedInput);
     } else if (cleanedInput.length <= 4) {
@@ -65,19 +59,19 @@ const CreditCardInputScreen = () => {
   };
 
   const handleSave = () => {
-    // Implement saving logic or API call with card details
+  
     console.log('Name:', name);
     console.log('Card Number:', cardNumber);
     console.log('Expiry Date:', expiryDate);
     console.log('CVC:', cvc);
-    // You should handle the secure storage or transmission of this data in a real-world scenario.
+
   };
 
   const theme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      primary: colors.primary, // Set your desired primary color
+      primary: colors.primary, 
     },
   };
 

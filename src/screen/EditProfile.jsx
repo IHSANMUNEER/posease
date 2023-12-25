@@ -341,9 +341,9 @@ function EditProfile() {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.logoutIcon} onPress={() => logout()}>
+      {/* <TouchableOpacity style={styles.logoutIcon} onPress={() => logout()}>
         <Icon name="sign-out-alt" size={25} color={color.primary} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
     <Toast/>
     </>

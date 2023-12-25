@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 
 
 const TabNavigator = () => {
-    useEffect(()=>{},[])
+    useEffect(()=>{},)
     console.log('TabBar')
   const navigation = useNavigation();
   return (
@@ -46,7 +46,7 @@ const TabNavigator = () => {
         },
         tabBarActiveTintColor: '#404040',
         tabBarInactiveTintColor: '#B9BCBE',
-        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 60 , marginHorizontal: 0 , borderRadius : 0 },
+        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 65 , marginHorizontal: 0 , borderRadius : 0 },
         tabBarLabelStyle: { marginBottom: 15 },
         tabBarIconStyle: { marginBottom: -5 }
       })}>
@@ -81,11 +81,11 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 
-  return (
-    <NavigationContainer  style={{ backgroundColor: 'red' }}>
-      <TabNavigator  />
-    </NavigationContainer>
-  );
+  // return (
+  //   <NavigationContainer  style={{ backgroundColor: 'red' }}>
+  //     <TabNavigator  />
+  //   </NavigationContainer>
+  // );
 };
 
 export default TabNavigator;

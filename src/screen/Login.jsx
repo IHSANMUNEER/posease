@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {collection, getDocs, query, where} from 'firebase/firestore';
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
 import LoginAni from '../components/LoginAni';
@@ -23,6 +23,12 @@ import Toast from 'react-native-toast-message';
 function Login() {
   const navigation = useNavigation();
   const [waiting, setWaiting] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setWaiting(false);
+    }, []),
+  );
 
   ///////////////////////////Handle SignIn for Formate/////////////////
 
@@ -133,16 +139,15 @@ function Login() {
       try {
         await signInWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
+            setWaiting(false);
             const user = userCredential.user;
             if (user.emailVerified) {
-            fetchData();
-            AsyncStorage.setItem('userToken', 'user_authenticated');
-            AsyncStorage.removeItem('emailS');
-            AsyncStorage.setItem('emailS', email);
-            setTimeout(async () => {
-              setWaiting(false);
+              fetchData();
+              AsyncStorage.setItem('userToken', 'user_authenticated');
+              AsyncStorage.removeItem('emailS');
+              AsyncStorage.setItem('emailS', email);
+
               navigation.navigate('Userdashboard');
-            }, 1000);
             } else {
               Alert.alert(
                 'Email Not Verified',
@@ -212,8 +217,8 @@ function Login() {
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
+      {waiting && <Loader />}
+      {!waiting && (
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.screen}>
             <LoginAni />
@@ -265,7 +270,6 @@ function Login() {
               onPress={async () => {
                 handleAlert(email, password);
                 await handleSignIn();
-                
               }}>
               <Text style={styles.loginButtonText}>LOGIN</Text>
             </TouchableOpacity>
@@ -277,6 +281,7 @@ function Login() {
                   setWaiting(true);
                   setTimeout(() => {
                     navigation.navigate('Signup');
+                    // setTimeout(false)
                   }, 30);
                 }}>
                 Sign Up
@@ -284,7 +289,7 @@ function Login() {
             </Text>
           </View>
         </ScrollView>
-      {/* )} */}
+      )}
       <Toast />
     </>
   );
@@ -301,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
+
   title: {
     fontSize: 25,
     fontWeight: 'bold',
