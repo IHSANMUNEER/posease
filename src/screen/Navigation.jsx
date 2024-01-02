@@ -24,7 +24,7 @@ import TipsDetail from './TipsDetail.jsx';
 import DoctorDetail from '../components/DoctorDetail.jsx';
 import NotiDetail from '../components/NotificationDtails.jsx';
 import ChatScreen from './Chat.jsx';
-
+import Final from './Final.js';
 
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
@@ -36,7 +36,12 @@ const MainStack = createStackNavigator();
 const Stack1 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
-     
+    {/* <MainStack.Screen
+        name="Final"
+        component={Final}
+        options={{headerShown: false}}
+      />
+      */}
     <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
@@ -190,7 +195,11 @@ const Stack2 = () => (
   <NavigationContainer>
     <MainStack.Navigator>
       
-   
+    {/* <MainStack.Screen
+        name="Final"
+        component={Final}
+        options={{headerShown: false}}
+      /> */}
        
       <MainStack.Screen
         name="Tabs"
