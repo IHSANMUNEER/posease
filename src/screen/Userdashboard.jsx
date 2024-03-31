@@ -145,8 +145,8 @@ function ProfileScreen({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.title}>Today Tips</Text>
         <Tips />
-        <Doctors/>
-     
+        <Doctors />
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     overflow: 'hidden',
     marginTop: 200,
-    
+
   },
 
   text: {

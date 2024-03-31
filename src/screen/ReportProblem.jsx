@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View, Text ,TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { TextInput, DefaultTheme } from 'react-native-paper';
 import colors from '../components/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReportAni from '../components/ReportAni';
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 const Report = () => {
   const [text, setText] = React.useState("");
@@ -13,45 +14,92 @@ const Report = () => {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      primary: colors.primary, // Set your desired primary color
+      primary: colors.primary, 
     },
   };
 
-  const feedback = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Thank You',
-      text2: 'your feedback is submmitted.',
-      position: 'top',
-      
+  const navigation = useNavigation();
 
-    });
+  const feedback = () => {
+    if (text.trim() === '') {
+      
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please enter a description.',
+        position: 'top',
+      });
+    } else {
+     
+      Toast.show({
+        type: 'success',
+        text1: 'Thank You',
+        text2: 'Your feedback is submitted.',
+        position: 'top',
+      });
+
+      sendFeedbackToBackend(text);
+    }
+    setTimeout(() => {
+      navigation.navigate('Userdashboard')
+      console.log('Delayed code execution after 1 second');
+    }, 500);
   };
 
-  
+
+  const sendFeedbackToBackend = async (feedbackText) => {
+    try {
+      const response = await fetch('https://api-production-9f8a.up.railway.app/products/reports', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: feedbackText })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit feedback');
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'Feedback submitted successfully.',
+        position: 'center',
+        
+      });
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Failed to submit feedback. Please try again later.',
+        position: 'top',
+      });
+    }
+  };
+
 
   return (
     <>
       <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Text style={styles.title}>Report Problem</Text>
-        <View style={styles.content}>
-          <TextInput
-            label="Describe the Problem"
-            value={text}
-            onChangeText={text => setText(text)}
-            style={styles.input}
-            multiline
-            theme={theme}
-          />
-          <ReportAni/>
-          
-        </View>
+        <ScrollView>
+          <Text style={styles.title}>Report Problem</Text>
+          <View style={styles.content}>
+            <TextInput
+              label="Describe the Problem"
+              value={text}
+              onChangeText={text => setText(text)}
+              style={styles.input}
+              multiline
+              theme={theme}
+            />
+            <ReportAni />
+          </View>
         </ScrollView>
-        <TouchableOpacity style={styles.continue} onPress={()=>feedback()}>
+        <TouchableOpacity style={styles.continue} onPress={feedback}>
           <Text style={styles.buttontext}>Submit</Text>
         </TouchableOpacity>
-        
       </SafeAreaView>
       <Toast />
     </>
@@ -70,7 +118,6 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    
   },
   title: {
     fontSize: 30,
@@ -84,7 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderStyle: 'dotted',
   },
-  continue:{
+  continue: {
     width: '90%',
     height: 60,
     marginVertical: 30,
@@ -94,10 +141,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     marginHorizontal: 20,
     fontWeight: '900'
-
-
   },
-  buttontext:{
+  buttontext: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',

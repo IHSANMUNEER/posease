@@ -1,0 +1,162 @@
+[
+    {
+      "id": "1",
+      "doctorName": "Dr. Haris",
+      "type": "Orthopedic Specialist",
+      "image": "https://randomuser.me/api/portraits/men/1.jpg",
+      "rating": 3,
+      "education": ["MD in Orthopedics", "Fellowship in Spine Surgery"]
+    },
+    {
+      "id": "2",
+      "doctorName": "Dr. Ihsan",
+      "type": "Ergonomic Consultant",
+      "image": "https://randomuser.me/api/portraits/men/2.jpg",
+      "rating": 2,
+      "education": ["Ph.D. in Ergonomics", "Certification in Posture Therapy"]
+    },
+    {
+      "id": "3",
+      "doctorName": "Dr. Sarah",
+      "type": "Physical Therapist",
+      "image": "https://randomuser.me/api/portraits/women/3.jpg",
+      "rating": 1,
+      "education": ["MPT in Physical Therapy", "Certification in Sports Rehabilitation"]
+    },
+    {
+      "id": "4",
+      "doctorName": "Dr. John",
+      "type": "Orthopedic Specialist",
+      "image": "https://randomuser.me/api/portraits/men/4.jpg",
+      "rating": 3,
+      "education": ["MD in Orthopedics", "Fellowship in Joint Replacement"]
+    },
+    {
+      "id": "5",
+      "doctorName": "Dr. Emma",
+      "type": "Ergonomic Consultant",
+      "image": "https://randomuser.me/api/portraits/women/5.jpg",
+      "rating": 4,
+      "education": ["Ph.D. in Ergonomics", "Certification in Workplace Wellness"]
+    },
+    {
+      "id": "6",
+      "doctorName": "Dr. Alex",
+      "type": "Physical Therapist",
+      "image": "https://randomuser.me/api/portraits/men/6.jpg",
+      "rating": 5,
+      "education": ["MPT in Physical Therapy", "Certification in Geriatric Rehabilitation"]
+    },
+    {
+      "id": "7",
+      "doctorName": "Dr. Olivia",
+      "type": "Cardiologist",
+      "image": "https://randomuser.me/api/portraits/women/7.jpg",
+      "rating": 4,
+      "education": ["MD in Cardiology", "Fellowship in Heart Health"]
+    },
+    {
+      "id": "8",
+      "doctorName": "Dr. William",
+      "type": "Dermatologist",
+      "image": "https://randomuser.me/api/portraits/men/8.jpg",
+      "rating": 2,
+      "education": ["MD in Dermatology", "Certification in Aesthetic Medicine"]
+    },
+    {
+      "id": "9",
+      "doctorName": "Dr. Sophia",
+      "type": "Psychiatrist",
+      "image": "https://randomuser.me/api/portraits/women/9.jpg",
+      "rating": 5,
+      "education": ["MD in Psychiatry", "Fellowship in Behavioral Health"]
+    },
+    {
+      "id": "10",
+      "doctorName": "Dr. James",
+      "type": "Neurologist",
+      "image": "https://randomuser.me/api/portraits/men/10.jpg",
+      "rating": 3,
+      "education": ["MD in Neurology", "Fellowship in Brain Disorders"]
+    },
+    {
+      "id": "11",
+      "doctorName": "Dr. Ava",
+      "type": "Gastroenterologist",
+      "image": "https://randomuser.me/api/portraits/women/11.jpg",
+      "rating": 4,
+      "education": ["MD in Gastroenterology", "Fellowship in Digestive Health"]
+    },
+    {
+      "id": "12",
+      "doctorName": "Dr. Ethan",
+      "type": "Urologist",
+      "image": "https://randomuser.me/api/portraits/men/12.jpg",
+      "rating": 1,
+      "education": ["MD in Urology", "Fellowship in Kidney Disorders"]
+    },
+    {
+      "id": "13",
+      "doctorName": "Dr. Mia",
+      "type": "Ophthalmologist",
+      "image": "https://randomuser.me/api/portraits/women/13.jpg",
+      "rating": 5,
+      "education": ["MD in Ophthalmology", "Fellowship in Eye Care"]
+    },
+    {
+      "id": "14",
+      "doctorName": "Dr. Noah",
+      "type": "Rheumatologist",
+      "image": "https://randomuser.me/api/portraits/men/14.jpg",
+      "rating": 3,
+      "education": ["MD in Rheumatology", "Fellowship in Joint Disorders"]
+    },
+    {
+      "id": "15",
+      "doctorName": "Dr. Amelia",
+      "type": "Pediatrician",
+      "image": "https://randomuser.me/api/portraits/women/15.jpg",
+      "rating": 4,
+      "education": ["MD in Pediatrics", "Fellowship in Child Health"]
+    },
+    {
+      "id": "16",
+      "doctorName": "Dr. Oliver",
+      "type": "Allergist",
+      "image": "https://randomuser.me/api/portraits/men/16.jpg",
+      "rating": 2,
+      "education": ["MD in Allergy Medicine", "Certification in Immunotherapy"]
+    },
+    {
+      "id": "17",
+      "doctorName": "Dr. Lily",
+      "type": "Endocrinologist",
+      "image": "https://randomuser.me/api/portraits/women/17.jpg",
+      "rating": 5,
+      "education": ["MD in Endocrinology", "Fellowship in Hormone Health"]
+    },
+    {
+      "id": "18",
+      "doctorName": "Dr. Henry",
+      "type": "Pulmonologist",
+      "image": "https://randomuser.me/api/portraits/men/18.jpg",
+      "rating": 3,
+      "education": ["MD in Pulmonology", "Fellowship in Respiratory Medicine"]
+    },
+    {
+      "id": "19",
+      "doctorName": "Dr. Grace",
+      "type": "Hematologist",
+      "image": "https://randomuser.me/api/portraits/women/19.jpg",
+      "rating": 1,
+      "education": ["MD in Hematology", "Fellowship in Blood Disorders"]
+    },
+    {
+      "id": "20",
+      "doctorName": "Dr. Samuel",
+      "type": "Geriatrician",
+      "image": "https://randomuser.me/api/portraits/men/20.jpg",
+      "rating": 4,
+      "education": ["MD in Geriatrics", "Certification in Elderly"]
+    }
+]  

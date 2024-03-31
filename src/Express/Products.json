@@ -1,0 +1,27 @@
+[
+    {
+      "name": "iPhone 12",
+      "rating": 4.5,
+      "companyName": "Apple",
+      "creationDate": "2020-10-23T00:00:00.000Z"
+    },
+    {
+      "name": "Galaxy S20",
+      "rating": 4.2,
+      "companyName": "Samsung",
+      "creationDate": "2020-02-11T00:00:00.000Z"
+    },
+    {
+      "name": "MacBook Pro",
+      "rating": 4.8,
+      "companyName": "Apple",
+      "creationDate": "2019-11-15T00:00:00.000Z"
+    },
+    {
+      "name": "Galaxy Note 20",
+      "rating": 4.3,
+      "companyName": "Samsung",
+      "creationDate": "2020-08-21T00:00:00.000Z"
+    }
+  ]
+  

@@ -8,6 +8,7 @@ import { TextInput, DefaultTheme} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import PaymentSuccess from './PaymentSuccess';
 
+
 const CreditCardInputScreen = () => {
   const [name, setName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -17,6 +18,27 @@ const CreditCardInputScreen = () => {
   const [isExpiryDateFocused, setIsExpiryDateFocused] = useState(false);
 
   const navigation = useNavigation();
+
+  // const fetchPaymentIntentClientSecret = async ({ amount, gateway }) => {
+  //   const res =  await fetch(`http://localhost:3001/products/create-setup-intent`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       amount: (amount * 100).toString(),
+  //       currency: 'EUR',
+  //       gateway: gateway,
+  //     }),
+  //   }).then((response) => response.json())
+  //   .then((data) => data)
+  //   .catch((error) => {
+  //    console.log(error)
+  //   });
+  //   return res?.client_secret;
+  //   navigation.navigate('PaymentSuccess');
+  // };
 
   const handleNameChange = input => {
     setName(input);
@@ -76,6 +98,13 @@ const CreditCardInputScreen = () => {
   };
 
   return (
+
+//     <StripeProvider
+//     publishableKey="pk_test_51OzFxnEh5u89PsHoKGbPhpprRSYgC7Un1RuiUu1V5K4NKtbJUWOPylSK34ekLHH5HyOvgSyOCeb57EwsnTVOTsCJ00KTAxTdjz"
+//     urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+//     merchantIdentifier="merchant.com.{{PosEase}}" // required for Apple Pay
+// >
+
     <SafeAreaView style={styles.container}>
     <Text style={styles.title}>Connect to bank</Text>
       <ScrollView>
@@ -146,12 +175,15 @@ const CreditCardInputScreen = () => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('PaymentSuccess')}>
+          <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('PaymentSuccess') }>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
+     
+    //   // Your app code here
+    // </StripeProvider>
   );
 };
 

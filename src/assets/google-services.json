@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "350207854574",
+    "project_id": "posease-49b47",
+    "storage_bucket": "posease-49b47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350207854574:android:2f596ce8c65e2df3fdb0ff",
+        "android_client_info": {
+          "package_name": "com.mi.posease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4RA6LPzz8f9Wp14SuwZ9vi3ajDDlTWMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350207854574:android:d18ab33703a100c9fdb0ff",
+        "android_client_info": {
+          "package_name": "com.posease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4RA6LPzz8f9Wp14SuwZ9vi3ajDDlTWMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
