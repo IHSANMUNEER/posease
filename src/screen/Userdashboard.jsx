@@ -16,6 +16,8 @@ import color from '../components/colors.jsx';
 import UploadInputAni from '../components/UploadInput.jsx';
 import Tips from '../components/Tips.jsx';
 import Doctors from '../components/Doctors.jsx';
+import MyStatusBar from '../components/myStatusBar';
+
 
 
 function ProfileScreen({ navigation }) {
@@ -104,7 +106,10 @@ function ProfileScreen({ navigation }) {
   };
 
   return (
+    
     <SafeAreaView style={styles.container}>
+    <MyStatusBar/>
+    
       <ScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
@@ -131,7 +136,7 @@ function ProfileScreen({ navigation }) {
             source={profileImageUri ? { uri: profileImageUri } : null}
           />
         </TouchableOpacity>
-
+        
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => pickImageOrVideo()}
@@ -144,6 +149,7 @@ function ProfileScreen({ navigation }) {
           </View>
         </TouchableOpacity>
         <Text style={styles.title}>Today Tips</Text>
+       
         <Tips />
         <Doctors />
 

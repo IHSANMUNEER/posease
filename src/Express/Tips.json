@@ -1,39 +1,104 @@
 [
     {
-      "id": "1",
-      "title": "Sit up straight",
-      "subtitle": "Maintain good posture by keeping your back aligned with your chair and avoiding slouching. This helps reduce strain on your spine and promotes a healthier sitting position. Remember to take breaks and stretch periodically to keep your muscles relaxed. Consider using a supportive chair cushion for added comfort during extended periods of sitting. Explore different sitting positions, such as cross-legged or with a footrest, to find what works best for you. Adjust the height of your desk and chair to ensure a comfortable and ergonomic workspace. Implementing these practices can contribute to better overall well-being and productivity.",
-      "image": "https://picsum.photos/700"
+        "id": "1",
+        "title": "Sample Good and Bad Posture",
+        "subtitle": "Maintain good posture by being mindful of your body alignment throughout the day. Compare your posture to the illustrations provided to ensure you're sitting, standing, and moving correctly. Maintaining proper posture not only improves your physical health but also enhances your overall appearance and self-confidence. Be conscious of your posture whether you're sitting at your desk, walking, or lifting heavy objects. Regularly stretch and strengthen your muscles to support good posture and prevent discomfort or injury. Remember to take breaks and stretch periodically to keep your muscles relaxed and reduce the risk of stiffness. Consider incorporating ergonomic furniture and tools into your workspace to further enhance your posture and comfort.",
+        "image": "https://media.istockphoto.com/id/1454167350/vector/sample-good-and-bad-posture-of-men.jpg?s=612x612&w=0&k=20&c=K4yBN9rWNJDzJX4sFqHHEp30MHA_yk0E38aEimvC7AU="
     },
     {
-      "id": "2",
-      "title": "Ergonomic chair",
-      "subtitle": "When choosing a chair, opt for an ergonomic design that supports the natural curve of your spine. This ensures proper lumbar support and enhances overall comfort during long periods of sitting. Consider adjustable features to personalize your seating experience. Additionally, invest in a chair with breathable materials to prevent overheating. Explore different types of ergonomic chairs, such as kneeling chairs or balance ball chairs, to find the one that suits your preferences. Experiment with lumbar rolls or cushions to further enhance your seating arrangement. Your choice of chair plays a crucial role in promoting a comfortable and productive work environment.",
-      "image": "https://picsum.photos/701"
+        "id": "2",
+        "title": "Choose an Ergonomic Office Chair",
+        "subtitle": "Invest in an ergonomic office chair that provides proper support for your back and promotes good posture. Look for features such as adjustable lumbar support and armrests to customize your seating position. Your office chair should be comfortable enough to sit in for extended periods without causing discomfort or strain. Consider factors such as material, cushioning, and breathability when selecting the right chair for your needs. Remember to adjust your chair's height and tilt to maintain proper alignment and reduce the risk of back pain. Explore different types of ergonomic chairs, such as kneeling chairs or balance ball chairs, to find the one that suits your preferences and promotes better posture. Take advantage of ergonomic accessories like footrests, keyboard trays, and monitor arms to optimize your workspace and reduce strain on your body.",
+        "image": "https://media.istockphoto.com/id/628619402/vector/office-chair-vector.jpg?s=612x612&w=0&k=20&c=3i8TQuRYpkDWFUG6uSTdAy4RUX2V6IvDfCXM-8k11TY="
     },
     {
-      "id": "3",
-      "title": "Take breaks",
-      "subtitle": "To alleviate tension and stiffness, make it a habit to stand up and stretch every 30 minutes. Incorporating short breaks into your routine can contribute to improved circulation and reduced muscle fatigue. Drink water regularly to stay hydrated. Use these breaks to practice deep breathing exercises for relaxation. Consider incorporating quick physical exercises, such as jumping jacks or jogging in place, to boost energy levels. Taking breaks not only benefits your physical well-being but also enhances mental clarity and focus. Implement a timer or reminder system to ensure consistent breaks throughout your workday.",
-      "image": "https://picsum.photos/702"
+        "id": "3",
+        "title": "Workplace Stretching Routine",
+        "subtitle": "Take short breaks during the workday to stretch your muscles and relieve tension. Incorporate simple stretches like neck rolls, shoulder stretches, and forward folds to improve flexibility and posture. Stretching not only helps prevent muscle stiffness and soreness but also promotes blood flow and relaxation. Aim to stretch all major muscle groups, including your neck, shoulders, back, hips, and legs. Consider incorporating yoga or Pilates into your routine for a more comprehensive stretching and strengthening workout. Remember to stay hydrated and maintain proper nutrition to support your muscles and overall well-being. Use ergonomic aids such as standing desks, ergonomic keyboards, and mouse pads to create a more comfortable and supportive work environment. Practice mindfulness and deep breathing exercises to reduce stress and improve focus throughout the day.",
+        "image": "https://media.istockphoto.com/id/155139916/photo/business-woman-stretching-at-work.jpg?s=612x612&w=0&k=20&c=hmsviKrY_S7dna3FuVFTKYMSkM8fJMJLNV09v9FVAGM="
     },
     {
-      "id": "4",
-      "title": "Sit up straight",
-      "subtitle": "Maintain good posture by keeping your back aligned with your chair and avoiding slouching. This helps reduce strain on your spine and promotes a healthier sitting position. Remember to take breaks and stretch periodically to keep your muscles relaxed. Consider using a supportive chair cushion for added comfort during extended periods of sitting. Explore different sitting positions, such as cross-legged or with a footrest, to find what works best for you. Adjust the height of your desk and chair to ensure a comfortable and ergonomic workspace. Implementing these practices can contribute to better overall well-being and productivity.",
-      "image": "https://picsum.photos/700"
+        "id": "4",
+        "title": "Correcting Posture Infographic",
+        "subtitle": "Refer to this infographic to learn how to correct common posture mistakes and prevent back pain. Follow the illustrated tips to maintain proper alignment throughout your daily activities. Practice good posture habits, such as sitting up straight, standing tall, and keeping your shoulders back and relaxed. Avoid slouching or leaning forward, as this can strain your muscles and contribute to poor posture. Remember to take regular breaks to stretch and change positions, especially if you're sitting or standing for long periods. Consider using posture aids such as lumbar cushions or ergonomic accessories to support your back and maintain proper spinal alignment. Invest in a supportive mattress and pillow to ensure a comfortable and restorative sleep environment.",
+        "image": "https://media.istockphoto.com/id/1245996200/vector/how-to-correct-posture-infographic-incorrect-pose-and-back-pain.jpg?s=612x612&w=0&k=20&c=v5qoF_1bnB26HbnjLof-c3_lkrN6_tPlwOWyFhTDXIk="
     },
     {
-      "id": "5",
-      "title": "Ergonomic chair",
-      "subtitle": "When choosing a chair, opt for an ergonomic design that supports the natural curve of your spine. This ensures proper lumbar support and enhances overall comfort during long periods of sitting. Consider adjustable features to personalize your seating experience. Additionally, invest in a chair with breathable materials to prevent overheating. Explore different types of ergonomic chairs, such as kneeling chairs or balance ball chairs, to find the one that suits your preferences. Experiment with lumbar rolls or cushions to further enhance your seating arrangement. Your choice of chair plays a crucial role in promoting a comfortable and productive work environment.",
-      "image": "https://picsum.photos/701"
+        "id": "5",
+        "title": "Yoga Poses for Posture",
+        "subtitle": "Practice yoga poses that promote better posture and spinal alignment. Incorporate poses like Mountain Pose, Downward-Facing Dog, and Cat-Cow Stretch into your routine to strengthen your core and improve posture. Yoga not only improves physical strength and flexibility but also helps reduce stress and tension in the body. Focus on maintaining proper alignment and breathing deeply during each pose to maximize its benefits. Consider taking a yoga class or following online tutorials to learn new poses and techniques. Remember to listen to your body and modify poses as needed to avoid strain or discomfort. Use props such as yoga blocks, straps, and bolsters to support your practice and deepen your stretches.",
+        "image": "https://media.istockphoto.com/id/1298140887/vector/continuous-line-art-yoga-poses.jpg?s=612x612&w=0&k=20&c=DkKRmm6yc14z0q4KvV3UOnC0YnVbyyl0KMhcoVuZygw="
     },
     {
-      "id": "6",
-      "title": "Take breaks",
-      "subtitle": "To alleviate tension and stiffness, make it a habit to stand up and stretch every 30 minutes. Incorporating short breaks into your routine can contribute to improved circulation and reduced muscle fatigue. Drink water regularly to stay hydrated. Use these breaks to practice deep breathing exercises for relaxation. Consider incorporating quick physical exercises, such as jumping jacks or jogging in place, to boost energy levels. Taking breaks not only benefits your physical well-being but also enhances mental clarity and focus. Implement a timer or reminder system to ensure consistent breaks throughout your workday.",
-      "image": "https://picsum.photos/702"
+        "id": "6",
+        "title": "Businessman Practicing Meditation",
+        "subtitle": "Incorporate meditation into your daily routine to improve posture and reduce stress. Find a quiet space where you can sit comfortably and focus on your breath. Close your eyes and take deep, slow breaths, allowing your body to relax with each exhale. Release any tension you may be holding in your muscles, starting from your head and working down to your toes. Practice mindfulness by observing your thoughts and emotions without judgment. Whenever you notice your mind wandering, gently bring your focus back to your breath. Aim to meditate for at least 10-15 minutes each day to experience the full benefits of this practice. Consider using guided meditation apps or attending meditation classes to deepen your practice and stay motivated.",
+        "image": "https://media.istockphoto.com/id/693741158/vector/businessman-practicing-meditation.jpg?s=612x612&w=0&k=20&c=xVkaaeDiwDw5GsHDTtecAt6hPD4JhhrjQrB0O2ujii0="
+    },
+    {
+        "id": "7",
+        "title": "Posture Using Smartphone",
+        "subtitle": "Be mindful of your neck posture when using your smartphone to prevent neck strain and discomfort. Hold your phone at eye level to reduce the need to bend your neck forward. Use a hands-free device or speakerphone whenever possible to minimize neck strain during calls. Take regular breaks from your phone to rest your eyes and neck muscles. Practice neck stretches and exercises to improve flexibility and reduce tension in your neck and shoulders. Consider using a smartphone stand or holder to keep your device at eye level while watching videos or reading. Limit your screen time and take frequent breaks to give your neck and eyes a rest. Remember to maintain good posture while using other electronic devices such as tablets and laptops to prevent strain on your neck and back.",
+        "image": "https://media.istockphoto.com/id/856512072/vector/correct-and-incorrect-inclination-of-the-neck-when-working-with-a-smartphone-hand-drawn.jpg?s=612x612&w=0&k=20&c=EVLkRtjIOxEm4PNpUw3EHNZe9joQCOA0yT5FvNWT5sg="
+    },
+    {
+        "id": "8",
+        "title": "Computer Posture Awareness",
+        "subtitle": "Maintain good posture while using your computer to prevent neck and back pain. Sit up straight with your shoulders back and your feet flat on the floor. Position your monitor at eye level to reduce strain on your neck and upper back. Use a chair with proper lumbar support to help maintain the natural curve of your spine. Take regular breaks to stretch and move around, especially if you're sitting for long periods. Practice good ergonomics by keeping your keyboard and mouse close to your body and your wrists straight. Consider using a standing desk or adjustable desk converter to alternate between sitting and standing throughout the day. Use ergonomic accessories such as a monitor stand, keyboard tray, and wrist rest to create a more comfortable and supportive workstation.",
+        "image": "https://media.istockphoto.com/id/1331531963/vector/a-woman-using-a-computer-in-good-and-bad-posture.jpg?s=612x612&w=0&k=20&c=LM3t1OJ2oKcq9TTs1UCxLGdYVj1LlN6vJaYP3H1v8vY="
+    },
+    {
+        "id": "9",
+        "title": "Correct Posture When Sleeping",
+        "subtitle": "Maintain proper posture while sleeping to prevent back and neck pain. Sleep on your back or side with your head supported by a pillow that keeps your neck in alignment with your spine. Avoid sleeping on your stomach, as this can strain your neck and lower back. Use a supportive mattress and pillows that keep your spine in a neutral position. Consider using a body pillow or wedge pillow to support your back and hips while side sleeping. Practice relaxation techniques such as deep breathing or progressive muscle relaxation to help you fall asleep faster and sleep more soundly. Avoid using electronic devices before bed, as the blue light can interfere with your sleep quality. Invest in a comfortable and supportive mattress and pillows to ensure a restful night's sleep.",
+        "image": "https://media.istockphoto.com/id/658847664/vector/correct-posture-to-sleep-on-your-back.jpg?s=612x612&w=0&k=20&c=2Rz7rhDQfQpVHcvWYMJO8VmopDBSja54cDT7f40ZP1Q="
+    },
+    {
+        "id": "10",
+        "title": "Plank Exercise for Core Strength",
+        "subtitle": "Incorporate the plank exercise into your workout routine to improve core strength and posture. Start by getting into a push-up position with your hands directly under your shoulders and your body forming a straight line from head to heels. Engage your core muscles and hold this position for as long as you can, aiming for at least 30-60 seconds. Keep your abs tight and avoid sagging or arching your back. As you build strength, challenge yourself by holding the plank for longer periods or trying variations such as side planks or plank with leg lifts. Practice proper form and technique to maximize the effectiveness of the exercise and prevent injury. Incorporate planks into a comprehensive core workout that includes exercises targeting all major muscle groups.",
+        "image": "https://media.istockphoto.com/id/1220825740/photo/fit-african-american-man-doing-plank-exercise-on-orange-background-collage-panorama.jpg?s=612x612&w=0&k=20&c=ak8M6EnV9KKelpNvM5jTGE_Xvf-NBopjYvYtzFQ7kc4="
+    },
+    {
+        "id": "11",
+        "title": "Drinking Water for Hydration",
+        "subtitle": "Stay hydrated throughout the day to support good posture and overall health. Drink at least 8-10 glasses of water daily, or more if you're physically active or in hot weather. Keep a reusable water bottle with you at all times to remind yourself to drink regularly. Hydration is important for maintaining the elasticity of your muscles and preventing stiffness and cramping. Sip water throughout the day rather than waiting until you're thirsty, as thirst is often a sign that you're already dehydrated. Consider adding electrolytes to your water, especially if you're sweating heavily or exercising intensely. Avoid excessive caffeine and alcohol consumption, as these can dehydrate your body and contribute to poor posture and muscle tension.",
+        "image": "https://media.istockphoto.com/id/987371188/vector/silhouette-of-man-drinking-water-from-bottle-for-stop-thirsty.jpg?s=612x612&w=0&k=20&c=617MIp1wB_YwqNLyGJP5QbzJ33DvxFN7IZqAN1gsOaM="
+    },
+    {
+        "id": "12",
+        "title": "Upper Body Strength",
+        "subtitle": "Incorporate the barbell pullover exercise into your workout routine to strengthen your upper body and improve posture. Lie on your back on a bench with your feet flat on the floor and hold a barbell with an overhand grip above your chest. Lower the barbell behind your head while keeping your arms straight, then raise it back to the starting position. Focus on engaging your chest and back muscles throughout the movement to maximize the benefits. Start with a light weight and gradually increase as you build strength and confidence. Avoid arching your back or lifting your hips off the bench, as this can strain your lower back. Incorporate the barbell pullover into a comprehensive upper body workout that includes exercises targeting all major muscle groups.",
+        "image": "https://media.istockphoto.com/id/1328507138/vector/sport-woman-doing-the-barbell-pullover-exercise-on-bench-in-2-steps-fitness-diagram-about.jpg?s=612x612&w=0&k=20&c=iNalYkO9cTh6s0xU12Y-ZlywWq9D0YgMgCxxMi7yfYw="
+    },
+    {
+        "id": "13",
+        "title": "Standing Posture Infographic",
+        "subtitle": "Refer to this infographic to learn how to maintain proper posture while standing. Stand tall with your shoulders back, your chest lifted, and your core engaged. Keep your feet shoulder-width apart and distribute your weight evenly between them. Avoid locking your knees or slouching your shoulders, as this can strain your muscles and joints. Imagine a string pulling you up from the top of your head to lengthen your spine and improve alignment. Practice standing with your back against a wall to check your posture and make adjustments as needed. Take regular breaks to move around and stretch if you're standing for long periods. Invest in supportive footwear that provides cushioning and arch support to help maintain good posture throughout the day.",
+        "image": "https://media.istockphoto.com/id/1843635857/vector/infographics-with-man-showing-proper-and-improper-body-postures-for-standing-reading-and.jpg?s=612x612&w=0&k=20&c=6EXJclp8_y-WATuiiJzgeZmJ8Z-IPEp13uQaehSfoBk="
+    },
+    {
+        "id": "14",
+        "title": "Correct Posture When Driving",
+        "subtitle": "Maintain proper posture while driving to reduce fatigue and discomfort on long trips. Sit up straight with your back against the seat and your headrest supporting the natural curve of your neck. Adjust your seat and steering wheel so that your arms are slightly bent and your feet can reach the pedals comfortably. Use a lumbar support cushion or rolled-up towel to support the curve of your lower back. Take regular breaks to stretch and walk around, especially on extended drives. Avoid slouching or leaning forward, as this can strain your back and shoulders. Use proper ergonomics when adjusting your mirrors, seatbelt, and other controls to minimize strain on your body. Practice deep breathing and relaxation techniques to stay calm and focused while driving.",
+        "image": "https://media.istockphoto.com/id/1518509586/vector/correct-and-bad-posture-when-driving.jpg?s=612x612&w=0&k=20&c=Q3yJ9FJbaFYY_siy28FlG0fjLxpXnZeCNp0fuQEM75Q="
+    },
+    {
+        "id": "15",
+        "title": "Teen Demonstrating Spine Posture",
+        "subtitle": "Learn about proper and improper spine posture with this educational illustration. Understand how different positions and movements affect the alignment of your spine. Practice maintaining a neutral spine during daily activities such as sitting, standing, and walking. Avoid excessive slouching or arching of your back, as this can strain your muscles and lead to discomfort or injury. Pay attention to your posture while using electronic devices, studying, or playing sports to prevent long-term spinal issues. Strengthen your core muscles to support good posture and reduce the risk of back pain. Consider consulting a healthcare professional or physical therapist if you experience chronic pain or discomfort related to your spine posture.",
+        "image": "https://media.istockphoto.com/id/1493549580/vector/teen-boy-demonstrating-wrong-and-correct-spine-posture-vector-set.jpg?s=612x612&w=0&k=20&c=yxYL63IbTDmQ6OfrEfK-ZXdwjcDbAmiC0d3t426lRnU="
+    },
+    {
+        "id": "16",
+        "title": "Standing Desk Ergonomics Guide",
+        "subtitle": "Consider using a standing desk to reduce the time you spend sitting and improve your posture. Alternate between sitting and standing throughout the day to keep your muscles engaged and prevent stiffness. Position your monitor at eye level and keep your keyboard and mouse within easy reach to maintain proper ergonomics. Wear supportive footwear and use an anti-fatigue mat to cushion your feet while standing. Take regular breaks to walk around and stretch, especially if you're standing for long periods. Experiment with different standing desk setups to find what works best for you in terms of comfort and productivity. Gradually increase the amount of time you spend standing each day to allow your body to adjust to the new routine.",
+        "image": "https://media.istockphoto.com/id/1396489606/photo/man-working-at-standing-desk.jpg?s=612x612&w=0&k=20&c=N4M07vz_YtIBi7mW31IyJz-Mg5EDEe5iCBX6CpiSi8s="
+    },
+    {
+        "id": "17",
+        "title": "Using a Posture Corrector",
+        "subtitle": "Consider using a posture corrector to help improve your posture and reduce back pain. A posture corrector is a wearable device that gently pulls your shoulders back and aligns your spine into a more neutral position. It can be especially helpful if you have a tendency to slouch or hunch forward. Start by wearing the posture corrector for short periods of time and gradually increase the duration as your muscles become accustomed to the new position. Use the posture corrector during activities that tend to strain your back, such as sitting at a desk or lifting heavy objects. Combine wearing the posture corrector with regular stretching and strengthening exercises to maximize its effectiveness.",
+        "image": "https://media.istockphoto.com/id/1446045181/photo/orthopedist-helping-patient-to-put-on-posture-corrector-in-clinic-closeup-scoliosis-treatment.jpg?s=612x612&w=0&k=20&c=h5ead8obGItH4bXVKpGIscTqxm8vTUmIeFKfyp7kk9w="
     }
-  ]
-  
+]

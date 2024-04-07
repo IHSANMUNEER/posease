@@ -23,7 +23,7 @@ const TipsDetail = () => {
             {item.subtitle}
           </Text>
         </Card.Content>
-        {/* Additional content as needed */}
+       
       </Card>
     </View>
   );

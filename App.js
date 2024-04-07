@@ -3,8 +3,7 @@ import { Stack1 } from './src/screen/Navigation.jsx';
 import { Stack2 } from './src/screen/Navigation.jsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from './src/components/Loader.jsx';
-import TabNavigator from './src/components/TabBar.jsx';
-import { StripeProvider } from '@stripe/stripe-react-native';
+
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,7 +33,11 @@ const App = () => {
     
   }
 
+  
+  
   return loggedIn ? <Stack2 /> : <Stack1 /> ;
+
+
   
  
   

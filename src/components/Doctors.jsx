@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import { default as colors } from './colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import DoctorSkeletonLoader from './DoctorSkeleton';
 function Doctors() {
   const navigation = useNavigation();
   const [doctors, setDoctors] = useState([]);
@@ -57,7 +57,7 @@ function Doctors() {
       {doctors.length > 0 ? (
         <FlatList
           data={doctors}
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => index.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -86,7 +86,7 @@ function Doctors() {
           )}
         />
       ) : (
-        <Text style={styles.offlineMessage}>No internet connection. Displaying cached data.</Text>
+        <DoctorSkeletonLoader/>
       )}
     </View>
   );

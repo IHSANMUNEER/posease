@@ -126,62 +126,52 @@ function Login() {
   ///////////////////////////Handle Login/////////////////
 
   const handleSignIn = async () => {
-    if (!email.trim()) {
+    if (!email.trim() || !password.trim()) {
       showToast();
+      return;
     }
-    if (!password.trim()) {
-      showToast();
-    }
-
-    if (password) {
-      console.log('in sign in');
-      setWaiting(true);
-      try {
-        await signInWithEmailAndPassword(auth, email, password)
-          .then(userCredential => {
-            setWaiting(false);
-            const user = userCredential.user;
-            if (user.emailVerified) {
-              fetchData();
-              AsyncStorage.setItem('userToken', 'user_authenticated');
-              AsyncStorage.removeItem('emailS');
-              AsyncStorage.setItem('emailS', email);
-
-              navigation.navigate('Userdashboard');
-            } else {
-              Alert.alert(
-                'Email Not Verified',
-                'Please verify your email to sign in.',
-              );
-            }
-          })
-          .catch(error => {
-            setWaiting(false);
-            if (error.code === 'auth/invalid-login-credentials') {
-              Alert.alert(
-                'Incorrect Credentials',
-                'Please enter correct email and password',
-              );
-            }
-
-            if (error.code === 'auth/invalid-email') {
-              InvalidMail();
-            }
-            if (error.code === 'auth/too-many-requests') {
-              Tomanyrequest();
-            }
-            if (error.code === 'auth/network-request-failed') {
-              Internet();
-            }
-
-            console.error(error);
-          });
-      } catch (error) {
-        console.error('Error signing in:', error);
-        setWaiting(false);
-      }
+  
+    console.log('Signing in...');
+    setWaiting(true);
+  
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          setWaiting(false);
+          const user = userCredential.user;
+          if (user.emailVerified) {
+            fetchData();
+            AsyncStorage.setItem('userToken', 'user_authenticated');
+            AsyncStorage.removeItem('emailS');
+            AsyncStorage.setItem('emailS', email);
+  
+            console.log('User UID:', user.uid); 
+            AsyncStorage.setItem('userUID', user.uid);
+            navigation.navigate('Userdashboard');
+          } else {
+            Alert.alert(
+              'Email Not Verified',
+              'Please verify your email to sign in.',
+            );
+          }
+        })
+        .catch(error => {
+          setWaiting(false);
+          if (error.code === 'auth/invalid-login-credentials') {
+            Alert.alert(
+              'Incorrect Credentials',
+              'Please enter correct email and password',
+            );
+          }
+          // Handle other errors...
+          console.error(error);
+        });
+    } catch (error) {
+      console.error('Error signing in:', error);
+      setWaiting(false);
     }
   };
+  
 
   ///////////////////////////Toast/////////////////
 

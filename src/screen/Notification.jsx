@@ -20,7 +20,7 @@ import { Snackbar } from 'react-native-paper';
 import MyStatusBar from '../components/myStatusBar';
 import NotificationAni from '../components/NotificationAni';
 import colors from '../components/colors';
-
+import RecordsSkeleton from '../components/RecordsSkeleton';
 const notificatiosList = [
   {
     key: '1',
@@ -120,6 +120,7 @@ const NotificationsScreen = ({ navigation }) => {
 
   const renderItem = data => (
     <View>
+    
       <TouchableOpacity onPress={() => onPressRow(data.item)}>
         <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
           <View style={{ marginHorizontal: Sizes.fixPadding * 2.0 }}>

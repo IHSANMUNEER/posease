@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     marginHorizontal: 20,
+    
   },
 });
 

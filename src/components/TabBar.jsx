@@ -8,8 +8,10 @@ import Profile from '../screen/ProfileScreen';
 import Subscribe from '../screen/Subscribe';
 import Setting from '../screen/Settings'
 import Home from '../screen/Userdashboard';
-import Records from '../screen/Table'
+import Records from '../screen/Records'
 import Notification from '../screen/Notification'
+import { Stack1 } from '../screen/Navigation.jsx';
+import { Stack2 } from '../screen/Navigation.jsx';
 
 import test from '../screen/test'
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
@@ -81,11 +83,13 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 
-  // return (
-  //   <NavigationContainer  style={{ backgroundColor: 'red' }}>
-  //     <TabNavigator  />
-  //   </NavigationContainer>
-  // );
+  return (
+    <NavigationContainer  style={{ backgroundColor: 'red' }}>
+      <TabNavigator  />
+      <Stack1/>
+      <Stack2/>
+    </NavigationContainer>
+  );
 };
 
 export default TabNavigator;

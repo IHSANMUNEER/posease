@@ -24,24 +24,27 @@ import TipsDetail from './TipsDetail.jsx';
 import DoctorDetail from '../components/DoctorDetail.jsx';
 import NotiDetail from '../components/NotificationDtails.jsx';
 import ChatScreen from './Chat.jsx';
-import Final from './Final.js';
+import Records from './Records.jsx';
+
 
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
 import Notification from './Notification.jsx';
 import CreditCardInputScreen from './Payment.jsx';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 const MainStack = createStackNavigator();
 
+
+
+
 const Stack1 = () => (
+
   <NavigationContainer>
     <MainStack.Navigator>
-    {/* <MainStack.Screen
-        name="Final"
-        component={Final}
-        options={{headerShown: false}}
-      />
-      */}
+   
+      {console.log('in stack 1')}
     <MainStack.Screen
         name="Onboarding"
         component={OnBoardingScreen}
@@ -151,13 +154,23 @@ const Stack1 = () => (
         name="Subscribe"
         component={Subscribe}
         options={{
-          headerShown: true,
-          headerBackTitleVisible: true,
+          headerShown: false,
+          headerBackTitleVisible: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
           }
         }}
+      />
+      <MainStack.Screen
+        name="PaymentSuccess"
+        component={PaymentSuccess}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#eeeeee', 
+          }}}
+    
       />
 
       <MainStack.Screen
@@ -176,7 +189,7 @@ const Stack1 = () => (
       <MainStack.Screen
         name="Table1"
         component={Table1}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerStyle: {
             backgroundColor: '#eeeeee', 
           }}}
@@ -193,14 +206,9 @@ const Stack1 = () => (
 
 const Stack2 = () => (
   <NavigationContainer>
+  {console.log('in stack 2')}
     <MainStack.Navigator>
-      
-    {/* <MainStack.Screen
-        name="Final"
-        component={Final}
-        options={{headerShown: false}}
-      /> */}
-       
+    
       <MainStack.Screen
         name="Tabs"
         component={Tabs}
@@ -238,7 +246,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="Settings"
         component={Settings}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerStyle: {
             backgroundColor: '#eeeeee', 
           }}}
@@ -249,7 +257,7 @@ const Stack2 = () => (
         component={Subscribe}
         options={{
           headerShown: false,
-          headerBackTitleVisible: true,
+          headerBackTitleVisible: false,
           headerTitle:'',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -330,7 +338,7 @@ const Stack2 = () => (
        <MainStack.Screen
         name="CreditCardInputScreen"
         component={CreditCardInputScreen}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
@@ -342,7 +350,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="Table1"
         component={Table1}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
@@ -351,7 +359,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="test"
         component={test}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -390,7 +398,7 @@ const Stack2 = () => (
         <MainStack.Screen
           name="Privacy"
         component={Privacy}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -400,7 +408,7 @@ const Stack2 = () => (
        <MainStack.Screen
         name="Support"
         component={Support}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -409,7 +417,7 @@ const Stack2 = () => (
        <MainStack.Screen
         name="Terms"
         component={Terms}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -418,7 +426,7 @@ const Stack2 = () => (
        <MainStack.Screen
         name="Report"
         component={Report}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: colors.secondary, 
@@ -437,7 +445,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="TipsDetail"
         component={TipsDetail}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
@@ -446,7 +454,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="DoctorDetail"
         component={DoctorDetail}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
@@ -457,7 +465,7 @@ const Stack2 = () => (
       <MainStack.Screen
         name="NotiDetail"
         component={NotiDetail}
-        options={{headerShown: true,
+        options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
@@ -466,6 +474,15 @@ const Stack2 = () => (
       <MainStack.Screen
         name="ChatScreen"
         component={ChatScreen}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#eeeeee', 
+          }}}
+      />
+      <MainStack.Screen
+        name="Records"
+        component={Records}
         options={{headerShown: false,
           headerTitle: '',
           headerStyle: {
