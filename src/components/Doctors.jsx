@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { default as colors } from './colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DoctorSkeletonLoader from './DoctorSkeleton';
+
 function Doctors() {
   const navigation = useNavigation();
   const [doctors, setDoctors] = useState([]);
@@ -19,8 +20,9 @@ function Doctors() {
     try {
       const response = await fetch('https://api-production-9f8a.up.railway.app/products/getdoc');
       const data = await response.json();
-      setDoctors(data.tips);
-      await AsyncStorage.setItem('doctors', JSON.stringify(data.tips)); // Update local storage
+      const shuffledDoctors = shuffleArray(data.tips); // Shuffle the order of doctors
+      setDoctors(shuffledDoctors);
+      await AsyncStorage.setItem('doctors', JSON.stringify(shuffledDoctors)); // Update local storage
     } catch (error) {
       console.error('Error fetching doctors:', error);
       // If fetching from the network fails, try to load from local storage
@@ -29,6 +31,16 @@ function Doctors() {
         setDoctors(JSON.parse(storedData));
       }
     }
+  };
+
+  // Function to shuffle the array
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
   };
 
   const checkForUpdates = async () => {
@@ -40,8 +52,9 @@ function Doctors() {
         const parsedData = JSON.parse(storedData);
         if (JSON.stringify(parsedData) !== JSON.stringify(data.tips)) {
           // Data has been updated, update state and local storage
-          setDoctors(data.tips);
-          await AsyncStorage.setItem('doctors', JSON.stringify(data.tips));
+          const shuffledDoctors = shuffleArray(data.tips); // Shuffle the order of doctors
+          setDoctors(shuffledDoctors);
+          await AsyncStorage.setItem('doctors', JSON.stringify(shuffledDoctors));
         }
       }
     } catch (error) {
@@ -71,8 +84,8 @@ function Doctors() {
                   containerStyle={styles.professionalsImageBorder}
                 />
               </View>
-              <Text style={styles.professionalsItemName}>{item.doctorName}</Text>
-              <Text style={styles.professionalsItemSpecialization}>{item.type}</Text>
+              <Text style={styles.professionalsItemName}>{item.name.split(' ').slice(0, 3).join(' ')}</Text>
+              <Text style={styles.professionalsItemSpecialization}>{item.specialization.split(' ').slice(0, 2).join(' ')}</Text>
               <View style={styles.ratingContainer}>
                 {Array.from({ length: Math.floor(item.rating) }, (v, i) => (
                   <Icon key={i} name="star" size={10} color={colors.star} />

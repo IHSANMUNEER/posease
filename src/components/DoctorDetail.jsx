@@ -1,14 +1,16 @@
 import React from 'react';
-import {Avatar, Card, Text} from 'react-native-paper';
-import {useRoute} from '@react-navigation/native';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import { Avatar, Card, Text } from 'react-native-paper';
+import { useRoute } from '@react-navigation/native';
+import { StyleSheet, View, TouchableOpacity, Linking } from 'react-native';
 import colors from '../components/colors';
 import Doctors from './Doctors';
 import { useNavigation } from '@react-navigation/native';
+import { Rating } from 'react-native-ratings';
+
 
 const DoctorDetail = () => {
   const route = useRoute();
-  const {item} = route.params;
+  const { item } = route.params;
 
   const navigation = useNavigation();
 
@@ -16,42 +18,76 @@ const DoctorDetail = () => {
     <View style={styles.container}>
       <Card style={styles.card}>
         <View style={styles.contentContainer}>
-          <Card.Cover source={{uri: item.image}} style={styles.cover} />
+          <Card.Cover source={{ uri: item.image }} style={styles.cover} />
           <View style={styles.textContainer}>
             <Text variant="titleLarge" style={styles.title}>
-              {item.doctorName}
+              {item.name}
             </Text>
             <Text variant="bodyMedium" style={styles.subtitle}>
-              {item.type}
+              {item.specialization}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.rowContainer}>
+          <View style={styles.column}>
+            <Text
+              style={[
+                styles.title,
+                { marginHorizontal: 10, marginVertical: 10, fontSize: 15 },
+              ]}>
+              Qualification
+            </Text>
+            <Text variant="bodyMedium" style={styles.education}>
+              {item.education.map((qualification, index) => (
+                <React.Fragment key={index}>
+                  {index > 0 && '\n'}
+                  <Text>{qualification}</Text>
+                </React.Fragment>
+              ))}
+            </Text>
+          </View>
+          <View style={styles.column}>
+            <Text
+              style={[
+                styles.title,
+                { marginHorizontal: 20, marginVertical: 10, fontSize: 15 },
+              ]}>
+              Experience
+            </Text>
+            <Text variant="bodyMedium" style={styles.experience}>
+              {item.experience}
             </Text>
           </View>
         </View>
         <Text
           style={[
             styles.title,
-            {marginHorizontal: 20, marginVertical: 20, fontSize: 20},
+            { marginHorizontal: 30, marginVertical: 10, fontSize: 15 },
           ]}>
-          Education
+          Location
         </Text>
-        <Text variant="bodyMedium" style={styles.education}>
-          {item.education.map((qualification, index) => (
-            <React.Fragment key={index}>
-              {index > 0 && '\n'}{' '}
-              
-              <Text>{qualification}</Text>
-            </React.Fragment>
-          ))}
+        <Text variant="bodyMedium" style={styles.location}>
+          {item.location}
         </Text>
+        <Rating
+          type="star"
+          ratingCount={5}
+          startingValue={item.rating}
+          imageSize={20}
+          readonly
+          style={styles.rating}
+        />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('ChatScreen',{doctorInfo: item  }) }>
+          onPress={() => Linking.openURL(item.profileLink)}>
           <Text style={styles.buttonText}>Connect</Text>
         </TouchableOpacity>
+        
+        
       </Card>
-      <View style={{marginVertical: 50}}>
-      <Doctors/>
+      <View style={{ marginVertical: 50 }}>
+        <Doctors />
       </View>
-     
     </View>
   );
 };
@@ -61,13 +97,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 10,
     alignItems: 'center',
+    backgroundColor : '#ffff'
   },
   card: {
     width: '95%',
     borderRadius: 20,
     overflow: 'hidden',
-    elevation: 10,
-    backgroundColor: '#eeeeee' 
+    elevation: 30,
+    backgroundColor: '#ffff',
+    // borderWidth:0.8,
+    // borderColor: colors.primary
   },
   contentContainer: {
     flexDirection: 'row',
@@ -80,19 +119,20 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.primary,
     marginVertical: 10,
-    marginHorizontal:10
+    marginHorizontal: 10,
   },
   textContainer: {
     marginLeft: 10,
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: colors.primary,
   },
   subtitle: {
     fontSize: 16,
     color: 'black',
+    
   },
   button: {
     backgroundColor: colors.primary,
@@ -113,8 +153,27 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     marginHorizontal: 20,
-    
   },
+  experience: {
+    marginHorizontal: 20,
+  },
+  location: {
+    marginHorizontal: 40,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginTop: 20,
+  },
+  column: {
+    flex: 1,
+  },
+  rating: {
+    backgroundColor: '#ffff',
+    marginVertical:10
+  },
+ 
 });
 
 export default DoctorDetail;

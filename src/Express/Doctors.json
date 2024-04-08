@@ -1,162 +1,640 @@
 [
-    {
-      "id": "1",
-      "doctorName": "Dr. Haris",
-      "type": "Orthopedic Specialist",
-      "image": "https://randomuser.me/api/portraits/men/1.jpg",
-      "rating": 3,
-      "education": ["MD in Orthopedics", "Fellowship in Spine Surgery"]
-    },
-    {
-      "id": "2",
-      "doctorName": "Dr. Ihsan",
-      "type": "Ergonomic Consultant",
-      "image": "https://randomuser.me/api/portraits/men/2.jpg",
-      "rating": 2,
-      "education": ["Ph.D. in Ergonomics", "Certification in Posture Therapy"]
-    },
-    {
-      "id": "3",
-      "doctorName": "Dr. Sarah",
-      "type": "Physical Therapist",
-      "image": "https://randomuser.me/api/portraits/women/3.jpg",
-      "rating": 1,
-      "education": ["MPT in Physical Therapy", "Certification in Sports Rehabilitation"]
-    },
-    {
-      "id": "4",
-      "doctorName": "Dr. John",
-      "type": "Orthopedic Specialist",
-      "image": "https://randomuser.me/api/portraits/men/4.jpg",
-      "rating": 3,
-      "education": ["MD in Orthopedics", "Fellowship in Joint Replacement"]
-    },
-    {
-      "id": "5",
-      "doctorName": "Dr. Emma",
-      "type": "Ergonomic Consultant",
-      "image": "https://randomuser.me/api/portraits/women/5.jpg",
-      "rating": 4,
-      "education": ["Ph.D. in Ergonomics", "Certification in Workplace Wellness"]
-    },
-    {
-      "id": "6",
-      "doctorName": "Dr. Alex",
-      "type": "Physical Therapist",
-      "image": "https://randomuser.me/api/portraits/men/6.jpg",
-      "rating": 5,
-      "education": ["MPT in Physical Therapy", "Certification in Geriatric Rehabilitation"]
-    },
-    {
-      "id": "7",
-      "doctorName": "Dr. Olivia",
-      "type": "Cardiologist",
-      "image": "https://randomuser.me/api/portraits/women/7.jpg",
-      "rating": 4,
-      "education": ["MD in Cardiology", "Fellowship in Heart Health"]
-    },
-    {
-      "id": "8",
-      "doctorName": "Dr. William",
-      "type": "Dermatologist",
-      "image": "https://randomuser.me/api/portraits/men/8.jpg",
-      "rating": 2,
-      "education": ["MD in Dermatology", "Certification in Aesthetic Medicine"]
-    },
-    {
-      "id": "9",
-      "doctorName": "Dr. Sophia",
-      "type": "Psychiatrist",
-      "image": "https://randomuser.me/api/portraits/women/9.jpg",
-      "rating": 5,
-      "education": ["MD in Psychiatry", "Fellowship in Behavioral Health"]
-    },
-    {
-      "id": "10",
-      "doctorName": "Dr. James",
-      "type": "Neurologist",
-      "image": "https://randomuser.me/api/portraits/men/10.jpg",
-      "rating": 3,
-      "education": ["MD in Neurology", "Fellowship in Brain Disorders"]
-    },
-    {
-      "id": "11",
-      "doctorName": "Dr. Ava",
-      "type": "Gastroenterologist",
-      "image": "https://randomuser.me/api/portraits/women/11.jpg",
-      "rating": 4,
-      "education": ["MD in Gastroenterology", "Fellowship in Digestive Health"]
-    },
-    {
-      "id": "12",
-      "doctorName": "Dr. Ethan",
-      "type": "Urologist",
-      "image": "https://randomuser.me/api/portraits/men/12.jpg",
-      "rating": 1,
-      "education": ["MD in Urology", "Fellowship in Kidney Disorders"]
-    },
-    {
-      "id": "13",
-      "doctorName": "Dr. Mia",
-      "type": "Ophthalmologist",
-      "image": "https://randomuser.me/api/portraits/women/13.jpg",
-      "rating": 5,
-      "education": ["MD in Ophthalmology", "Fellowship in Eye Care"]
-    },
-    {
-      "id": "14",
-      "doctorName": "Dr. Noah",
-      "type": "Rheumatologist",
-      "image": "https://randomuser.me/api/portraits/men/14.jpg",
-      "rating": 3,
-      "education": ["MD in Rheumatology", "Fellowship in Joint Disorders"]
-    },
-    {
-      "id": "15",
-      "doctorName": "Dr. Amelia",
-      "type": "Pediatrician",
-      "image": "https://randomuser.me/api/portraits/women/15.jpg",
-      "rating": 4,
-      "education": ["MD in Pediatrics", "Fellowship in Child Health"]
-    },
-    {
-      "id": "16",
-      "doctorName": "Dr. Oliver",
-      "type": "Allergist",
-      "image": "https://randomuser.me/api/portraits/men/16.jpg",
-      "rating": 2,
-      "education": ["MD in Allergy Medicine", "Certification in Immunotherapy"]
-    },
-    {
-      "id": "17",
-      "doctorName": "Dr. Lily",
-      "type": "Endocrinologist",
-      "image": "https://randomuser.me/api/portraits/women/17.jpg",
-      "rating": 5,
-      "education": ["MD in Endocrinology", "Fellowship in Hormone Health"]
-    },
-    {
-      "id": "18",
-      "doctorName": "Dr. Henry",
-      "type": "Pulmonologist",
-      "image": "https://randomuser.me/api/portraits/men/18.jpg",
-      "rating": 3,
-      "education": ["MD in Pulmonology", "Fellowship in Respiratory Medicine"]
-    },
-    {
-      "id": "19",
-      "doctorName": "Dr. Grace",
-      "type": "Hematologist",
-      "image": "https://randomuser.me/api/portraits/women/19.jpg",
-      "rating": 1,
-      "education": ["MD in Hematology", "Fellowship in Blood Disorders"]
-    },
-    {
-      "id": "20",
-      "doctorName": "Dr. Samuel",
-      "type": "Geriatrician",
-      "image": "https://randomuser.me/api/portraits/men/20.jpg",
-      "rating": 4,
-      "education": ["MD in Geriatrics", "Certification in Elderly"]
-    }
-]  
+  {
+    "id": 1,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1560163752_yawar-anis.webp?t=1605620545",
+    "name": "Prof. Dr. Yawar Anis",
+    "education": ["MBBS, FRCS, FRCS"],
+    "experience": "25 years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/yawar-anis/2119",
+    "location": "Multi Clinic, 2-F Model Town near Club Chowk, Lahore"
+  },
+  {
+    "id": 2,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1570097439_sajid-mumtaz.webp?t=1605650700",
+    "name": "Assist. Prof. Dr. Sajid Mumtaz Khan Sial",
+    "education": ["M.B.B.S., F.C.P.S."],
+    "experience": "13 years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/sajid-mumtaz-khan-sial/322893",
+    "location": "Hameedah Memorial Hospital, B-1 Block D, Valencia Town, Lahore"
+  },
+  {
+    "id": 3,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1633419898_whatsappimage2021-10-04at2-50-49pm-removebg-preview.webp?t=1633420226",
+    "name": "Dr. Muhammad Afaq",
+    "education": ["M.B.B.S, F.C.P.S"],
+    "experience": "14 years",
+    "specialization": "Orthopedic Surgeon, Pediatric Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/muhammad-afaq/1201",
+    "location": "Doctors Hospital, 152 A - G / 1, Canal Bank, Johar Town, Lahore"
+  },
+  {
+    "id": 4,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1625817139_ali.webp?t=1625817148",
+    "name": "Assoc. Prof. Dr. Muhammad Ali",
+    "education": [
+      "M.B.B.S, F.C.P.S. (Orthopedic Surgery), Fellowship (Joint Replacement Trauma)"
+    ],
+    "experience": "20 Years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/muhammad-ali-orthopedic/983199",
+    "location": "Shalamar Hospital, Shalimar Link Road, Lahore"
+  },
+  {
+    "id": 5,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1564927316_dsc_0688(1).webp?t=1605648577",
+    "name": "Dr. Hafiz Muhammad Kashif Shafi",
+    "education": [
+      "M.B.B.S, F.C.P.S. (Orthopedic), Fellow European Board of Hand surgery(FEBHS)"
+    ],
+    "experience": "9 years",
+    "specialization": "Orthopedic Surgeon, Hand Surgeon",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/hafiz-muhammad-kashif-shafi/288682",
+    "location": "Life Line Hospital (Johar Town), 462-463, G-3, near Khokhar Chowk, Johar Town, Lahore"
+  },
+  {
+    "id": 6,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1491202672_image.webp?t=1605631392",
+    "name": "Dr. Inam Ur Rahim",
+    "education": ["MBBS, FCPS"],
+    "experience": "26 Years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/inam-ur-rahim/13408",
+    "location": "Ayesha Hospital (Nishat Colony), Nistat Colony Main Road, Nishat Colony, Lahore Cantt"
+  },
+  {
+    "id": 7,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1595911957_muhammadjawadsaleem.webp?t=1605643442",
+    "name": "Dr. Muhammad Jawad Saleem",
+    "education": ["M.B.B.S, F.C.P.S. (Orthopedic Surgery)"],
+    "experience": "12 years",
+    "specialization": "Orthopedic Surgeon, Spinal Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/muhammad-jawad-saleem/175967",
+    "location": "Doctors Hospital, 152 A - G / 1, Canal Bank, Johar Town, Lahore"
+  },
+  {
+    "id": 8,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1583301287_be7e12c1-dd25-4f9b-af79-c26aa6d42ff8.webp?t=1605646192",
+    "name": "Dr. Ammar Dogar",
+    "education": ["MBBS, FCPS"],
+    "experience": "10 years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/ammar-dogar/247395",
+    "location": "Heart And Medical Centre (HMC), 1A/1 Guldasht Town, Zarar Shaheed Road, Next To Gourmet Bakers, Lahore"
+  },
+  {
+    "id": 9,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1576298398_dr--naghmi-shirin.webp?t=1605653399",
+    "name": "Dr. Naghmi Shirin",
+    "education": ["M.B.B.S., M.C.P.S, L.M.C.C"],
+    "experience": "30 years",
+    "specialization": "Pain Management Specialist, Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/pain-management-specialist/naghmi-shirin/363003",
+    "location": "Knee And Spine Laser Center (Lahore), 426-K Block, Model Town, Lahore"
+  },
+  {
+    "id": 10,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1569571471_dr-muhammadfaheemiqbal.webp?t=1605649731",
+    "name": "Dr. Muhammad Faheem Iqbal",
+    "education": ["MBBS, F.C.P.S. (Orthopedic Surgery), MRCPS (Glasgow, UK)"],
+    "experience": "12 years",
+    "specialization": "Orthopedic Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/muhammad-faheem-iqbal/308333",
+    "location": "Pulse Medical Complex (Paragon City), 47-S, Commercial Zone Imperial Garden, Paragon City, Lahore"
+  },
+  {
+    "id": 11,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1496812538_image.webp?t=1605631569",
+    "name": "Prof. Dr. Javed Hassan Khan",
+    "education": ["MBBS, FCPS, MRCP"],
+    "experience": "27 years",
+    "specialization": "Orthopedic Surgeon, Spinal Surgeon",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/javed-hassan/13684",
+    "location": "Health Bridge Hospital, E-194, near Q Block Market, DHA, Ghazi Road, Lahore"
+  },
+  {
+    "id": 12,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1550659547_tariq-sohail.webp?t=1605619024",
+    "name": "Prof. Dr. M. Tariq Sohail",
+    "education": [
+      "MBBS (Pb), M.Ch. Orth (UK), FRCS (Edin), FRCS (Glasgow), FICS"
+    ],
+    "experience": "25 years",
+    "specialization": "Orthopedic Surgeon, Spinal Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/orthopedic-surgeon/tariq-sohail/1202",
+    "location": "Doctors Hospital, 152 A - G / 1, Canal Bank, Johar Town, Lahore"
+  },
+  {
+    "id": 13,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1655889865_0e77b2d3-0060-42eb-b904-f8f19433c992.webp?t=1656490802",
+    "name": "Dr. Waseem Javaid",
+    "education": [
+      "PhD in Rehabilitation Sciences (Physiotherapy), M.Phil. PT (Musculoskeletal)"
+    ],
+    "experience": "12 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/waseem-javaid-physiotherapist/1536626",
+    "location": "RehabCure Clinic, RehabCure, 75, Tariq Block, Garden Town, Lahore"
+  },
+  {
+    "id": 14,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1661976342_6b82da9e-5dbc-4978-aee8-4310fd4df493.webp?t=1662726118",
+    "name": "Dr. Zohaib Imran",
+    "education": ["D.P.T."],
+    "experience": "1 year",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/zohaib-imran/1708200",
+    "location": "Bodeclinic Family Medical Center, Plaza No. 7, Central Commercial, Bahria Orchard, Rawind Road, Lahore"
+  },
+  {
+    "id": 15,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1571254900_21815ee0-6a6c-4e43-af1e-bd3e3e8ffe91.webp?t=1605651368",
+    "name": "Dr. Zahid Sandhu",
+    "education": ["D.P.T."],
+    "experience": "2 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/zahid-sandhu/333752",
+    "location": "Rehman Health Care Centre (Iqbal Town), 719 Kamran Block, Iqbal Town, Wahdat Road, Lahore"
+  },
+  {
+    "id": 16,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1662009538_huma_farwa-removebg-preview-min.webp?t=1662010078",
+    "name": "Dr. Huma Farwa",
+    "education": [
+      "D.P.T., Certified in Musculoskeletal Assessment & Management"
+    ],
+    "experience": "1 year",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/huma-farwa/1639184",
+    "location": "Defence Medical Group, 155 Dd Commercial Area Phase 4 DHA, Lahore"
+  },
+  {
+    "id": 17,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1670830739_0e9202ea-c0d8-4826-9333-9b7f3d0f38c0.webp?t=1688466359",
+    "name": "Dr. Maryam Rana",
+    "education": ["DPT ( Doctor of Physical Therapy)"],
+    "experience": "6 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/maryam-rana/1958747",
+    "location": "Holistic Care Clinic, 188-Y Block, Phase III, DHA. Lahore"
+  },
+  {
+    "id": 18,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1672147230_Dr._Shahbaz_Ali-removebg-preview.webp?t=1672147231",
+    "name": "Dr. Shahbaz Ali",
+    "education": ["D.P.T."],
+    "experience": "3 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/shahbaz-ali-physio/1997299",
+    "location": "Rejuvenate Clinic (DHA), 132-Y, Mezzanine Floor, Phase 3C, DHA, Lahore"
+  },
+  {
+    "id": 19,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1645873353_f42481c9-0d12-4b1d-8a98-5a5c159cd844.webp?t=1647666513",
+    "name": "Dr. Mir Shakeel Ahmad",
+    "education": [
+      "Ph.D, M.S. Physical Therapy, Transitional Doctor of Physical Therapy, B.S.P.T."
+    ],
+    "experience": "20 years",
+    "specialization": "Physiotherapist",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/mir-shakeel-ahmad/1314096",
+    "location": "Punjab Medical Centre, 5- Main Jail Road, Near Khana Farang Iran, Lahore"
+  },
+  {
+    "id": 20,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1628426871_91041411-3c86-4293-b668-c8a3b0b363d9.webp?t=1672644005",
+    "name": "Dr. Muhammad Hassan",
+    "education": [
+      "DPT, MS (Sports Physical Therapy), Certificate in Chiropractic"
+    ],
+    "experience": "6 years",
+    "specialization": "Physiotherapist, Sports Medicine Specialist, Chiropractor",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/muhammad-hassan-physiotherapist/698366",
+    "location": "Chiropractic Adjustment, Spine and Physiotherapy Rehab Centre (Model Town), Lahore"
+  },
+  {
+    "id": 21,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1702285833_WhatsApp_Image_2023-12-05_at_7.22.39_PM-removebg-preview(1).webp?t=1702285835",
+    "name": "Dr. Wehbah Sarwar",
+    "education": ["DPT, MS (Sports Physical Therapy)"],
+    "experience": "5 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/wehbah-sarwar/2764310",
+    "location": "Nutricao, Nutricao, Hall 2, Gorund Floor, Aashiyana Shopping Center, Liberty Round About, Gulberg 3, Lahore"
+  },
+  {
+    "id": 22,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1706610101_WhatsApp_Image_2024-01-27_at_12.07.42_AM-removebg-preview.webp?t=1706610103",
+    "name": "Dr. Shaista Saleem",
+    "education": ["DPT, MS-SPT (Sports Physiotherapy)"],
+    "experience": "4 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/shaista-saleem/2824565",
+    "location": "Rasheeda Physiotherapy Center, E 27/26, Ghousia Colony, Walton Road, Cantt, Lahore"
+  },
+  {
+    "id": 23,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1644309631_dr-bilalphysio-removebg-preview.webp?t=1644309760",
+    "name": "Dr. Bilal Baig",
+    "education": ["D.P.T (Doctor Of Physical Therapy), MS-CPPT(Riu)"],
+    "experience": "2 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/bilal-baig/1287324",
+    "location": "Al Afzal Medical Centre, 295, A-One Sector, Near Layton Rehmatullah Eye Trust Hospital, Township Lahore"
+  },
+  {
+    "id": 24,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1710134185_Madiha_Syed_picture-removebg-preview.webp?t=1710134186",
+    "name": "Dr. Madiha Syed",
+    "education": ["D.P.T"],
+    "experience": "7 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/madiha-syed/21998",
+    "location": "Chughtai Medical Center (DD), Plaza # 154 CCA, Sector DD, Phase 4 Adjacent to Nadra Office, DHA, Lahore"
+  },
+  {
+    "id": 25,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1626241236_whatsappimage2021-07-12at13-59-35.webp?t=1626241355",
+    "name": "Dr. Kanz Sadia",
+    "education": [
+      "D.P.T (Doctor Of Physical Therapy), Dip (Sport Physiotherapy )"
+    ],
+    "experience": "7 years",
+    "specialization": "Chiropractor, Pain Management Specialist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/chiropractor/kanz-sadia/1035817",
+    "location": "Arthritis Care Centre, 1-A, Block C-1 Near Junoon Resturant M.M Alam Road Gullberg |||, Lahore"
+  },
+  {
+    "id": 26,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1632487116_031f04a9-c976-42bc-a14b-d8f8aa44612d.webp?t=1635487212",
+    "name": "Ms. Mahnoor Java",
+    "education": ["B.S (Exercise Medicine) (USA)"],
+    "experience": "7 years",
+    "specialization": "Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/mahnoor-java/1121530",
+    "location": "Medlane Dental Clinic Aesthetics & Rehabilitation, 1st floor, 17-A, Commercial Sector A, Phase 5, DHA, Lahore"
+  },
+  {
+    "id": 27,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1662702675_capture-removebg-preview(25).webp?t=1662702730",
+    "name": "Dr. Mehreen Mazhar",
+    "education": ["D.P.T (Doctor Of Physical Therapy), Certified in IASTM"],
+    "experience": "3 years",
+    "specialization": "Physiotherapist, Chiropractor",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/mehreen-mazhar/1731840",
+    "location": "Alara Health Care, Building 10, Block F2, Phase 1 WAPDA Town, Lahore"
+  },
+  {
+    "id": 28,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1572430671_msfatimamajeed.webp?t=1605651766",
+    "name": "Dr. Fatima Ch",
+    "education": ["MS (Orthopedic Manual Therapist), DPT (Physical therapist)"],
+    "experience": "6 years",
+    "specialization": "Physiotherapist, Chiropractor",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/fatima-ch/337224",
+    "location": "Revive Spine & Pain Relief PT Clinic"
+  },
+  {
+    "id": 29,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1677666788_26a8378c-f240-4260-9b08-869eba4c50c1.webp?t=1677819519",
+    "name": "Dr. Mirza Usman Baig",
+    "education": [
+      "Doctor of Physical Therapy, Certified in Osteopathic & Chiropractic"
+    ],
+    "experience": "5 years",
+    "specialization": "Physiotherapist, Chiropractor",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/mirza-usman-baig/2154526",
+    "location": "Lahore Physiotherapy and Rehabilitation Center, Lahore Physiotherapy Center, Plaza 100-A Chambeli Commercial Sector C Bahria Town, Lahore"
+  },
+  {
+    "id": 30,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1632906192_60679b53-c788-4996-88a2-5c28c4fd3dfa.webp?t=1644208559",
+    "name": "Dr. Qaddar Zafar",
+    "education": ["D.P.T (Doctor of Physical Therapy)"],
+    "experience": "5 years",
+    "specialization": "Physiotherapist, Sports Medicine Specialist, Chiropractor",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/qaddar-zafar/1126209",
+    "location": "Holistic Care Clinic, 188-Y Block, Phase III, DHA. Lahore"
+  },
+  {
+    "id": 31,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1561630699_samra-anwar.webp?t=1605647057",
+    "name": "Dr. Samra Anwar",
+    "education": ["D.P.T, O.M.P.T"],
+    "experience": "4 years",
+    "specialization": "Chiropractor, Physiotherapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/chiropractor/samra-anwar/263981",
+    "location": "Johar Medicare Hospital (Johar Town), R-36, near Ayoub Chowk, Johar Town, Lahore"
+  },
+  {
+    "id": 32,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1602154129_sajidbhatti.webp?t=1605644972",
+    "name": "Dr. Sajid Bhatti",
+    "education": ["M.B.B.S, Postgrad. Dip. Clinical Gait Analysis (UK)"],
+    "experience": "25 years",
+    "specialization": "Neuromusculoskeletal Medicine Doctor",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rehab-medicine/sajid-bhatti/219857",
+    "location": "Chughtai Medical Centre (Lab), 38 Main Boulevard, DHA 6, Lahore"
+  },
+  {
+    "id": 33,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1621416814_img-20210504-wa0003.webp?t=1621416949",
+    "name": "Dr. Mohsin Riaz",
+    "education": ["M.B.B.S, F.C.P.S"],
+    "experience": "4 years",
+    "specialization": "General Physician, Neuromusculoskeletal Medicine Doctor",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/gujranwala/dr/general-physician/mohsin-riaz-general-physician/950936",
+    "location": "Prime Care Hospital (Lahore), Main Boulevard, Defence Road, Super Town, Lahore"
+  },
+  {
+    "id": 34,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1555936483_ayesha-tahir.webp?t=1605639117",
+    "name": "Ms. Ayesha Tahir Bhatti",
+    "education": [
+      "DPT (ANMC), Ms.OMPT (cont), certified in acupuncture techniques"
+    ],
+    "experience": "5 years",
+    "specialization": "Physiotherapist, Rehabilitation Specialist, Rehab Medicine",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/ayesha-tahir-bhatti/35127",
+    "location": "Gosha e Shifa Clinic (Gulshan e Ravi), Gosha-e-Shifa, 759-A Block, Gulshan-e-Ravi, Lahore"
+  },
+  {
+    "id": 35,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1571467074_saira-elaine.webp?t=1605650639",
+    "name": "Dr. Saira Elaine Anwer Khan",
+    "education": ["MBBS, MRCP (UK), SCE (Rheumatology), FRCP (UK), CESR"],
+    "experience": "10 years",
+    "specialization": "Rheumatologist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/saira-elaine-anwer-khan/321849",
+    "location": "Arthritis Care Centre, 1-A, Block C-1 Near Junoon Restaurant M.M Alam Road Gullberg |||, Lahore."
+  },
+  {
+    "id": 36,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1599061276_53bbae70-eaa6-4bba-98f1-78c718c6053d.webp?t=1617789882",
+    "name": "Dr. Asif Islam",
+    "education": ["MBBS, FCPS (Medicine), FCPS (Rheumatology)"],
+    "experience": "10 years",
+    "specialization": "Internal Medicine Specialist, Rheumatologist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/internal-medicine-specialist/asif-islam/534437",
+    "location": "Omar Hospital & Cardiac Centre (Johar Town), Plot 435, Block D, Phase 1, Johar Town, Lahore"
+  },
+  {
+    "id": 37,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1546666154_saba-saif.webp?t=1605639105",
+    "name": "Dr. Saba Saif",
+    "education": ["MBBS, FCPS (Medicine), FCPS ( Rheumatology), CHPE , FRCP"],
+    "experience": "18 years",
+    "specialization": "Rheumatologist, Internal Medicine Specialist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/saba-saif/34822",
+    "location": "Surgimed Hospital, 1 - Zafar Ali Road, Gulberg 5, Lahore"
+  },
+  {
+    "id": 38,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1678438695_Toobafatima-removebg-preview.webp?t=1678438696",
+    "name": "Dr. Tooba Fatima",
+    "education": ["MBBS, FCPS (Medicine)"],
+    "experience": "10 years",
+    "specialization": "Internal Medicine Specialist, Rheumatologist, Consultant Physician",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/internal-medicine-specialist/tooba-fatima/367872",
+    "location": "Pulse Medical Complex (Paragon City), 47-S, Commercial Zone Imperial Garden, Paragon City, Lahore"
+  },
+  {
+    "id": 39,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1586451739_doc_female_orig-png.webp?t=1605656718",
+    "name": "Dr. Sadia Asif",
+    "education": ["M.B.B.S, F.C.P.S (Medicine), F.C.P.S (Rheumatology)"],
+    "experience": "13 years",
+    "specialization": "Rheumatologist, Internal Medicine Specialist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/sadia-asif/430567",
+    "location": "Omar Hospital & Cardiac Centre (Jail Road), Jail Road, Lahore"
+  },
+  {
+    "id": 40,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1570707620_nighat-mir.webp?t=1605619977",
+    "name": "Dr. Nighat Mir Ahmad",
+    "education": ["MBBS, FACP, FACR, Diplomate American Board of Rheumatology"],
+    "experience": "38 years",
+    "specialization": "Rheumatologist",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/nighatmir-ahmad/1770",
+    "location": "National Hospital & Medical Centre, L- Block Near Sports Stadium, DHA Lahore"
+  },
+  {
+    "id": 41,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1571289112_sumaira-farman.webp?t=1605619980",
+    "name": "Dr. Sumaira Farman Raja",
+    "education": ["M.B.B.S, Certificate Paediatric Rheumatology (Australia)"],
+    "experience": "33 years",
+    "specialization": "Rheumatologist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/sumaira-farman/1771",
+    "location": "Arthritis Care Centre, 1-A, Block C-1 Near Junoon Restaurant M.M Alam Road Gullberg |||, Lahore"
+  },
+  {
+    "id": 42,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1505902745_image.webp?t=1605618005",
+    "name": "Dr. Muhammad Ahmed Saeed",
+    "education": ["MBBS, FCPS (Rheumatology), FCPS (Internal Medicine)"],
+    "experience": "25 years",
+    "specialization": "Rheumatologist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/rheumatologist/muhammad-ahmed-saeed/257",
+    "location": "National Hospital & Medical Centre, L- Block Near Sports Stadium, DHA Lahore"
+  },
+  {
+    "id": 43,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1656480757_MusabAamir-min.webp?t=1701686148",
+    "name": "Dr. Musab Bin Aamir",
+    "education": ["D.P.T. (Doctor of Physical Therapy)"],
+    "experience": "7 years",
+    "specialization": "Physiotherapist, Sports Medicine Specialist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/physiotherapist/musab-bin-aamir/1553479",
+    "location": "Online Video Consultation"
+  },
+  {
+    "id": 44,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1658906224_whatsapp_image_2022-07-20_at_5-16-06_pm-removebg-preview.webp?t=1658906304",
+    "name": "Dr. Anam Fatima",
+    "education": ["M.B.B.S, F.C.P.S"],
+    "experience": "6 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/anam-fatima-neurosurgeon/1576615",
+    "location": "DHA Medical Centre (Lahore), W Block, Phase 3, DHA, Lahore"
+  },
+  {
+    "id": 45,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1669718725_d639c4a7-31f0-4631-9263-a9e62c12483f.webp?t=1669871706",
+    "name": "Dr. Umer Farooq",
+    "education": ["M.B.B.S., F.C.P.S. (Neurosurgery), Spine Fellowship"],
+    "experience": "10 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/umer-farooq-neurosurgeon/1926475",
+    "location": "Niazi Hospital, 54-55 A, Johar Town, near Allah Hoo Chowk, Lahore"
+  },
+  {
+    "id": 46,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1606290451_muhammadyasirmukhtar.webp?t=1627890620",
+    "name": "Dr. Muhammad Yasir Mukhtar",
+    "education": ["M.B.B.S., M.S (Neuro Surgery)"],
+    "experience": "10 years",
+    "specialization": "Neurosurgeon, Pediatric Neurosurgeon, Spinal Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/muhammad-yasir-mukhtar/596447",
+    "location": "Faisal Hospital (Lahore), 23-A , Abul-ul-Asphani Road, Block A Faisal Town, Lahore"
+  },
+  {
+    "id": 47,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1688370309_7e730acb-9578-46e2-bd77-ee0dd1ba3072.webp?t=1688709622",
+    "name": "Dr. Muhammad Zayed Qamer",
+    "education": ["MBBS, FCPS (Neurosurgery)"],
+    "experience": "5 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/muhammad-zayed-qamer/2449831",
+    "location": "Punjab Rangers Teaching Hospital, Punjab Rangers Hospital, near MCB Center, Opp. Airport Access Road, Cantt. Lahore"
+  },
+  {
+    "id": 48,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1565003203_waqas-mehdi.webp?t=1605631662",
+    "name": "Dr. Waqas Mehdi",
+    "education": ["MBBS, FCPS"],
+    "experience": "10 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/waqas-mehdi/13838",
+    "location": "Mid City Hospital, 10-C Jail Rd, Shadman II, Shadman, Lahore"
+  },
+  {
+    "id": 49,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1621626552_5e2035c4-177c-4756-9457-85b827fda239.webp?t=1646021449",
+    "name": "Dr. Adeeb Ul Hassan",
+    "education": ["M.B.,B.S., MS (Neurosurgery)"],
+    "experience": "9 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/sialkot/dr/neurosurgeon/adeeb-ul-hassan/954226",
+    "location": "Islam Center Hospital, Commissioner Road, Muhammad pura, Sialkot"
+  },
+  {
+    "id": 50,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1518503973_14502717_10153808989682204_1818494380581093269_n.webp?t=1605620965",
+    "name": "Dr. Nasir Raza Awan",
+    "education": [
+      "M.B.B.S, F.C.P.S (Neurosurgery), Fellowship in Functional Neurosurgery"
+    ],
+    "experience": "25 years",
+    "specialization": "Neurosurgeon, Spinal Surgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/nasir-raza-awan/2321",
+    "location": "SpinaCure, 63-A, Block E-1, Gulberg III, Lahore"
+  },
+  {
+    "id": 51,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1602152128_aqeelnat.webp?t=1692263197",
+    "name": "Dr. Muhammad Aqeel Natt",
+    "education": ["M.B.B.S, F.C.P.S (Neuro Surgery)"],
+    "experience": "10 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/muhammad-aqeel-natt/554667",
+    "location": "Bashir Hospital (Sialkot), Khadim Ali Road، Model Town, Sialkot"
+  },
+  {
+    "id": 52,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1706180155_85f55b55-4d19-4fc1-a56d-18af417f1f49.webp?t=1706180156",
+    "name": "Dr. Ahmed Sultan",
+    "education": ["MBBS, FCPS (Neurosurgery)"],
+    "experience": "8 years",
+    "specialization": "Neurosurgeon",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/neurosurgeon/ahmed-sultan/2324",
+    "location": "SpinaCure, 63-A, Block E-1, Gulberg III, Lahore"
+  },
+  {
+    "id": 53,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1668065280_9e5f42f6-e9b5-48dc-8da3-8b5c6846f213.jpg?t=1668489278",
+    "name": "Dr. Syed Nawas Ahmed",
+    "education": ["D.P.M"],
+    "experience": "2 Years",
+    "specialization": "Podiatrist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/video-consultation/dr/podiatrist/syed-nawas-ahmed/1881477",
+    "location": "Online Video Consultation - Speak to doctor through a video call"
+  },
+  {
+    "id": 54,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1711951784_Sara_Siddiqui_Picture-removebg-preview.webp?t=1711951786",
+    "name": "Ms. Sara Siddiqui",
+    "education": ["BS (Hons) Occupational Therapy"],
+    "experience": "7 years",
+    "specialization": "Occupational Therapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/occupational-therapist/sara-siddiqui/2917090",
+    "location": "Occupational Therapy by Sara Siddiqui (OSS), OSS, 46-A, Near DHA Phase 4, Punjab Cooperative Housing Society, Lahore"
+  },
+  {
+    "id": 55,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1655522434_732b9a9c-95d8-40d0-b442-ba41947dd28d.webp?t=1657803377",
+    "name": "Mr. Moiz Farooq",
+    "education": ["B.S (Occupational Therapy)"],
+    "experience": "1 year",
+    "specialization": "Speech and Language Pathologist, Occupational Therapist",
+    "rating": 5,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/speech-and-language-pathologist/moiz-farooq/1525986",
+    "location": "Clinic 1, 49- Aibak Block, New Garden Town, Lahore"
+  },
+  {
+    "id": 56,
+    "image": "https://d1t78adged64l7.cloudfront.net/images/profile-pics/doctors/1557821682_saima-naeem.webp?t=1605646106",
+    "name": "Dr. Saima Zahoor",
+    "education": ["MD Acupuncture , MACF, B.H.M.S, Advance Acupuncture"],
+    "experience": "15 years",
+    "specialization": "Acupuncturist, Pain Management Specialist",
+    "rating": 4,
+    "profileLink": "https://oladoc.com/pakistan/lahore/dr/acupuncturist/saima-zahoor-acupuncturist/245429",
+    "location": "Online Video Consultation - Speak to doctor through a video call"
+  }
+]
