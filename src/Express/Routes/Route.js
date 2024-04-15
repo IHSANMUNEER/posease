@@ -1,17 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const { addTipsData, allTips, addReportData, addDoctersData, allDoctors ,addFeedbackData ,getFeedbackData} = require("../Controller/Controller");
+const {
+     addTipsData, allTips, addReportData,
+      addDoctersData, allDoctors ,addFeedbackData ,
+      getFeedbackData ,createNotification,getActiveNotifications,
+      adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,
+      getUsers,getUsersCount,deleteUser} = require("../Controller/Controller");
 
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.get("/addtips", addTipsData);
 router.get("/gettips", allTips);
 router.post("/reports", addReportData);
-router.get("/adddoc", addDoctersData);
+router.post("/adddoc", addDoctersData);
 router.post("/addfeedback", addFeedbackData);
+router.post("/addnotification", createNotification);
+router.get("/getnotifications", getActiveNotifications);
+router.get("/getallnotifications", getAllNotifications);
+router.get("/getallproblems", getAllProblems);
 router.get("/getfeedback", getFeedbackData);
 router.get("/getdoc", allDoctors);
-
+router.post("/admintip", adminTipCreation);
+router.post("/admindoccreate", adminDocCreation);
+router.get("/getusers", getUsers);
+router.get("/getuserscount", getUsersCount);
+router.delete("/deleteuser", deleteUser);
 
 
 module.exports = router;

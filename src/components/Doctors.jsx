@@ -12,13 +12,13 @@ function Doctors() {
 
   useEffect(() => {
     fetchDoc();
-    const interval = setInterval(checkForUpdates, 60000); // Check for updates every minute
+    const interval = setInterval(checkForUpdates, 900000); 
     return () => clearInterval(interval);
   }, []);
 
   const fetchDoc = async () => {
     try {
-      const response = await fetch('https://api-production-9f8a.up.railway.app/products/getdoc');
+      const response = await fetch('https://api-v20-production.up.railway.app/posease/getdoc');
       const data = await response.json();
       const shuffledDoctors = shuffleArray(data.tips); // Shuffle the order of doctors
       setDoctors(shuffledDoctors);

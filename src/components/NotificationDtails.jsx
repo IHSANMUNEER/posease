@@ -4,6 +4,7 @@ import {useRoute} from '@react-navigation/native';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import colors from '../components/colors';
 import Doctors from './Doctors';
+const defaultImage = require('../assets/notification.png');
 
 const NotiDetail = () => {
   const route = useRoute();
@@ -13,7 +14,7 @@ const NotiDetail = () => {
     <View style={styles.container}>
       <Card style={styles.card}>
         <View style={styles.contentContainer}>
-          <Card.Cover source={{uri: item.image}} style={styles.cover} />
+          <Card.Cover source={defaultImage} style={styles.cover} />
           <View style={styles.textContainer}>
             <Text variant="titleLarge" style={styles.title}>
               {item.title}
@@ -65,17 +66,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     elevation: 10,
-    backgroundColor: '#eeeeee'
+    backgroundColor: 'white'
   },
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   cover: {
-    height: 80,
-    width: 80,
+    height: 50,
+    width: 50,
     borderRadius: 999,
-    borderWidth: 3,
+    borderWidth: 1,
     borderColor: colors.primary,
     marginVertical: 10,
     marginHorizontal: 8
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom:20
   },
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: "white",
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',

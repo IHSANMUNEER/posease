@@ -17,21 +17,20 @@ import UploadInputAni from '../components/UploadInput.jsx';
 import Tips from '../components/Tips.jsx';
 import Doctors from '../components/Doctors.jsx';
 import MyStatusBar from '../components/myStatusBar';
-
-
+import BotAni from '../components/ChatBotAni.jsx';
+import axios from 'axios';
 
 function ProfileScreen({ navigation }) {
   const [profileImageUri, setProfileImageUri] = useState(
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
   );
-  const [testImageUri, settestImageUri] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
-  );
+  
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [screen, setScreen] = useState('');
+  const [upload, setUpload] = useState('');
   const [name, setName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [processedImageUrl, setProcessedImageUrl] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -67,12 +66,10 @@ function ProfileScreen({ navigation }) {
     setRefreshing(true);
 
     try {
-      // Your refresh logic here, e.g., fetching new data from an API
       await fetchData();
     } catch (error) {
       console.error('Error refreshing data:', error);
     } finally {
-      // After refreshing is complete, set refreshing to false
       setRefreshing(false);
     }
   }, []);
@@ -87,29 +84,69 @@ function ProfileScreen({ navigation }) {
       });
 
       if (media.path) {
-        settestImageUri(media.path);
-        //saveProfileImageUri(media.path);
+        setUpload(media.path);
         setPhotoUploaded(true);
-        navigation.navigate('Results');
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
     }
   };
 
-  const saveProfileImageUri = path => {
-    // Add your logic for saving the image path to storage (if needed)
-  };
+  useEffect(() => {
+    console.log('uploaded->', upload);
+    predictImage(); 
+  }, [upload]);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
+  const predictImage = async () => {
+    console.log('Predicting image...');
+    if (upload) {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: upload,
+        type: 'image/jpg',
+        name: 'file.jpg',
+      });
+      
+
+      try {
+        const response = await axios.post(
+          'https://1d06-35-245-17-117.ngrok-free.app/predict',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          console.log('Prediction successful');
+          const result = response.data;
+          console.log('Processed Image URL:', result.file_url);
+          console.log('Processed Feedback:', result.feedback);
+          setProcessedImageUrl(result.file_url);
+          console.log('Response',result)
+          navigation.navigate('Results', { imageUrl: result.file_url, feedbackText: result.feedback });
+
+        } else {
+          console.error('Prediction failed:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending prediction request:', error);
+      }
+    } else {
+      console.warn('Please select an image first.');
+    }
+  };
+
   return (
-    
     <SafeAreaView style={styles.container}>
-    <MyStatusBar/>
-    
+      <MyStatusBar />
+
       <ScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
@@ -130,13 +167,13 @@ function ProfileScreen({ navigation }) {
         >
           {name}
         </Text>
-        <TouchableOpacity onPress={toggleModal}>
+       
           <Image
             style={styles.logo}
             source={profileImageUri ? { uri: profileImageUri } : null}
           />
-        </TouchableOpacity>
-        
+
+
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => pickImageOrVideo()}
@@ -148,8 +185,11 @@ function ProfileScreen({ navigation }) {
             </Text>
           </View>
         </TouchableOpacity>
-        <Text style={styles.title}>Today Tips</Text>
        
+      
+        <BotAni />
+        <Text style={styles.title}>Today Tips</Text>
+
         <Tips />
         <Doctors />
 
@@ -168,7 +208,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: color.secondary,
   },
-
   placeholderText: {
     width: 300,
     height: 100,
@@ -180,10 +219,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderStyle: 'dashed',
     overflow: 'hidden',
-    marginTop: 200,
-
+    marginTop: 180,
   },
-
   text: {
     fontSize: 15,
     fontFamily: 'sans-serif-condensed',
@@ -211,8 +248,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginHorizontal: 30,
     marginTop: 50,
-
-  }
+  },
+  predictButton: {
+    color: color.primary,
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  predictedContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  predictedImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginTop: 10,
+  },
 });
 
 export default ProfileScreen;

@@ -49,7 +49,7 @@ const Report = () => {
 
   const sendFeedbackToBackend = async (feedbackText) => {
     try {
-      const response = await fetch('https://api-production-9f8a.up.railway.app/products/reports', {
+      const response = await fetch('https://api-v20-production.up.railway.app/posease/reports', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

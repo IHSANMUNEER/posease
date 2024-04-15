@@ -30,7 +30,7 @@ const Records = () => {
                 return;
             }
 
-            const response = await axios.get(`http://192.168.59.115:3001/posease/getfeedback?uid=${userUID}`);
+            const response = await axios.get(`https://api-v20-production.up.railway.app/posease/getfeedback?uid=${userUID}`);
             const sortedData = response.data.tips.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setRecords(sortedData);
             setLoading(false);
@@ -96,15 +96,18 @@ const styles = StyleSheet.create({
     },
     card: {
         marginBottom: 10,
-        borderRadius: 10,
+        borderRadius: 20,
         elevation: 5,
         backgroundColor: '#fff',
+        borderWidth:2,
+        borderColor:colors.primary
     },
     cover: {
-        height: 200,
+        height: 300,
         resizeMode: 'cover',
         borderRadius: 20,
         marginBottom: 10,
+        
     },
     title: {
         fontSize: 20,
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         color: colors.primary,
-        marginHorizontal: 120,
+        marginHorizontal: 140,
         marginBottom: 10,
     },
     subtitle: {

@@ -25,7 +25,8 @@ import DoctorDetail from '../components/DoctorDetail.jsx';
 import NotiDetail from '../components/NotificationDtails.jsx';
 import ChatScreen from './Chat.jsx';
 import Records from './Records.jsx';
-
+import ChatBot from './ChatBot.js';
+import testing from './testing.js'
 
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
@@ -208,6 +209,22 @@ const Stack2 = () => (
   <NavigationContainer>
   {console.log('in stack 2')}
     <MainStack.Navigator>
+    
+    {/* <MainStack.Screen
+        name="testing"
+        component={testing}
+        options={{
+          headerShown: false,
+          headerBackTitleVisible: false,
+          headerTitle: '',
+          headerStyle: {
+            height: 50,
+            backgroundColor: colors.primary,
+            elevation: 100,
+          },
+        }}
+      /> */}
+   
     
       <MainStack.Screen
         name="Tabs"
@@ -478,6 +495,16 @@ const Stack2 = () => (
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#eeeeee', 
+          }}}
+      />
+       <MainStack.Screen
+        name="ChatBot"
+        component={ChatBot}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: colors.primary, 
+           
           }}}
       />
       <MainStack.Screen

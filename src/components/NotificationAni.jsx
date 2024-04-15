@@ -11,7 +11,7 @@ const NotificationAni = () => {
           height: 200,
           width: 200,
           alignItems: 'center',
-          backgroundColor: '#FAF9F6',
+          backgroundColor: 'white',
           marginHorizontal: 90,
           marginVertical: 5
         }}>

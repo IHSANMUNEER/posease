@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -21,127 +21,52 @@ import MyStatusBar from '../components/myStatusBar';
 import NotificationAni from '../components/NotificationAni';
 import colors from '../components/colors';
 import RecordsSkeleton from '../components/RecordsSkeleton';
-const notificatiosList = [
-  {
-    key: '1',
-    title: 'Dr. John Smith',
-    description:
-      'Feedback on human posture correction - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar commodo.',
-    image: 'https://randomuser.me/api/portraits/men/19.jpg',
-  },
-  {
-    key: '2',
-    title: 'Dr. Sarah Johnson',
-    description:
-      'Feedback on human posture correction - Nemo enim ipsam voluptatem quia voluptassit aspernatur aut odit aut fugit, sed quia.',
-    image: 'https://randomuser.me/api/portraits/women/20.jpg',
-  },
-  {
-    key: '3',
-    title: 'Dr. Michael Davis',
-    description:
-      'Feedback on human posture correction - Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nu.',
-    image: 'https://randomuser.me/api/portraits/men/21.jpg',
-  },
-  {
-    key: '4',
-    title: 'Dr. Emily White',
-    description:
-      'Feedback on human posture correction - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar commodo.',
-    image: 'https://randomuser.me/api/portraits/women/22.jpg',
-  },
-  {
-    key: '5',
-    title: 'Dr. Christopher Brown',
-    description:
-      'Feedback on human posture correction - Additional notification content.',
-    image: 'https://randomuser.me/api/portraits/men/23.jpg',
-  },
-  {
-    key: '6',
-    title: 'Dr. Jessica Miller',
-    description:
-      'Feedback on human posture correction - More notification content.',
-    image: 'https://randomuser.me/api/portraits/women/24.jpg',
-  },
-];
+import axios from 'axios';
 
-const rowTranslateAnimatedValues = {};
+const defaultImage = require('../assets/notification.png'); // Replace with your default image path
 
 const NotificationsScreen = ({ navigation }) => {
   const [showSnackBar, setShowSnackBar] = useState(false);
-  const [listData, setListData] = useState(notificatiosList);
-  const [openedRowKey, setOpenedRowKey] = useState(null); // Track the opened row
+  const [listData, setListData] = useState([]);
 
-  Array(listData.length + 1)
-    .fill('')
-    .forEach((_, i) => {
-      rowTranslateAnimatedValues[i] = new Animated.Value(1);
-    });
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
-  const animationIsRunning = useRef(false);
-
-  const onRowOpen = (rowKey, rowMap) => {
-    setOpenedRowKey(rowKey);
-  };
-
-  const onRowClose = rowKey => {
-    setOpenedRowKey(null);
-  };
-
-  const onSwipeValueChange = swipeData => {
-    const { key, value } = swipeData;
-    if (
-      value > screenWidth ||
-      (value < -screenWidth && !animationIsRunning.current)
-    ) {
-      animationIsRunning.current = true;
-      Animated.timing(rowTranslateAnimatedValues[key], {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: false,
-      }).start(() => {
-        const newData = [...listData];
-        const prevIndex = listData.findIndex(item => item.key === key);
-        newData.splice(prevIndex, 1);
-        setListData(newData);
-        setShowSnackBar(true);
-        animationIsRunning.current = false;
-      });
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get('https://api-v20-production.up.railway.app/posease/getallnotifications');
+      setListData(response.data.allNotifications);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
     }
   };
 
   const onPressRow = item => {
-    // Check if the row is currently open, if not, navigate
-    if (openedRowKey !== item.key) {
-      navigation.navigate('NotiDetail', { item });
-    }
+    navigation.navigate('NotiDetail', { item });
   };
 
   const renderItem = data => (
     <View>
-    
       <TouchableOpacity onPress={() => onPressRow(data.item)}>
-        <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
           <View style={{ marginHorizontal: Sizes.fixPadding * 2.0 }}>
             <View style={{ flexDirection: 'row' }}>
               <View
                 style={{
                   ...styles.iconWrapStyle,
-                  backgroundColor: 'rgba(15, 52, 96, 0.1)',
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderColor: colors.primary,
                 }}
               >
                 <Image
-                  alt=""
-                  source={{
-                    uri: data.item.image,
-                  }}
+                  source={defaultImage}
                   style={{
-                    height: 60,
-                    width: 60,
+                    height: 30,
+                    width: 40,
                     borderRadius: 99,
-                    borderWidth: 2,
-                    borderColor: colors.primary,
+                   
                   }}
                 />
               </View>
@@ -219,12 +144,8 @@ const NotificationsScreen = ({ navigation }) => {
         renderHiddenItem={renderHiddenItem}
         rightOpenValue={-screenWidth}
         leftOpenValue={screenWidth}
-        onSwipeValueChange={onSwipeValueChange}
         useNativeDriver={false}
         contentContainerStyle={{ paddingTop: Sizes.fixPadding - 5.0 }}
-        showsVerticalScrollIndicator={false}
-        onRowOpen={onRowOpen}
-        onRowClose={onRowClose}
       />
     );
   };
@@ -242,7 +163,7 @@ const NotificationsScreen = ({ navigation }) => {
         color={Colors.blackColor}
         style={{ position: 'absolute', zIndex: 100 }}
         onPress={() => {
-          navigation.pop();
+          navigation.navigate('Userdashboard');
         }}
       />
       <Text style={CommonStyles.headerTextStyle}>Notifications</Text>
@@ -250,7 +171,7 @@ const NotificationsScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <MyStatusBar />
       <View style={{ flex: 1 }}>
         {header()}
@@ -271,7 +192,6 @@ const styles = StyleSheet.create({
   rowBack: {
     alignItems: 'center',
     backgroundColor: colors.star,
-    //flex: 1,
     marginBottom: Sizes.fixPadding * 2.0,
   },
   iconWrapStyle: {

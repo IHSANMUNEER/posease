@@ -3,22 +3,22 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import colors from '../components/colors';
 import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 const Results = () => {
     const [rating, setRating] = useState(0);
     const [feedbackText, setFeedbackText] = useState('Awaiting feedback...');
-    const [imageUrl, setImageUrl] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg'); // Placeholder image URL
+    const [imageUrl, setImageUrl] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg');
     const [userUID, setUserUID] = useState('6w7df76wd7wwdra');
 
     const navigation = useNavigation();
+    const route = useRoute();
 
     useEffect(() => {
         async function fetchUserUID() {
             try {
                 const uid = await AsyncStorage.getItem('userUID');
-                console.log(uid);
                 if (uid !== null) {
                     setUserUID(uid);
                 }
@@ -29,13 +29,21 @@ const Results = () => {
         fetchUserUID();
     }, []);
 
+    useEffect(() => {
+        const { feedbackText, imageUrl } = route.params || {};
+        if (feedbackText && imageUrl) {
+            setFeedbackText(feedbackText);
+            setImageUrl(imageUrl);
+        }
+    }, [route.params]);
+
     const handleRatingChange = (newRating) => {
         setRating(newRating);
     };
 
     const handleSaveFeedback = async () => {
         try {
-            const response = await fetch('http://192.168.59.115:3001/posease/addfeedback', {
+            const response = await fetch('https://api-v20-production.up.railway.app/posease/addfeedback', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,17 +64,6 @@ const Results = () => {
             console.error('Error saving feedback:', error.message);
             showToast('error', 'Error', 'Failed to save feedback');
         }
-    };
-
-
-    const saveFeedback = () => {
-        const mockApiResponse = {
-            feedbackText: "Positive feedback from the system",
-            imageUrl: "https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg"
-        };
-
-        setFeedbackText(mockApiResponse.feedbackText);
-        setImageUrl(mockApiResponse.imageUrl);
     };
 
     const showToast = (type, text1, text2) => {
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingTop: 30,
         backgroundColor: colors.secondary,
+       
     },
     title: {
         color: colors.primary,

@@ -20,7 +20,7 @@ const Tips = () => {
 
   const fetchTips = async () => {
     try {
-      const response = await fetch('https://api-production-9f8a.up.railway.app/products/gettips');
+      const response = await fetch('https://api-v20-production.up.railway.app/posease/gettips');
       const data = await response.json();
       console.log("here")
       setTips(data.tips);
