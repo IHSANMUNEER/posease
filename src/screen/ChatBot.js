@@ -51,7 +51,11 @@ const ChatBot = ({ navigation }) => {
         setLoading(true);
 
         const lowerCaseMessage = message.toLowerCase();
-        const relevantKeywords = ["orthopedic",
+        const relevantKeywords = [
+            "orthopedic",
+            "hi",
+            "help",
+            "doctor",
             "posture",
             "back pain",
             "joint pain",
@@ -83,7 +87,45 @@ const ChatBot = ({ navigation }) => {
             "tension",
             "stress",
             "sedentary lifestyle",
-            "workplace ergonomics"];
+            "workplace ergonomics",
+            "pain",
+            "chronic",
+            "discomfort",
+            "ache",
+            "spasm",
+            "stiffness",
+            "soreness",
+            "inflammation",
+            "relief",
+            "treatment",
+            "therapy",
+            "exercise",
+            "stretching",
+            "mobility",
+            "flexibility",
+            "wellness",
+            "injury",
+            "recovery",
+            "management",
+            "prevention",
+            "rehabilitation",
+            "movement",
+            "lumbar",
+            "thoracic",
+            "cervical",
+            "nerve",
+            "muscle",
+            "tissue",
+            "ligament",
+            "cartilage",
+            "tendon",
+            "support",
+            "cushioning",
+            "comfort",
+            "stress relief",
+            "tension relief"
+        ];
+        
 
         const containsKeyword = relevantKeywords.some(keyword => lowerCaseMessage.includes(keyword));
 
@@ -129,10 +171,10 @@ const ChatBot = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                     {header()}
                     {renderMessages()}
-                    {loading && <ActivityIndicator style={{ marginVertical: 10 , }} size="small" color={Colors.primaryColor} />}
+                    {loading && <ActivityIndicator style={{ marginVertical: 10, }} size="small" color={Colors.primaryColor} />}
                 </View>
                 {typeMessage()}
-               
+
             </View>
         </KeyboardAvoidingView>
     );
@@ -150,13 +192,13 @@ const ChatBot = ({ navigation }) => {
                         }}
                         style={{ marginRight: Sizes.fixPadding * 2.0 }}
                     />
-                    <View style={{borderWidth:2 , borderColor: 'black', borderRadius:999}}>
-                    <Image
-                        source={require('../assets/bot.png')}
-                        style={{ width: 50.0, height: 50.0, borderRadius: 23.0 }}
-                    />
-                    
-                    
+                    <View style={{ borderWidth: 2, borderColor: 'black', borderRadius: 999 }}>
+                        <Image
+                            source={require('../assets/bot.png')}
+                            style={{ width: 50.0, height: 50.0, borderRadius: 23.0 }}
+                        />
+
+
                     </View>
                     <View style={{ flex: 1, marginHorizontal: Sizes.fixPadding + 2.0 }}>
                         <Text style={{ ...Fonts.blackColor19SemiBold }}>PosEase</Text>
@@ -198,22 +240,22 @@ const ChatBot = ({ navigation }) => {
         };
         return (
             <>
-           
-            <View style={{ flex: 1 }}>
-             
-                <FlatList
-                    inverted
-                    data={messagesList}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={renderItem}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{
-                        flexDirection: 'column-reverse',
-                        paddingBottom: Sizes.fixPadding * 2.0,
-                        paddingTop: Sizes.fixPadding * 2.0,
-                    }}
-                />
-            </View>
+
+                <View style={{ flex: 1 }}>
+
+                    <FlatList
+                        inverted
+                        data={messagesList}
+                        keyExtractor={item => `${item.id}`}
+                        renderItem={renderItem}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{
+                            flexDirection: 'column-reverse',
+                            paddingBottom: Sizes.fixPadding * 2.0,
+                            paddingTop: Sizes.fixPadding * 2.0,
+                        }}
+                    />
+                </View>
             </>
         );
     }

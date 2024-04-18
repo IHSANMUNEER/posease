@@ -34,16 +34,20 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 10,
     alignItems: 'center',
+    
   },
   card: {
     width: '98%',
     borderRadius: 10,
     overflow: 'hidden',
     elevation: 5, 
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#eeeeee',
+    
   },
   cover: {
     height: 300,
+   
+    
   },
   title: {
     marginVertical: 20,

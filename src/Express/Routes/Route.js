@@ -5,7 +5,7 @@ const {
       addDoctersData, allDoctors ,addFeedbackData ,
       getFeedbackData ,createNotification,getActiveNotifications,
       adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,
-      getUsers,getUsersCount,deleteUser} = require("../Controller/Controller");
+      getUsers,getUsersCount,deleteUser,deleteTip,deleteDoctor} = require("../Controller/Controller");
 
 
 router.get("/addtips", addTipsData);
@@ -24,6 +24,8 @@ router.post("/admindoccreate", adminDocCreation);
 router.get("/getusers", getUsers);
 router.get("/getuserscount", getUsersCount);
 router.delete("/deleteuser", deleteUser);
+router.delete("/deletetip", deleteTip);
+router.delete("/deletedoctor", deleteDoctor);
 
 
 module.exports = router;

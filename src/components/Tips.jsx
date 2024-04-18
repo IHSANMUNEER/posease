@@ -5,7 +5,7 @@ import colors from './colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SkeletonLoader from './SkeletonLoader'; // Import the SkeletonLoader component
+import SkeletonLoader from './SkeletonLoader';
 
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginRight: 10,
-    width: 220,
+    width: 240,
     backgroundColor: '#358b99',
     height: 120,
     marginTop: 10,

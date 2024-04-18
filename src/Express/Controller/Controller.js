@@ -209,10 +209,38 @@ const getUsersCount = async (req, res) => {
     }
   };
   
+  const deleteTip = async (req, res) => {
+    try {
+      const tipId = req.body.userId; // Get the tip ID from the request body
+      const deletedTip = await Tip.deleteOne({ _id: tipId });
+      if (deletedTip.deletedCount === 1) {
+        res.status(200).json({ message: 'Tip deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'Tip not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting tip:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  const deleteDoctor = async (req, res) => {
+    try {
+      const docId = req.body.userId; 
+      const deletedDoc = await Doctors.deleteOne({ _id: docId });
+      if (deletedDoc.deletedCount === 1) {
+        res.status(200).json({ message: 'Tip deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'Tip not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting tip:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
 
 module.exports = {
     addTipsData , allTips , addReportData ,
     addDoctersData ,allDoctors ,addFeedbackData ,
     getFeedbackData ,createNotification,getActiveNotifications,
     adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,getUsers,
-    getUsersCount,deleteUser};
+    getUsersCount,deleteUser,deleteTip,deleteDoctor};

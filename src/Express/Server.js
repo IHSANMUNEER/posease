@@ -14,8 +14,8 @@ admin.initializeApp({
   });
   
 ////
-// const port = 3001
-const port = process.env.PORT || 3001;
+const port = 5001
+// const port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
@@ -30,6 +30,6 @@ app.use("/posease",my_routes)
 
 app.listen(port, async()=>{
     await db(process.env.MONGODB_URL);
-    console.log('listening on port 3001')
+    console.log(`server listing at ${port}`)
 })
 

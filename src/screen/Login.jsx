@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth, firestore} from '../firebase/firebase';
+import React, { useState, useEffect } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, firestore } from '../firebase/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MyStatusBar from '../components/myStatusBar';
 import {
   StyleSheet,
   Text,
@@ -12,9 +13,9 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import {collection, getDocs, query, where} from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import colours from '../components/colors';
 import Loader from '../components/Loader';
 import LoginAni from '../components/LoginAni';
@@ -130,10 +131,10 @@ function Login() {
       showToast();
       return;
     }
-  
+
     console.log('Signing in...');
     setWaiting(true);
-  
+
     try {
       await signInWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
@@ -144,15 +145,13 @@ function Login() {
             AsyncStorage.setItem('userToken', 'user_authenticated');
             AsyncStorage.removeItem('emailS');
             AsyncStorage.setItem('emailS', email);
-  
-            console.log('User UID:', user.uid); 
+
+            console.log('User UID:', user.uid);
             AsyncStorage.setItem('userUID', user.uid);
             navigation.navigate('Userdashboard');
           } else {
-            Alert.alert(
-              'Email Not Verified',
-              'Please verify your email to sign in.',
-            );
+            showToast1();
+
           }
         })
         .catch(error => {
@@ -171,7 +170,7 @@ function Login() {
       setWaiting(false);
     }
   };
-  
+
 
   ///////////////////////////Toast/////////////////
 
@@ -181,6 +180,14 @@ function Login() {
       text1: 'Authentication Failed',
       text2:
         'Invalid Email or Password. Please enter a valid email address and password.',
+    });
+  };
+  const showToast1 = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Please Verify Email',
+      text2:
+        'Before loging in verify your email.',
     });
   };
   const InvalidMail = () => {
@@ -210,6 +217,7 @@ function Login() {
       {waiting && <Loader />}
       {!waiting && (
         <ScrollView contentContainerStyle={styles.container}>
+          <MyStatusBar />
           <View style={styles.screen}>
             <LoginAni />
             <Text style={styles.title}>Guess who's back? You are!</Text>

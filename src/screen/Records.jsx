@@ -99,14 +99,16 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         elevation: 5,
         backgroundColor: '#fff',
-        borderWidth:2,
-        borderColor:colors.primary
+        // borderWidth:2,
+        // borderColor:colors.primary
     },
     cover: {
-        height: 300,
+        height: 400,
         resizeMode: 'cover',
-        borderRadius: 20,
+        borderRadius: 10,
         marginBottom: 10,
+        borderWidth:1.5,
+        borderColor:colors.primary
         
     },
     title: {

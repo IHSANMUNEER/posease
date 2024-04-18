@@ -19,6 +19,9 @@ import Doctors from '../components/Doctors.jsx';
 import MyStatusBar from '../components/myStatusBar';
 import BotAni from '../components/ChatBotAni.jsx';
 import axios from 'axios';
+import Loader from '../components/Loader.jsx';
+import Processing from '../components/Processing.jsx';
+import Toast from 'react-native-toast-message';
 
 function ProfileScreen({ navigation }) {
   const [profileImageUri, setProfileImageUri] = useState(
@@ -31,6 +34,7 @@ function ProfileScreen({ navigation }) {
   const [name, setName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [processedImageUrl, setProcessedImageUrl] = useState('');
+  const [loading,setLoading]=useState(false)
 
   useEffect(() => {
     fetchData();
@@ -78,14 +82,15 @@ function ProfileScreen({ navigation }) {
     try {
       const media = await ImagePicker.openPicker({
         mediaType: 'any',
-        width: 300,
-        height: 400,
+        width: 500,
+        height: 500,
         cropping: true,
       });
 
       if (media.path) {
         setUpload(media.path);
         setPhotoUploaded(true);
+        setLoading(true)
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
@@ -113,8 +118,9 @@ function ProfileScreen({ navigation }) {
       
 
       try {
+        setLoading(true)
         const response = await axios.post(
-          'https://1d06-35-245-17-117.ngrok-free.app/predict',
+          'https://3ceb-34-143-145-204.ngrok-free.app/predict',
           formData,
           {
             headers: {
@@ -130,17 +136,30 @@ function ProfileScreen({ navigation }) {
           console.log('Processed Feedback:', result.feedback);
           setProcessedImageUrl(result.file_url);
           console.log('Response',result)
-          navigation.navigate('Results', { imageUrl: result.file_url, feedbackText: result.feedback });
-
+          navigation.navigate('Results', { imageUrl: result.file_url, feedbackText: result.feedback ,angles: result.angles });
+          setLoading(false)
         } else {
-          console.error('Prediction failed:', response.statusText);
+          // console.error('Prediction failed:', response.statusText);
+          setLoading(false);
+          showToast('error', 'Failed' ,'response')  
         }
       } catch (error) {
-        console.error('Error sending prediction request:', error);
+        // console.error('Error sending prediction request:', error);
+        setLoading(false);
+        showToast('error', 'Error In sending request' ,'server is not runing')  
       }
     } else {
-      console.warn('Please select an image first.');
+      // console.warn('Please select an image first.');
+      setLoading(false);
+      showToast('info','Image Not Selected','select image first')
     }
+  };
+  const showToast = (type,text1,text2) => {
+    Toast.show({
+      type: type,
+      text1: text1,
+      text2:text2
+    });
   };
 
   return (
@@ -179,7 +198,13 @@ function ProfileScreen({ navigation }) {
           onPress={() => pickImageOrVideo()}
         >
           <View style={styles.placeholderText}>
+          {loading &&(
+            <Processing/>
+          )}
+          {!loading &&(
             <UploadInputAni />
+          )}
+            
             <Text style={styles.text} onPress={() => pickImageOrVideo()}>
               Upload Image/Video
             </Text>
@@ -194,6 +219,7 @@ function ProfileScreen({ navigation }) {
         <Doctors />
 
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 }
@@ -212,14 +238,15 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     borderRadius: 20,
-    marginHorizontal: 60,
+    marginHorizontal: 70,
     borderWidth: 2,
     borderColor: color.primary,
     justifyContent: 'center',
     alignItems: 'center',
     borderStyle: 'dashed',
     overflow: 'hidden',
-    marginTop: 180,
+    marginTop: 240,
+    // marginTop: 180,
   },
   text: {
     fontSize: 15,
