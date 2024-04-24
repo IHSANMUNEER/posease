@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback,useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -19,58 +19,40 @@ import Doctors from '../components/Doctors.jsx';
 import MyStatusBar from '../components/myStatusBar';
 import BotAni from '../components/ChatBotAni.jsx';
 import axios from 'axios';
-import Loader from '../components/Loader.jsx';
 import Processing from '../components/Processing.jsx';
 import Toast from 'react-native-toast-message';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 
-function ProfileScreen({ navigation }) {
-  const [profileImageUri, setProfileImageUri] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTet-jk67T6SYdHW04eIMLygHzEeJKobi9zdg&usqp=CAU',
-  );
-  
+function Userdashboard() {
+  const [profileImageUri, setProfileImageUri] = useState('data:image/png;base64,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')
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [upload, setUpload] = useState('');
+  const [upload, setUpload] = useState(null);
   const [name, setName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [processedImageUrl, setProcessedImageUrl] = useState('');
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
+  const [newId,setNewUid]=useState('')
 
-  useEffect(() => {
-    fetchData();
-  }, [refreshing]);
+  const fetchProfile = async () => {
 
-  const fetchData = async () => {
-    const user = await AsyncStorage.getItem('emailS');
-
-    if (user) {
-      try {
-        const storedUserImage = await AsyncStorage.getItem(
-          `userProfile_${user}`,
-        );
-        const userImage = storedUserImage
-          ? storedUserImage.replace(/[\[\]"]+/g, '')
-          : '';
-        setProfileImageUri(userImage);
-
-        const storedUserName = await AsyncStorage.getItem(
-          `userName_${user}`,
-        );
-        const userName = storedUserName
-          ? storedUserName.replace(/[\[\]"]+/g, '')
-          : '';
-        setName(userName);
-      } catch (error) {
-        console.error('Error fetching data from AsyncStorage:', error);
-      }
-    }
+    const name1 = await AsyncStorage.getItem('userName');
+    const imageurl = await AsyncStorage.getItem('imageurl');
+    setName(name1);
+    setProfileImageUri(imageurl)
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchProfile();
+    }, [])
+  );
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
     try {
-      await fetchData();
+      await fetchProfile();
     } catch (error) {
       console.error('Error refreshing data:', error);
     } finally {
@@ -82,15 +64,15 @@ function ProfileScreen({ navigation }) {
     try {
       const media = await ImagePicker.openPicker({
         mediaType: 'any',
-        width: 500,
-        height: 500,
+        width: 800,
+        height: 800,
         cropping: true,
       });
 
       if (media.path) {
         setUpload(media.path);
         setPhotoUploaded(true);
-        setLoading(true)
+        setLoading(true);
       }
     } catch (error) {
       console.log('ImagePicker Error: ', error);
@@ -99,7 +81,7 @@ function ProfileScreen({ navigation }) {
 
   useEffect(() => {
     console.log('uploaded->', upload);
-    predictImage(); 
+    predictImage();
   }, [upload]);
 
   const toggleModal = () => {
@@ -115,12 +97,11 @@ function ProfileScreen({ navigation }) {
         type: 'image/jpg',
         name: 'file.jpg',
       });
-      
 
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await axios.post(
-          'https://3ceb-34-143-145-204.ngrok-free.app/predict',
+          'https://c628-34-139-140-59.ngrok-free.app/predict',
           formData,
           {
             headers: {
@@ -132,33 +113,33 @@ function ProfileScreen({ navigation }) {
         if (response.status === 200) {
           console.log('Prediction successful');
           const result = response.data;
-          console.log('Processed Image URL:', result.file_url);
-          console.log('Processed Feedback:', result.feedback);
           setProcessedImageUrl(result.file_url);
-          console.log('Response',result)
-          navigation.navigate('Results', { imageUrl: result.file_url, feedbackText: result.feedback ,angles: result.angles });
-          setLoading(false)
-        } else {
-          // console.error('Prediction failed:', response.statusText);
+
+          navigation.navigate('Results', {
+            imageUrl: result.file_url,
+            feedbackText: result.feedback,
+            angles: result.angles,
+            perfect: result.perfect_angles,
+          });
           setLoading(false);
-          showToast('error', 'Failed' ,'response')  
+        } else {
+          setLoading(false);
+          showToast('error', 'Failed', 'response');
         }
       } catch (error) {
-        // console.error('Error sending prediction request:', error);
         setLoading(false);
-        showToast('error', 'Error In sending request' ,'server is not runing')  
+        showToast('error', 'Error In sending request', 'server is not running');
       }
     } else {
-      // console.warn('Please select an image first.');
       setLoading(false);
-      showToast('info','Image Not Selected','select image first')
     }
   };
-  const showToast = (type,text1,text2) => {
+
+  const showToast = (type, text1, text2) => {
     Toast.show({
       type: type,
       text1: text1,
-      text2:text2
+      text2: text2,
     });
   };
 
@@ -172,58 +153,43 @@ function ProfileScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <Text
-          style={[
-            styles.text,
-            {
-              fontWeight: 'bold',
-              fontSize: 15,
-              position: 'absolute',
-              marginVertical: 20,
-              marginHorizontal: 70,
-            },
-          ]}
-        >
-          {name}
-        </Text>
-       
-          <Image
-            style={styles.logo}
-            source={profileImageUri ? { uri: profileImageUri } : null}
-          />
+        <Text style={[styles.text, {
+          fontWeight: 'bold',
+          fontSize: 15,
+          position: 'absolute',
+          marginVertical: 20,
+          marginHorizontal: 70,
+        }]}>{name}</Text>
 
-
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => pickImageOrVideo()}
-        >
+  
+        <Image source={{ uri: profileImageUri }} style={styles.logo} />
+        <TouchableOpacity activeOpacity={1} onPress={() => pickImageOrVideo()}>
           <View style={styles.placeholderText}>
-          {loading &&(
-            <Processing/>
-          )}
-          {!loading &&(
-            <UploadInputAni />
-          )}
-            
-            <Text style={styles.text} onPress={() => pickImageOrVideo()}>
-              Upload Image/Video
-            </Text>
+            {loading && (<Processing />)}
+            {!loading && (<UploadInputAni />)}
+            {!loading && (
+              <Text style={styles.text} onPress={() => pickImageOrVideo()}>
+                Upload Image/Video
+              </Text>
+            )}
+            {loading && (
+              <Text style={styles.text} onPress={() => pickImageOrVideo()}>
+                Processing
+              </Text>
+            )}
           </View>
         </TouchableOpacity>
-       
-      
+
         <BotAni />
         <Text style={styles.title}>Today Tips</Text>
 
         <Tips />
         <Doctors />
-
       </ScrollView>
       <Toast />
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -245,8 +211,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderStyle: 'dashed',
     overflow: 'hidden',
-    marginTop: 240,
-    // marginTop: 180,
+    //marginTop: 250,
+    marginTop: 180,
   },
   text: {
     fontSize: 15,
@@ -295,4 +261,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default Userdashboard;

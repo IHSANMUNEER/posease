@@ -7,18 +7,18 @@ const Processing = () => {
     <View
     style={{
       justifyContent: 'center',
-      height: 300,
+      height: 200,
       width: 300,
-      alignItems: 'center',
+      alignItems: 'left',
       backgroundColor: 'white',
-   
-      marginVertical: 20,
       marginHorizontal: 110,
+      marginTop: 30,
+      marginBottom:5
     //   borderRadius:999
     }}>
     <View>
       <Lottie
-        style={{width: 300, height: 300}}
+        style={{width: 300, height: 200}}
         source={require('../assets/processing.json')}
         autoPlay
         loop

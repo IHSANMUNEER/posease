@@ -3,9 +3,7 @@ import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-nati
 import color from '../components/colors.jsx';
 import css from '../components/css.jsx';
 import Subscription from '../components/Subscription.jsx';
-import TabNavigator from '../components/TabBar.jsx';
 import { NavigationContainer, useNavigation, useFocusEffect } from '@react-navigation/native';
-import CreditCardInputScreen from './Payment.jsx';
 import Loader from '../components/Loader.jsx';
 
 const Subscribe = () => {

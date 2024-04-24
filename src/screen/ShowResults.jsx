@@ -6,22 +6,35 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
-
 const Angles = ({ angles }) => {
-    return (
-      <View>
-        {Object.entries(angles).map(([key, value], index) => (
-          <View key={key}>
-          
-            <Text style={styles.angles}>
-              {key}: {value}
-            </Text>
-            {index !== Object.keys(angles).length - 1 && <View style={styles.line} />}
-          </View>
-        ))}
-      </View>
-    );
-  };
+  return (
+    <View>
+      {Object.entries(angles).map(([key, value], index) => (
+        <View key={key}>
+          <Text style={styles.angles}>
+            {value}
+          </Text>
+          {index !== Object.keys(angles).length - 1 && <View style={styles.line} />}
+        </View>
+      ))}
+    </View>
+  );
+};
+const Body = ({ angles }) => {
+  return (
+    <View>
+      {Object.entries(angles).map(([key, value], index) => (
+        <View key={key}>
+          <Text style={styles.angles}>
+            {key}
+          </Text>
+          {index !== Object.keys(angles).length - 1 && <View style={styles.line} />}
+        </View>
+      ))}
+    </View>
+  );
+};
+
 
 const Results = () => {
   const [rating, setRating] = useState(0);
@@ -29,6 +42,7 @@ const Results = () => {
   const [imageUrl, setImageUrl] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg');
   const [userUID, setUserUID] = useState('6w7df76wd7wwdra');
   const [angles, setAngles] = useState({}); // Initialize angles as an object
+  const [pangles, setPangles] = useState({}); // Initialize angles as an object
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -48,11 +62,13 @@ const Results = () => {
   }, []);
 
   useEffect(() => {
-    const { feedbackText, imageUrl, angles } = route.params || {};
-    if (feedbackText && imageUrl && angles) {
+    const { feedbackText, imageUrl, angles, perfect } = route.params || {};
+
+    if (feedbackText && imageUrl && angles && perfect) {
       setFeedbackText(feedbackText);
       setImageUrl(imageUrl);
       setAngles(angles);
+      setPangles(perfect)
     }
   }, [route.params]);
 
@@ -94,27 +110,41 @@ const Results = () => {
   };
 
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
-    <View style={styles.container}>
-      <Text style={styles.title}>Feedback</Text>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: imageUrl }} style={styles.image} />
+    <ScrollView style={{ backgroundColor: 'white' }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Feedback</Text>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: imageUrl }} style={styles.image} />
+        </View>
+        <Text style={styles.feedback}>{feedbackText}</Text>
+
+        <View style={styles.anglesContainer}>
+
+          <View style={styles.anglesColumn}>
+            <Text style={styles.columnTitle}>Body Part</Text>
+            <Body angles={pangles} />
+          </View>
+          
+          <View style={styles.anglesColumn}>
+            <Text style={styles.columnTitle}>Angles</Text>
+            <Angles angles={angles} />
+          </View>
+          <View style={styles.anglesColumn}>
+            <Text style={styles.columnTitle}>Perfect</Text>
+            <Angles angles={pangles} />
+          </View>
+        </View>
+
+        <Rating
+          style={{ marginVertical: 10 }}
+          startingValue={rating}
+          onFinishRating={handleRatingChange}
+        />
+        <TouchableOpacity style={styles.continue} onPress={handleSaveFeedback}>
+          <Text style={styles.buttontext}>Save Feedback</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.feedback}>{feedbackText}</Text>
-
-      
-      <Angles angles={angles} />
-
-      <Rating
-        style={{ marginVertical: 10 }}
-        startingValue={rating}
-        onFinishRating={handleRatingChange}
-      />
-      <TouchableOpacity style={styles.continue} onPress={handleSaveFeedback}>
-        <Text style={styles.buttontext}>Save Feedback</Text>
-      </TouchableOpacity>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
-    </View>
+      <Toast/>
     </ScrollView>
   );
 };
@@ -131,14 +161,30 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
     fontSize: 30,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   feedback: {
-    color: 'black',
+    color: colors.primary,
     fontWeight: '900',
     textAlign: 'center',
     fontSize: 18,
+    marginVertical: 5,
+  },
+  anglesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  anglesColumn: {
+    flex: 1,
+  },
+  columnTitle: {
+    color: colors.primary,
+    fontWeight: '900',
+    textAlign: 'center',
+    fontSize: 20,
     marginVertical: 10,
+    // marginHorizontal: 20
   },
   angles: {
     color: 'black',
@@ -147,14 +193,15 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginVertical: 7,
     display: 'flex',
-    flexDirection:'row',
+    flexDirection: 'row',
     flexWrap: 'wrap',
+    textAlign:'center'
   },
   imageContainer: {
     width: 400,
     height: 400,
     marginHorizontal: 10,
-    borderRadius: 20,
+    borderRadius: 15,
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: colors.primary,
@@ -185,7 +232,7 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    marginBottom: 5, // Adjust the margin bottom as needed
+    marginBottom: 1, // Adjust the margin bottom as needed
   },
 });
 

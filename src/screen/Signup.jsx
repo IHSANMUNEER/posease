@@ -1,181 +1,97 @@
-import React, {useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {auth, firestore} from '../firebase/firebase';
-
-import {
-  collection,
-  addDoc,
-  doc,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore';
-
+import { auth } from '../firebase/firebase';
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
-  Alert,
   ScrollView,
 } from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colours from '../components/colors';
 import SignUpAni from '../components/SignUpAni';
-import Loader from '../components/Loader';
 import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 function Signup() {
   const navigation = useNavigation();
 
   const [eye, setEye] = useState(true);
-
-  const handleEye = () => {
-    setEye(!eye);
-  };
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
+  const [uid, setUid] = useState('');
+
+  const handleEye = () => {
+    setEye(!eye);
+  };
 
   const onPressHandler = () => {
     navigation.navigate('Login');
-    setWaiting(false)
+    setWaiting(false);
   };
 
   const handleSignUp = async () => {
-    if (!username.trim()) {
+    if (!username.trim() || !email.trim() || !password.trim() || !confirmpassword.trim()) {
       showToast();
+      return;
     }
-    if (!email.trim()) {
-      showToast();
-    }
-    if (!password.trim()) {
-      showToast();
-    }
-    if (!confirmpassword.trim()) {
-      showToast();
-    }
-    if (password == confirmpassword) {
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          const user = userCredential.user;
-          
-          AsyncStorage.setItem('userToken', 'user_authenticated');
-          AsyncStorage.removeItem('emailS');
-          AsyncStorage.setItem('emailS', email);
-          sendEmailVerification(user).then(() => {
-            Varefication();
-            setTimeout(()=>{
-              
-              navigation.navigate('Login');
-            },3000)
-            saveUserData();
-            fetchData();
-            
-          });
-        })
-        .catch(error => {
-          if (error.code === 'auth/email-already-in-use') {
-            showEmailInUse();
-          }
-
-          if (error.code === 'auth/invalid-email') {
-            showToast();
-          }
-
-          console.error(error);
-        });
-    } else {
+    if (password !== confirmpassword) {
       passwordConfirm();
+      return;
     }
-  };
-
-  const saveUserData = async () => {
     try {
-      const userDataCollection = collection(firestore, 'userdata');
-
-      await addDoc(userDataCollection, {
-        id: auth.currentUser.uid,
-        name: username,
-        emailId: email,
-        passwordS: password,
-      });
-
-      console.log('User data added to Firestore successfully!');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      setUid(user.uid);
+      await sendEmailVerification(user);
+      Varefication();
     } catch (error) {
-      console.error('Error adding user data to Firestore: ', error);
+      if (error.code === 'auth/email-already-in-use') {
+        showEmailInUse();
+      } else if (error.code === 'auth/invalid-email') {
+        showToast();
+      }
+      console.error(error);
     }
   };
 
-  ///////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
-
-  const fetchData = async () => {
-    const userDataCollection = collection(firestore, 'userdata');
-
-    try {
-      const querySnapshot = await getDocs(
-        query(userDataCollection, where('emailId', '==', email)),
-      );
-
-      const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
-      const Username = querySnapshot.docs.map(doc => doc.data().name);
-      const UserId = auth.currentUser.uid;
-      const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
-
-      await AsyncStorage.setItem(
-        `userEmail_${email}`,
-        JSON.stringify(UserEmail),
-      );
-      await AsyncStorage.setItem(`userName_${email}`, JSON.stringify(Username));
-      await AsyncStorage.setItem(
-        `userPassword_${email}`,
-        JSON.stringify(Userpassword),
-      );
-      await AsyncStorage.setItem(`userId_${email}`, JSON.stringify(UserId));
-      console.log(`userEmail_${auth.currentUser.uid}`);
-      console.log('to set', UserEmail);
-      console.log('to set', Username);
-      console.log('to set', Userpassword);
-      console.log('to set', UserId);
-    } catch (error) {
-      console.error('Error fetching data from Firestore:', error);
+  useEffect(() => {
+    if (uid) {
+      addUserdata();
+      AsyncStorage.setItem('userName', username);
+      setTimeout(() => {
+        navigation.navigate('Login');
+      }, 3000);
     }
+  }, [uid]);
+
+  const addUserdata = async () => {
+    const response = await axios.post("http://10.14.1.236:5001/posease/adduser", {
+      uid: uid,
+      name: username,
+      email: email,
+    });
+    console.log("Response:", response.data);
   };
 
-  ///////////////////////////Toast/////////////////
-  const showToast = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Authentication Failed',
-      text2:
-        'Invalid Email or Password. Please enter a valid email address and password.',
-    });
-  };
-  const showAccountCreated = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Account Created',
-      text2: 'Account has been created now you can login with your credentials',
-    });
-  };
   const showEmailInUse = () => {
     Toast.show({
       type: 'error',
       text1: 'Email In Use',
-      text2: 'This email is alraedy registered',
+      text2: 'This email is already registered',
     });
   };
+
   const passwordConfirm = () => {
     Toast.show({
       type: 'error',
@@ -183,6 +99,7 @@ function Signup() {
       text2: 'Password and confirm password should be same',
     });
   };
+
   const Varefication = () => {
     Toast.show({
       type: 'info',
@@ -190,93 +107,89 @@ function Signup() {
       text2: 'Please Verify Email',
     });
   };
-  ///////////////////////////////////////////////////////////
 
   return (
     <>
-      {/* {waiting && <Loader />}
-      {!waiting && ( */}
-        <ScrollView style={styles.container}>
-          <View style={styles.screen}>
-            <View style={styles.header}>
-              <SignUpAni />
-              <Text style={styles.title}>Create Account</Text>
-            </View>
-            <View style={styles.form}>
-              <TextInput
-                value={username}
-                placeholder="Name"
-                placeholderTextColor="gray"
-                style={styles.input}
-                onChangeText={setUsername}
-              />
-              <Icon
-                name="user"
-                size={20}
-                color={colours.primary}
-                style={styles.user}
-              />
-              <TextInput
-                value={email}
-                placeholder="Email"
-                placeholderTextColor="gray"
-                style={styles.input}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-              />
-              <Icon
-                name="envelope"
-                size={20}
-                color={colours.primary}
-                style={styles.email}
-              />
-              <TextInput
-                value={password}
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="gray"
-                secureTextEntry={eye}
-                onChangeText={setPassword}
-              />
-              <TouchableOpacity style={styles.lock} onPress={handleEye}>
-                <Icon
-                  name={eye ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color={colours.primary}
-                />
-              </TouchableOpacity>
-              <TextInput
-                value={confirmpassword}
-                style={styles.input}
-                placeholder="Confirm Password"
-                placeholderTextColor="gray"
-                secureTextEntry={eye}
-                onChangeText={setConfirmPassword}
-              />
-              <TouchableOpacity style={styles.eye2} onPress={handleEye}>
-                <Icon
-                  name={eye ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color={colours.primary}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={async () => {
-                  await handleSignUp();
-                }}>
-                <Text style={styles.buttonText}>SIGN UP</Text>
-              </TouchableOpacity>
-              <Text style={styles.text}>
-                Already have an account?{' '}
-                <Text style={styles.textLink} onPress={onPressHandler}>
-                  Login
-                </Text>
-              </Text>
-            </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.screen}>
+          <View style={styles.header}>
+            <SignUpAni />
+            <Text style={styles.title}>Create Account</Text>
           </View>
-        </ScrollView>
-      {/* )} */}
+          <View style={styles.form}>
+            <TextInput
+              value={username}
+              placeholder="Name"
+              placeholderTextColor="gray"
+              style={styles.input}
+              onChangeText={setUsername}
+            />
+            <Icon
+              name="user"
+              size={20}
+              color={colours.primary}
+              style={styles.user}
+            />
+            <TextInput
+              value={email}
+              placeholder="Email"
+              placeholderTextColor="gray"
+              style={styles.input}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+            <Icon
+              name="envelope"
+              size={20}
+              color={colours.primary}
+              style={styles.email}
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="gray"
+              secureTextEntry={eye}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.lock} onPress={handleEye}>
+              <Icon
+                name={eye ? 'eye' : 'eye-slash'}
+                size={20}
+                color={colours.primary}
+              />
+            </TouchableOpacity>
+            <TextInput
+              value={confirmpassword}
+              style={styles.input}
+              placeholder="Confirm Password"
+              placeholderTextColor="gray"
+              secureTextEntry={eye}
+              onChangeText={setConfirmPassword}
+            />
+            <TouchableOpacity style={styles.eye2} onPress={handleEye}>
+              <Icon
+                name={eye ? 'eye' : 'eye-slash'}
+                size={20}
+                color={colours.primary}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                await handleSignUp();
+              }}>
+              <Text style={styles.buttonText}>SIGN UP</Text>
+            </TouchableOpacity>
+            <Text style={styles.text}>
+              Already have an account?{' '}
+              <Text style={styles.textLink} onPress={onPressHandler}>
+                Login
+              </Text>
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
       <Toast />
     </>
   );
@@ -372,6 +285,7 @@ const styles = StyleSheet.create({
     height: 28,
     borderRadius: 9999,
   },
+ 
   lock: {
     position: 'absolute',
     right: 10,

@@ -5,6 +5,7 @@ const Report = require("../Model/ProblemSchema");
 const Doctors = require("../Model/DoctorsSchema");
 const Feedback = require("../Model/FeedbackSchema");
 const addNotification = require("../Model/SendNotification")
+const User = require("../Model/UserSchema")
 const admin = require('firebase-admin');
 
 const addTipsData = async (req, res) => {
@@ -238,9 +239,65 @@ const getUsersCount = async (req, res) => {
     }
   };
 
+  const addUser = async (req, res) => {
+    try {
+      console.log('Adding new user to database...',req.body);
+      const { name,email,uid } = req.body;
+  
+      const newUser = new User({
+        uid,
+        name,
+        email
+      });
+  
+      const saveUser = await newUser.save();
+  
+      res.status(201).json(saveUser);
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+  const getUserProfile = async (req, res) => {
+    const {uid} = req.query;  
+    try {
+      const user = await User.findOne({ uid: uid });
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const updateUserProfile = async (req, res) => {
+  
+  const { newName ,uid} = req.body;
+
+  try {
+    const user = await User.findOne({ uid: uid });
+
+    if (user) {
+      user.name = newName; 
+      await user.save();  
+      res.status(200).json({ message: 'User updated successfully', user: user });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
+
 module.exports = {
     addTipsData , allTips , addReportData ,
     addDoctersData ,allDoctors ,addFeedbackData ,
     getFeedbackData ,createNotification,getActiveNotifications,
     adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,getUsers,
-    getUsersCount,deleteUser,deleteTip,deleteDoctor};
+    getUsersCount,deleteUser,deleteTip,deleteDoctor,addUser,getUserProfile,updateUserProfile};

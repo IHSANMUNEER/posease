@@ -13,7 +13,7 @@ const SuccessAni = () => {
       backgroundColor: 'white',
    
       marginVertical: 100,
-      marginHorizontal: 60,
+      marginHorizontal: 80,
       borderRadius:999
     }}>
     <View>

@@ -51,75 +51,6 @@ function Login() {
 
   const [eye, setEye] = useState(true);
 
-  // ///////////////////////////Fetching user Data From firestore and saving in ASYNC Storage/////////////////
-
-  const fetchData = async () => {
-    const userDataCollection = collection(firestore, 'userdata');
-
-    try {
-      const querySnapshot = await getDocs(
-        query(userDataCollection, where('emailId', '==', email)),
-      );
-
-      const UserEmail = querySnapshot.docs.map(doc => doc.data().emailId);
-      const Username = querySnapshot.docs.map(doc => doc.data().name);
-      const Userpassword = querySnapshot.docs.map(doc => doc.data().passwordS);
-      const Profile = querySnapshot.docs.map(doc => doc.data().profileImage);
-      const docId = querySnapshot.docs[0].id;
-
-      const existingUserEmail = await AsyncStorage.getItem(
-        `userEmail_${email}`,
-      );
-      const existingUserName = await AsyncStorage.getItem(`userName_${email}`);
-      const existingUserImage = await AsyncStorage.getItem(
-        `userProfile_${email}`,
-      );
-      const existingUserPassword = await AsyncStorage.getItem(
-        `userPassword_${email}`,
-      );
-      const existingUserDocId = await AsyncStorage.getItem(`userDoc_${email}`);
-
-      if (existingUserEmail === null) {
-        await AsyncStorage.setItem(
-          `userEmail_${email}`,
-          JSON.stringify(UserEmail),
-        );
-        console.log('Setting userEmail:', UserEmail);
-      }
-
-      if (existingUserName === null) {
-        await AsyncStorage.setItem(
-          `userName_${email}`,
-          JSON.stringify(Username),
-        );
-        console.log('Setting userName:', Username);
-      }
-
-      if (existingUserPassword === null) {
-        await AsyncStorage.setItem(
-          `userPassword_${email}`,
-          JSON.stringify(Userpassword),
-        );
-        console.log('Setting userPassword:', Userpassword);
-      }
-
-      if (existingUserImage === null) {
-        await AsyncStorage.setItem(
-          `userProfile_${email}`,
-          JSON.stringify(Profile),
-        );
-      }
-
-      if (existingUserDocId === null) {
-        await AsyncStorage.setItem(`userDoc_${email}`, JSON.stringify(docId));
-      }
-    } catch (error) {
-      console.error('Error fetching data from Firestore:', error);
-    }
-  };
-
-  // ///////////////////////////eye icon handle/////////////////
-
   const handleEye = () => {
     setEye(!eye);
   };
@@ -141,7 +72,7 @@ function Login() {
           setWaiting(false);
           const user = userCredential.user;
           if (user.emailVerified) {
-            fetchData();
+           
             AsyncStorage.setItem('userToken', 'user_authenticated');
             AsyncStorage.removeItem('emailS');
             AsyncStorage.setItem('emailS', email);
@@ -162,7 +93,7 @@ function Login() {
               'Please enter correct email and password',
             );
           }
-          // Handle other errors...
+         
           console.error(error);
         });
     } catch (error) {
@@ -190,27 +121,7 @@ function Login() {
         'Before loging in verify your email.',
     });
   };
-  const InvalidMail = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Authentication Failed',
-      text2: 'Invalid Email. Please enter a valid email address.',
-    });
-  };
-  const Tomanyrequest = () => {
-    Toast.show({
-      type: 'info',
-      text1: 'To Many Requests',
-      text2: 'Too many requests Try again later.',
-    });
-  };
-  const Internet = () => {
-    Toast.show({
-      type: 'info',
-      text1: 'No Internet Connection',
-      text2: 'Connect to internet.',
-    });
-  };
+  
 
   return (
     <>

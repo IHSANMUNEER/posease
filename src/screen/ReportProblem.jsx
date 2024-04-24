@@ -40,10 +40,10 @@ const Report = () => {
 
       sendFeedbackToBackend(text);
     }
-    setTimeout(() => {
-      navigation.navigate('Userdashboard')
-      console.log('Delayed code execution after 1 second');
-    }, 500);
+    // setTimeout(() => {
+    //   //navigation.navigate('Userdashboard')
+    //   console.log('Delayed code execution after 1 second');
+    // }, 500);
   };
 
 
