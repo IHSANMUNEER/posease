@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { FlatList, StyleSheet, View } from 'react-native';
 import colors from './colors';
@@ -6,13 +6,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SkeletonLoader from './SkeletonLoader';
-
+import { GlobalContext } from './GlobalContext';
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
 
 const Tips = () => {
   const navigation = useNavigation();
   const [tips, setTips] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // State to track loading state
+  const [isLoading, setIsLoading] = useState(true); 
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   useEffect(() => {
     fetchTips();
@@ -20,7 +21,8 @@ const Tips = () => {
 
   const fetchTips = async () => {
     try {
-      const response = await fetch('https://api-v20-production.up.railway.app/posease/gettips');
+      const response = await fetch(`${globalVariable}/posease/gettips`);
+      //const response = await fetch('http://10.14.1.156:5001/posease/gettips');
       const data = await response.json();
       console.log("here")
       setTips(data.tips);

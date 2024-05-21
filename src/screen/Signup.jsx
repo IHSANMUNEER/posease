@@ -55,6 +55,7 @@ function Signup() {
       setUid(user.uid);
       await sendEmailVerification(user);
       Varefication();
+      addUserdata()
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         showEmailInUse();
@@ -76,7 +77,7 @@ function Signup() {
   }, [uid]);
 
   const addUserdata = async () => {
-    const response = await axios.post("http://10.14.1.236:5001/posease/adduser", {
+    const response = await axios.post("http://10.14.1.177:5001/posease/adduser", {
       uid: uid,
       name: username,
       email: email,

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import { default as colors } from './colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DoctorSkeletonLoader from './DoctorSkeleton';
+import { GlobalContext } from './GlobalContext';
 
 function Doctors() {
   const navigation = useNavigation();
   const [doctors, setDoctors] = useState([]);
+  const [item, setItem] = useState();
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   useEffect(() => {
     fetchDoc();
@@ -18,14 +21,14 @@ function Doctors() {
 
   const fetchDoc = async () => {
     try {
-      const response = await fetch('https://api-v20-production.up.railway.app/posease/getdoc');
+      const response = await fetch(`${globalVariable}/posease/getdoc`);
+      //const response = await fetch('https://api-v20-production.up.railway.app/posease/getdoc');
       const data = await response.json();
-      const shuffledDoctors = shuffleArray(data.tips); // Shuffle the order of doctors
+      const shuffledDoctors = shuffleArray(data.tips); 
       setDoctors(shuffledDoctors);
-      await AsyncStorage.setItem('doctors', JSON.stringify(shuffledDoctors)); // Update local storage
+      await AsyncStorage.setItem('doctors', JSON.stringify(shuffledDoctors)); 
     } catch (error) {
       console.error('Error fetching doctors:', error);
-      // If fetching from the network fails, try to load from local storage
       const storedData = await AsyncStorage.getItem('doctors');
       if (storedData) {
         setDoctors(JSON.parse(storedData));
@@ -33,7 +36,6 @@ function Doctors() {
     }
   };
 
-  // Function to shuffle the array
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -51,8 +53,7 @@ function Doctors() {
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         if (JSON.stringify(parsedData) !== JSON.stringify(data.tips)) {
-          // Data has been updated, update state and local storage
-          const shuffledDoctors = shuffleArray(data.tips); // Shuffle the order of doctors
+          const shuffledDoctors = shuffleArray(data.tips); 
           setDoctors(shuffledDoctors);
           await AsyncStorage.setItem('doctors', JSON.stringify(shuffledDoctors));
         }
@@ -66,6 +67,7 @@ function Doctors() {
     <View style={styles.professionalsList}>
       <View style={styles.header}>
         <Text style={styles.headerTextLeft}>Health Professionals</Text>
+        <Text style={styles.headerTextLeft} onPress={() => navigation.navigate('AllDoctors')}>See All</Text>
       </View>
       {doctors.length > 0 ? (
         <FlatList
@@ -99,7 +101,7 @@ function Doctors() {
           )}
         />
       ) : (
-        <DoctorSkeletonLoader/>
+        <DoctorSkeletonLoader />
       )}
     </View>
   );
@@ -121,13 +123,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     padding: 15,
     borderRadius: 10,
-    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#358b99',
-    marginRight: 10,
     marginLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   professionalsImageContainer: {
     borderRadius: 50,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
     borderWidth: 2,
     marginHorizontal: 15,
-    borderColor: colors.secondary
+    borderColor: colors.secondary,
   },
   professionalsItemImage: {
     width: 80,

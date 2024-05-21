@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { TextInput, DefaultTheme } from 'react-native-paper';
 import colors from '../components/colors';
@@ -6,10 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ReportAni from '../components/ReportAni';
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import {  useNavigation } from '@react-navigation/native';
+import { GlobalContext } from '../components/GlobalContext';
 const Report = () => {
   const [text, setText] = React.useState("");
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -41,7 +43,7 @@ const Report = () => {
       sendFeedbackToBackend(text);
     }
     // setTimeout(() => {
-    //   //navigation.navigate('Userdashboard')
+    //   navigation.navigate('Tabs', { screen: 'Home' })
     //   console.log('Delayed code execution after 1 second');
     // }, 500);
   };
@@ -49,7 +51,8 @@ const Report = () => {
 
   const sendFeedbackToBackend = async (feedbackText) => {
     try {
-      const response = await fetch('https://api-v20-production.up.railway.app/posease/reports', {
+      const response = await fetch(`${globalVariable}/posease/reports`,{
+     // const response = await fetch('https://api-v20-production.up.railway.app/posease/reports', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -24,7 +24,8 @@ const DoctorDetail = () => {
               {item.name}
             </Text>
             <Text variant="bodyMedium" style={styles.subtitle}>
-              {item.specialization}
+              {item.specialization.split(', ').slice(0, 2).join(',')}
+              
             </Text>
           </View>
         </View>
@@ -97,17 +98,19 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 10,
     alignItems: 'center',
-    backgroundColor : '#ffff'
+    backgroundColor : '#ffff',
+   
+
   },
-  card: {
-    width: '95%',
-    borderRadius: 20,
-    overflow: 'hidden',
-    elevation: 30,
-    backgroundColor: '#ffff',
-    // borderWidth:0.8,
-    // borderColor: colors.primary
-  },
+ card: {
+  width: '95%',
+  borderRadius: 20,
+  overflow: 'hidden', 
+  elevation: 30,
+  backgroundColor: '#ffff',
+  
+
+},
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -130,8 +133,13 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 15,
     color: 'black',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginRight: 20
+    
     
   },
   button: {

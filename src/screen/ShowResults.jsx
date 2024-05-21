@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import colors from '../components/colors';
 import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { GlobalContext } from '../components/GlobalContext';
 
 const Angles = ({ angles }) => {
   return (
@@ -41,8 +42,9 @@ const Results = () => {
   const [feedbackText, setFeedbackText] = useState('Awaiting feedback...');
   const [imageUrl, setImageUrl] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg');
   const [userUID, setUserUID] = useState('6w7df76wd7wwdra');
-  const [angles, setAngles] = useState({}); // Initialize angles as an object
-  const [pangles, setPangles] = useState({}); // Initialize angles as an object
+  const [angles, setAngles] = useState({}); 
+  const [pangles, setPangles] = useState({}); 
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -78,7 +80,8 @@ const Results = () => {
 
   const handleSaveFeedback = async () => {
     try {
-      const response = await fetch('https://api-v20-production.up.railway.app/posease/addfeedback', {
+      
+      const response = await fetch(`${globalVariable}/posease/addfeedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -198,9 +201,8 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   imageContainer: {
-    width: 400,
-    height: 400,
-    marginHorizontal: 10,
+    width: 380,
+    height: 350,
     borderRadius: 15,
     overflow: 'hidden',
     borderWidth: 2,

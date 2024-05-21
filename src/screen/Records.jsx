@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Card, Text } from 'react-native-paper';
 import { StyleSheet, View, FlatList, Image } from 'react-native';
 import colors from '../components/colors';
@@ -8,10 +8,12 @@ import { useIsFocused } from '@react-navigation/native';
 import RecordsSkeleton from '../components/RecordsSkeleton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RecordAni from '../components/RecordAni';
+import { GlobalContext } from '../components/GlobalContext';
 const Records = () => {
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [noRecords, setNoRecords] = useState(false); 
+    const [noRecords, setNoRecords] = useState(false);
+    const { globalVariable, setGlobalVariable } = useContext(GlobalContext); 
     const isFocused = useIsFocused();
 
     useEffect(() => {
@@ -29,8 +31,8 @@ const Records = () => {
                 console.error('User UID not found in AsyncStorage');
                 return;
             }
-
-            const response = await axios.get(`https://api-v20-production.up.railway.app/posease/getfeedback?uid=${userUID}`);
+            const response = await axios.get(`${globalVariable}/posease/getfeedback?uid=${userUID}`);
+            //const response = await axios.get(`https://api-v20-production.up.railway.app/posease/getfeedback?uid=${userUID}`);
             const sortedData = response.data.tips.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setRecords(sortedData);
             setLoading(false);
@@ -93,21 +95,23 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingTop: 30,
         backgroundColor: colors.secondary,
+        
+        elevation: 10
     },
     card: {
         marginBottom: 10,
-        borderRadius: 20,
+        borderRadius: 15,
         elevation: 5,
         backgroundColor: '#fff',
-        // borderWidth:2,
-        // borderColor:colors.primary
+        borderWidth:1,
+        borderColor:colors.primary
     },
     cover: {
         height: 400,
         resizeMode: 'cover',
-        borderRadius: 10,
+        borderRadius: 14,
         marginBottom: 10,
-        borderWidth:1.5,
+        //borderWidth:1.5,
         borderColor:colors.primary
         
     },
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
         color: colors.primary,
     },
     heading: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         color: colors.primary,
         marginHorizontal: 140,

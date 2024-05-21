@@ -8,6 +8,11 @@ const addNotification = require("../Model/SendNotification")
 const User = require("../Model/UserSchema")
 const admin = require('firebase-admin');
 
+const multer = require('multer');
+const storage = require('../cloudinaryConfig');
+const upload = multer({ storage: storage }).single('file');
+
+
 const addTipsData = async (req, res) => {
     try {
         await addTips();
@@ -260,11 +265,13 @@ const getUsersCount = async (req, res) => {
   };
 
   const getUserProfile = async (req, res) => {
-    const {uid} = req.query;  
+    const {uid} = req.query; 
+    console.log(uid) 
     try {
       const user = await User.findOne({ uid: uid });
       if (user) {
         res.status(200).json(user);
+        console.log(user)
       } else {
         res.status(404).json({ message: 'User not found' });
       }
@@ -275,13 +282,14 @@ const getUsersCount = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
   
-  const { newName ,uid} = req.body;
+  const { newName ,uid ,profileurl} = req.body;
 
   try {
     const user = await User.findOne({ uid: uid });
 
     if (user) {
-      user.name = newName; 
+      user.name = newName;
+      user.profileuri =  profileurl;
       await user.save();  
       res.status(200).json({ message: 'User updated successfully', user: user });
     } else {
@@ -292,6 +300,30 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+const uploadFile = (req, res) => {
+  console.log('Triggered uploadFile');
+
+  upload(req, res, function (err) {
+    if (err) {
+      console.error('Error occurred during upload:', err);
+      return res.status(500).json({ message: 'Error occurred during upload', error: err });
+    }
+
+    // Check if a file was uploaded
+    if (!req.file) {
+      console.error('No file uploaded');
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    console.log('File:', req.file); // Log the file object received
+
+    // If file uploaded successfully, send response with file URL
+    res.status(200).json({
+      message: 'File uploaded successfully',
+      fileUrl: req.file.path // Assuming 'path' is the correct property to get the file URL
+    });
+  });
+};
 
 
 
@@ -300,4 +332,5 @@ module.exports = {
     addDoctersData ,allDoctors ,addFeedbackData ,
     getFeedbackData ,createNotification,getActiveNotifications,
     adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,getUsers,
-    getUsersCount,deleteUser,deleteTip,deleteDoctor,addUser,getUserProfile,updateUserProfile};
+    getUsersCount,deleteUser,deleteTip,deleteDoctor,addUser,getUserProfile,
+    updateUserProfile,uploadFile};

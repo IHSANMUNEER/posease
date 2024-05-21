@@ -14,9 +14,17 @@ const mongoose = require('mongoose');
           required: true,
           unique: true // Assuming emails should be unique
         },
+        profileuri: {
+          type: String,
+          required: false,
+        },
         createdAt: {
           type: Date,
           default: Date.now
+        },
+        fileurl: {
+          type: String,
+          required: false
         }
       });
       

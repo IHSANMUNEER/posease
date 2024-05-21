@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import {
   StyleSheet,
   View,
-  Animated,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -20,14 +19,14 @@ import { Snackbar } from 'react-native-paper';
 import MyStatusBar from '../components/myStatusBar';
 import NotificationAni from '../components/NotificationAni';
 import colors from '../components/colors';
-import RecordsSkeleton from '../components/RecordsSkeleton';
 import axios from 'axios';
-
+import { GlobalContext } from '../components/GlobalContext';
 const defaultImage = require('../assets/notification.png'); // Replace with your default image path
 
 const NotificationsScreen = ({ navigation }) => {
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [listData, setListData] = useState([]);
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   useEffect(() => {
     fetchNotifications();
@@ -35,7 +34,8 @@ const NotificationsScreen = ({ navigation }) => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get('https://api-v20-production.up.railway.app/posease/getallnotifications');
+      const response = await axios.get(`${globalVariable}/posease/getallnotifications`);
+      //const response = await axios.get('https://api-v20-production.up.railway.app/posease/getallnotifications');
       setListData(response.data.allNotifications);
     } catch (error) {
       console.error('Error fetching notifications:', error);

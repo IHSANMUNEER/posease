@@ -6,7 +6,7 @@ const {
       getFeedbackData ,createNotification,getActiveNotifications,
       adminTipCreation,adminDocCreation,getAllNotifications,getAllProblems,
       getUsers,getUsersCount,deleteUser,deleteTip,deleteDoctor,addUser,
-      getUserProfile,updateUserProfile} = require("../Controller/Controller");
+      getUserProfile,updateUserProfile,uploadFile} = require("../Controller/Controller");
 
 
 router.get("/addtips", addTipsData);
@@ -30,6 +30,7 @@ router.delete("/deletetip", deleteTip);
 router.delete("/deletedoctor", deleteDoctor);
 router.get("/getprofile",getUserProfile)
 router.put("/updateprofile",updateUserProfile)
+router.post("/upload", uploadFile);
 
 
 module.exports = router;

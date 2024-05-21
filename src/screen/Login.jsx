@@ -79,7 +79,7 @@ function Login() {
 
             console.log('User UID:', user.uid);
             AsyncStorage.setItem('userUID', user.uid);
-            navigation.navigate('Userdashboard');
+            navigation.navigate('Tabs', { screen: 'Home' });
           } else {
             showToast1();
 

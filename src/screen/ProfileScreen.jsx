@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback,useContext } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -17,6 +17,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import colors from '../components/colors.jsx';
+import { GlobalContext } from '../components/GlobalContext.js';
 
 function ProfileScreen() {
   const [profileImageUri, setProfileImageUri] = useState('https://res.cloudinary.com/dm1z4qabv/image/upload/v1702322279/ytuseh25gvjqkohyucal.jpg');
@@ -24,6 +25,7 @@ function ProfileScreen() {
   const [userEmail, setUserEmail] = useState('');
   const [uid, setUid] = useState('');
   const navigation = useNavigation();
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   useFocusEffect(
     useCallback(() => {
@@ -51,13 +53,19 @@ function ProfileScreen() {
 
   async function fetchProfile(uid) {
     if (!uid) return;
+    console.log('inside',uid)
     try {
-      const response = await axios.get(`http://10.14.1.236:5001/posease/getprofile?uid=${uid}`);
+      const response = await axios.get(`${globalVariable}/posease/getprofile?uid=${uid}`);
+
+      //const response = await axios.get(`http://10.14.1.177:5001/posease/getprofile?uid=${uid}`);
+      console.log(response.data)
       if (response.data) {
         setUserName(response.data.name);
         setUserEmail(response.data.email);
+        setProfileImageUri(response.data.profileuri)
         await AsyncStorage.setItem('userName', response.data.name);
         await AsyncStorage.setItem('emailS', response.data.email);
+        await AsyncStorage.setItem('imageurl', response.data.profileuri);
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -94,7 +102,7 @@ function ProfileScreen() {
           </TouchableOpacity>
           <View style={styles.profileBody}>
             <Text style={styles.profileName}>{userName}</Text>
-            <Text style={styles.profileAddress}>Software Engineer</Text>
+            {/* <Text style={styles.profileAddress}>Software Engineer</Text> */}
           </View>
           <TouchableOpacity
             style={[styles.editBtn, { marginVertical: 5 }]}

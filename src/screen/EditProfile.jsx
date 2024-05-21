@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -15,18 +16,24 @@ import color from '../components/colors.jsx';
 import Toast from 'react-native-toast-message';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Ensure this import
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from '../firebase/firebase.js';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { GlobalContext } from '../components/GlobalContext.js';
 
 function EditProfile() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { userEmail, userName, userId ,url } = route.params;
+  const { userEmail, userName, userId, url } = route.params;
 
   const [profileImageUri, setProfileImageUri] = useState(url);
   const [userEmailState, setUserEmail] = useState(userEmail || '');
   const [userNameState, setUserName] = useState(userName || '');
   const [newName, setNewName] = useState(userName || '');
   const [newId, setNewUid] = useState(userId || '');
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   const pickImage = async () => {
     const image = await ImagePicker.openPicker({
@@ -36,19 +43,49 @@ function EditProfile() {
     });
     if (image.path) {
       setProfileImageUri(image.path);
-      AsyncStorage.setItem('imageurl',image.path)
+      setFile(image.path);
+      AsyncStorage.setItem('imageurl', image.path);
     }
+  };
+
+  const submitProfilePic = async () => {
+    if (!file) return null; // If no file picked, return null or handle differently
+
+    const storageRef = ref(storage, `profile_picture/${userId}`);
+    const response = await fetch(file);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch profile picture.");
+    }
+
+    await uploadBytes(storageRef, await response.blob());
+    const downloadURL = await getDownloadURL(storageRef);
+    setProfileImageUri(downloadURL);
+    console.log('URL uploaded:', downloadURL);
+    return downloadURL;
   };
 
   const updateProfile = async (uid, newName) => {
     if (!uid) return;
+
+    setLoading(true); // Show loading indicator
+
     try {
-      const response = await axios.put(`http://10.14.1.236:5001/posease/updateprofile`, {
+      let profilePicUrl = profileImageUri; // Default to current URL
+
+      if (file) {
+        profilePicUrl = await submitProfilePic();
+      }
+
+      const response = await axios.put(`${globalVariable}/posease/updateprofile`, {
+
+      //const response = await axios.put(`http://10.14.1.177:5001/posease/updateprofile`, {
         uid: uid,
-        newName: newName
+        newName: newName,
+        profileurl: profilePicUrl,
       });
 
-      setUserName(newName)
+      setUserName(newName);
 
       if (response.data) {
         await AsyncStorage.setItem('userName', newName);
@@ -56,11 +93,13 @@ function EditProfile() {
         Toast.show({
           type: 'success',
           text1: 'Profile Updated',
-          text2: 'Your profile has been successfully updated.'
+          text2: 'Your profile has been successfully updated.',
         });
       }
     } catch (error) {
       console.error('Error updating profile:', error);
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
   };
 
@@ -78,7 +117,7 @@ function EditProfile() {
           </TouchableOpacity>
           <View style={styles.profileBody}>
             <Text style={styles.profileName}>{newName}</Text>
-            <Text style={styles.profileAddress}>Software Engineer</Text>
+            {/* <Text style={styles.profileAddress}>Software Engineer</Text> */}
           </View>
           <TextInput
             style={styles.input}
@@ -86,7 +125,7 @@ function EditProfile() {
             editable={true}
             onChangeText={setNewName}
           />
-           <View style={styles.user}>
+          <View style={styles.user}>
             <Icon name="user" size={20} color={color.primary} />
           </View>
           <TextInput
@@ -94,21 +133,27 @@ function EditProfile() {
             value={userEmailState}
             editable={false}
           />
-           <View style={styles.email}>
+          <View style={styles.email}>
             <Icon name="envelope" size={20} color={color.primary} />
           </View>
-          <TouchableOpacity
-            style={styles.updateButton}
-            onPress={() => updateProfile(newId, newName)}
-          >
-            <Text style={styles.updateButtonText}>Update Profile</Text>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.updateButton}
+          onPress={() => updateProfile(newId, newName)}
+        >
+          <Text style={styles.updateButtonText}>Update Profile</Text>
+        </TouchableOpacity>
       </ScrollView>
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color={color.primary} />
+        </View>
+      )}
       <Toast />
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -176,13 +221,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   updateButton: {
-    width: '80%',
+    width: '70%',
     height: 50,
-    marginTop: 20,
+    marginTop: -70,
+    marginBottom: 20, // Adjust margin to provide space for the loading overlay
     borderRadius: 10,
     backgroundColor: color.primary,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center', // Align button to center horizontally
   },
   updateButtonText: {
     color: '#FFFFFF',
@@ -192,7 +239,7 @@ const styles = StyleSheet.create({
   user: {
     position: 'absolute',
     right: 70,
-    bottom: 175,
+    bottom: 105,
     alignItems: 'center',
     justifyContent: 'center',
     width: 28,
@@ -202,13 +249,19 @@ const styles = StyleSheet.create({
   email: {
     position: 'absolute',
     right: 70,
-    bottom: 105,
+    bottom: 35,
     alignItems: 'center',
     justifyContent: 'center',
     width: 28,
     height: 28,
     borderRadius: 9999,
-  }
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default EditProfile;

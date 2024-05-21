@@ -1,95 +1,181 @@
-import React, {useEffect} from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Colors, Fonts, Sizes } from '../components/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
-  createBottomTabNavigator,
-  tabBarOptions,
-  tabBarLabelStyle
-} from '@react-navigation/bottom-tabs';
-import Profile from '../screen/ProfileScreen';
-import Subscribe from '../screen/Subscribe';
-import Setting from '../screen/Settings'
-import Home from '../screen/Userdashboard';
-import Records from '../screen/Records'
-import Notification from '../screen/Notification'
-import { Stack1 } from '../screen/Navigation.jsx';
-import { Stack2 } from '../screen/Navigation.jsx';
+  View,
+  StyleSheet,
+  Text,
+  BackHandler,
+  Platform,
+  SafeAreaView,
+} from 'react-native';
+import HomeScreen from '../screen/Userdashboard';
+import ProfileScreen from '../screen/ProfileScreen';
+import Notification from '../screen/Notification';
+import Records from '../screen/Records';
+import Settings from '../screen/Settings';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import MyStatusBar from './myStatusBar';
+import colors from './colors';
 
-import test from '../screen/test'
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+
 const Tab = createBottomTabNavigator();
 
+const BottomTabBarScreen = ({ navigation }) => {
 
 
-const TabNavigator = () => {
-    useEffect(()=>{},)
-    console.log('TabBar')
-  const navigation = useNavigation();
-  return (
-    <Tab.Navigator
-      initialRouteName="Userdashboard"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          let rn = route.name;
 
-          if (rn === 'Profile') {
-            iconName = focused ? 'user' : 'user';
-          } else if (rn === 'Notification') {
-            iconName = focused ? 'bell' : 'bell';
-          } else if(rn === 'Setting'){
-            iconName = focused ? 'cog' : 'cog';
-          }else if(rn === 'Home'){
-            iconName = focused ? 'home' : 'home';
-          }else if(rn === 'Records'){
-            iconName = focused ? 'file-alt' : 'file-alt';
-          }
-          
-          return <Icon name={iconName} size={21} color={color} />;
-        },
-        tabBarActiveTintColor: '#404040',
-        tabBarInactiveTintColor: '#B9BCBE',
-        tabBarStyle: { backgroundColor: '#2E7A87',marginBottom: 0, height: 65 , marginHorizontal: 0 , borderRadius : 0 },
-        tabBarLabelStyle: { marginBottom: 15 },
-        tabBarIconStyle: { marginBottom: -5 }
-      })}>
-       <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Notification"
-        component={Notification}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Records"
-        component={Records}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Setting"
-        component={Setting}
-        options={{headerShown: false}}
-      />
-     
-      
-     
-    </Tab.Navigator>
+  const backAction = () => {
+    if (Platform.OS === 'ios') {
+      navigation.addListener('beforeRemove', e => {
+        e.preventDefault();
+      });
+    } else {
+      backClickCount == 1 ? BackHandler.exitApp() : _spring();
+      return true;
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', backAction);
+      navigation.addListener('gestureEnd', backAction);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', backAction);
+        navigation.removeListener('gestureEnd', backAction);
+      };
+    }, [backAction]),
   );
 
+  function _spring() {
+    setBackClickCount(1);
+    setTimeout(() => {
+      setBackClickCount(0);
+    }, 1000);
+  }
+
+  const [backClickCount, setBackClickCount] = useState(0);
+
   return (
-    <NavigationContainer  style={{ backgroundColor: 'red' }}>
-      <TabNavigator  />
-      <Stack1/>
-      <Stack2/>
-    </NavigationContainer>
+    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
+      <MyStatusBar />
+      <SafeAreaView style={{ flex: 1 }}>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarActiveTintColor: Colors.grayColor,
+            tabBarInactiveTintColor: Colors.whiteColor,
+            tabBarHideOnKeyboard: true,
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarItemStyle: {
+              height: 60.0,
+              alignSelf: 'flex-start',
+            },
+            tabBarStyle: {
+              backgroundColor: colors.primary,
+              height: 60.0,
+            },
+            
+          }}
+          initialRouteName="Userdashboard"
+          >
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="home-variant"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="User"
+            component={ProfileScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="account"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+          />
+
+          <Tab.Screen
+            name="Notification"
+            component={Notification}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="bell"
+                  size={22}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Records"
+            component={Records}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="file-document"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={Settings}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="cog"
+                  size={24}
+                  color={color}
+                />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </SafeAreaView>
+      {exitInfo()}
+    </View>
   );
+
+  function exitInfo() {
+    return backClickCount == 1 ? (
+      <View style={styles.exitInfoWrapStyle}>
+        <Text style={{ ...Fonts.whiteColor14Medium }}>
+          Press Back Once Again To Exit!
+        </Text>
+      </View>
+    ) : null;
+  }
 };
 
-export default TabNavigator;
+export default BottomTabBarScreen;
+
+const styles = StyleSheet.create({
+  exitInfoWrapStyle: {
+    backgroundColor: Colors.grayColor,
+    position: 'absolute',
+    bottom: 30,
+    alignSelf: 'center',
+    borderRadius: Sizes.fixPadding * 2.0,
+    paddingHorizontal: Sizes.fixPadding + 5.0,
+    paddingVertical: Sizes.fixPadding,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

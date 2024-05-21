@@ -27,13 +27,18 @@ import ChatScreen from './Chat.jsx';
 import Records from './Records.jsx';
 import ChatBot from './ChatBot.js';
 import testing from './testing.js'
-
+import Quiz from './Quiz.jsx';
+import AllDoctors from '../components/AllDoctors.jsx';
 import Table1 from './Table.jsx';
 import Settings from './Settings.jsx';
 import Notification from './Notification.jsx';
 import CreditCardInputScreen from './Payment.jsx';
+import MyComponent from '../components/test.jsx';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import DoctorRegistration from "../components/doctoradd.jsx"
+
+import { GlobalProvider } from '../components/GlobalContext.js';
 
 const MainStack = createStackNavigator();
 
@@ -41,7 +46,8 @@ const MainStack = createStackNavigator();
 
 
 const Stack1 = () => (
-
+  
+ <GlobalProvider>
   <NavigationContainer>
     <MainStack.Navigator>
    
@@ -203,16 +209,18 @@ const Stack1 = () => (
       />
     </MainStack.Navigator>
   </NavigationContainer>
+  </GlobalProvider>
 );
 
 const Stack2 = () => (
+  <GlobalProvider>
   <NavigationContainer>
   {console.log('in stack 2')}
     <MainStack.Navigator>
     
     {/* <MainStack.Screen
-        name="testing"
-        component={testing}
+        name="MyComponent"
+        component={MyComponent}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,
@@ -507,6 +515,16 @@ const Stack2 = () => (
            
           }}}
       />
+       <MainStack.Screen
+        name="Quiz"
+        component={Quiz}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: colors.primary, 
+           
+          }}}
+      />
       <MainStack.Screen
         name="Records"
         component={Records}
@@ -516,8 +534,18 @@ const Stack2 = () => (
             backgroundColor: '#eeeeee', 
           }}}
       />
+      <MainStack.Screen
+        name="AllDoctors"
+        component={AllDoctors}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#eeeeee', 
+          }}}
+      />
     </MainStack.Navigator>
   </NavigationContainer>
+  </GlobalProvider>
 );
 
 export {Stack1, Stack2};

@@ -6,36 +6,28 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import SuccessAni from '../components/SuccessAni';
 import {useNavigation} from '@react-navigation/native';
 
-const PaymentSuccess = () => {
 
-  const navigation = useNavigation();
+  const PaymentSuccess = () => {
+    const navigation = useNavigation();
   
-
-  return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <SuccessAni />
-        <Text style={styles.title}>Success</Text>
-        <Text
-          style={{
-            fontSize: 17,
-            color: 'black',
-            fontWeight: 'normal',
-            textAlign: 'center',
-          }}>
-          Card connected successfully
-        </Text>
-        <TouchableOpacity style={styles.continue} onPress={() => navigation.navigate('Userdashboard')}>
-          <Text
-            style={styles.buttontext}
-            >
-            Go Back
+    return (
+      <>
+        <SafeAreaView style={styles.container}>
+          <SuccessAni />
+          <Text style={styles.title}>Success</Text>
+          <Text style={styles.subtitle}>
+            Card connected successfully
           </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </>
-  );
-};
+          <TouchableOpacity 
+            style={styles.continue} 
+            onPress={() => navigation.navigate('Tabs', { screen: 'Home' })}
+          >
+            <Text style={styles.buttontext}>Go Back</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </>
+    );
+  };
 
 const styles = StyleSheet.create({
   container: {
@@ -61,6 +53,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 80,
     borderRadius: 20,
     borderStyle: 'dotted',
+  },
+  subtitle:{
+    fontSize: 20,
+    color: colors.primary,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   continue: {
     width: '90%',

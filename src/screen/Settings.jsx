@@ -11,7 +11,7 @@ const Settings = () => {
   const navigation = useNavigation();
 
   const logout = async () => {
-    await AsyncStorage.removeItem('userToken');
+    await AsyncStorage.clear()
     navigation.navigate('Login');
   };
 
@@ -31,9 +31,9 @@ const Settings = () => {
               color="#544c4c"
               style={styles.privacy}
             />
-            <Text style={styles.text} onPress={() => navigation.navigate('Notification')}>Notification</Text>
+            <Text style={styles.text} onPress={() => navigation.navigate('Quiz')}>Mini Quiz</Text>
             <Icon
-              name="bell"
+              name="gamepad"
               size={20}
               color="#544c4c"
               style={styles.notification}
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
   },
   notification: {
     position: 'absolute',
-    marginHorizontal: 20,
-    bottom: 55,
+    marginHorizontal: 18,
+    bottom: 59,
     alignItems: 'center',
     justifyContent: 'center',
   },
