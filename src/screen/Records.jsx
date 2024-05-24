@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Text } from 'react-native-paper';
 import { StyleSheet, View, FlatList, Image } from 'react-native';
 import colors from '../components/colors';
@@ -9,11 +9,18 @@ import RecordsSkeleton from '../components/RecordsSkeleton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RecordAni from '../components/RecordAni';
 import { GlobalContext } from '../components/GlobalContext';
+import VideoPlayer from '../components/Video';
+
+const isVideoUrl = (url) => {
+  const videoExtensions = ['.mp4', '.mov', '.wmv', '.flv', '.avi', '.mkv'];
+  return videoExtensions.some((ext) => url.endsWith(ext));
+};
+
 const Records = () => {
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
     const [noRecords, setNoRecords] = useState(false);
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext); 
+    const { globalVariable } = useContext(GlobalContext); 
     const isFocused = useIsFocused();
 
     useEffect(() => {
@@ -32,12 +39,10 @@ const Records = () => {
                 return;
             }
             const response = await axios.get(`${globalVariable}/posease/getfeedback?uid=${userUID}`);
-            //const response = await axios.get(`https://api-v20-production.up.railway.app/posease/getfeedback?uid=${userUID}`);
             const sortedData = response.data.tips.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setRecords(sortedData);
             setLoading(false);
 
-            
             if (sortedData.length === 0) {
                 setNoRecords(true);
             } else {
@@ -54,14 +59,21 @@ const Records = () => {
             {loading ? (
                 <RecordsSkeleton />
             ) : noRecords ? ( 
-                 <RecordAni/>
+                <RecordAni />
             ) : (
                 <FlatList
                     data={records}
                     keyExtractor={(item) => item._id}
                     renderItem={({ item }) => (
                         <Card style={styles.card}>
-                            <Card.Cover source={{ uri: item.imageUrl }} style={styles.cover} />
+                            <View style={styles.cover}>
+                                {console.log(item.mediaUrl)}
+                                {isVideoUrl(item.mediaUrl) ? (
+                                    <VideoPlayer videoUrl={item.mediaUrl} paused={true} style={styles.video} />
+                                ) : (
+                                    <Image source={{ uri: item.mediaUrl }} style={styles.image} />
+                                )}
+                            </View>
                             <Card.Content>
                                 <Text variant="titleLarge" style={styles.title}>
                                     Feedback
@@ -85,6 +97,7 @@ const Records = () => {
                     showsVerticalScrollIndicator={false}
                 />
             )}
+          
         </View>
     );
 };
@@ -95,25 +108,35 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingTop: 30,
         backgroundColor: colors.secondary,
-        
-        elevation: 10
+        elevation: 10,
     },
     card: {
         marginBottom: 10,
         borderRadius: 15,
         elevation: 5,
         backgroundColor: '#fff',
-        borderWidth:1,
-        borderColor:colors.primary
+        borderWidth: 1,
+        borderColor: colors.primary,
     },
     cover: {
         height: 400,
-        resizeMode: 'cover',
         borderRadius: 14,
         marginBottom: 10,
-        //borderWidth:1.5,
-        borderColor:colors.primary
-        
+        borderColor: colors.primary,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    },
+    video: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
     },
     title: {
         fontSize: 20,
@@ -124,7 +147,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: colors.primary,
-        marginHorizontal: 140,
+        textAlign: 'center',
         marginBottom: 10,
     },
     subtitle: {

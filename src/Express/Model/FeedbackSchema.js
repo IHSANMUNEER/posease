@@ -9,7 +9,7 @@ const feedbackSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  imageUrl: {
+  mediaUrl: {
     type: String,
     required: true
   },

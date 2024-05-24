@@ -1,18 +1,31 @@
-import React from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Modal from 'react-native-modal';
 
 const Settings = () => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  const logout = async () => {
-    await AsyncStorage.clear()
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleLogout = () => {
     navigation.navigate('Login');
+    toggleModal();
+  };
+
+  const handleCancel = () => {
+    toggleModal();
+  };
+
+  const logout = () => {
+    toggleModal();
   };
 
   return (
@@ -76,7 +89,7 @@ const Settings = () => {
             />
             <Text
               style={styles.text}
-              onPress={() =>logout()}>
+              onPress={logout}>
               Log Out
             </Text>
             <Icon
@@ -102,6 +115,38 @@ const Settings = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={handleCancel}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        useNativeDriver={true}
+      >
+        <View style={styles.modalContent}>
+          <Icon
+            name="exclamation-triangle"
+            size={48}
+            color="#FF0000"
+            style={styles.icon}
+          />
+          <Text style={[styles.modalTitle, { color: 'black' }]}>Confirm Logout</Text>
+          <Text style={[styles.modalMessage, { color: 'black' }]}>Are you sure you want to log out?</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleCancel}
+              style={[styles.button, styles.cancelButton]}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={[styles.button, styles.logoutButton]}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -115,7 +160,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 10,
     elevation: 3,
-
   },
   text: {
     fontSize: 19,
@@ -125,7 +169,6 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-condensed',
     fontWeight: 'bold',
   },
-
   title: {
     color: colors.primary,
     fontWeight: '900',
@@ -169,5 +212,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  icon: {
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalMessage: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginHorizontal: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#FFCC00',
+  },
+  logoutButton: {
+    backgroundColor: '#FF0000',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
 });
+
 export default Settings;

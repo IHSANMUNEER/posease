@@ -4,7 +4,7 @@ import React, { createContext, useState } from 'react';
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
-  const [globalVariable, setGlobalVariable] = useState('http://10.14.1.156:5001');
+  const [globalVariable, setGlobalVariable] = useState('http://192.168.178.115:5001');
 
   return (
     <GlobalContext.Provider value={{ globalVariable, setGlobalVariable }}>

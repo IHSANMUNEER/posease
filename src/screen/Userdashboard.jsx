@@ -10,7 +10,7 @@ import {
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from '../components/colors.jsx';
@@ -27,10 +27,10 @@ import { GlobalContext } from '../components/GlobalContext.js';
 
 function Userdashboard({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [upload, setUpload] = useState(null);
+  const [upload, setUpload] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(null);
   const [userImage, setUserImage] = useState(null);
   const [photoUploaded, setPhotoUploaded] = useState(false);
   const { globalVariable } = useContext(GlobalContext);
@@ -80,42 +80,43 @@ function Userdashboard({ navigation }) {
 
   const pickImageOrVideo = async () => {
     try {
-      const media = await ImagePicker.openPicker({
-        mediaType: 'any',
-        width: 800,
-        height: 800,
-        cropping: true,
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images, DocumentPicker.types.video],
       });
 
-      if (media.path) {
-        setUpload(media.path);
+      if (res && res.length > 0) {
+        setUpload(res[0]);
         setPhotoUploaded(true);
       }
-    } catch (error) {
-      console.log('ImagePicker Error: ', error);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the picker');
+      } else {
+        console.log('DocumentPicker Error: ', err);
+      }
     }
   };
 
   useEffect(() => {
     if (upload && photoUploaded) {
-      predictImage();
+      predictMedia();
     }
   }, [upload, photoUploaded]);
 
-  const predictImage = async () => {
+  const predictMedia = async () => {
     if (!upload) return;
 
     const formData = new FormData();
     formData.append('file', {
-      uri: upload,
-      type: 'image/jpg',
-      name: 'file.jpg',
+      uri: upload.uri,
+      type: upload.type,
+      name: upload.name,
     });
 
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://2a9a-35-239-154-219.ngrok-free.app/predict',
+        'https://777d-34-82-145-237.ngrok-free.app/predict',
         formData,
         {
           headers: {
@@ -129,12 +130,16 @@ function Userdashboard({ navigation }) {
         setUpload(null);
         setPhotoUploaded(false);
         setLoading(false);
-        navigation.navigate('Results', {
+        console.log('Results',result)
+
+       navigation.navigate('Results', {
           imageUrl: result.file_url,
           feedbackText: result.feedback,
           angles: result.angles,
           perfect: result.perfect_angles,
         });
+
+        
       } else {
         setLoading(false);
         showToast('error', 'Failed', 'Prediction failed with status code: ' + response.status);

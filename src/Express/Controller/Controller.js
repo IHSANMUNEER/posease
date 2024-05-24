@@ -67,8 +67,8 @@ const allDoctors = async (req, res) => {
 
 const addFeedbackData = async (req, res) => {
     try {
-      const { feedbackText, imageUrl, rating, uid } = req.body || {}; // Ensure uid is correctly extracted
-      const feedback = new Feedback({ feedbackText, imageUrl, rating, uid }); // Use uid
+      const { feedbackText, mediaUrl, rating, uid } = req.body || {}; // Ensure uid is correctly extracted
+      const feedback = new Feedback({ feedbackText, mediaUrl, rating, uid }); // Use uid
       await feedback.save();
       res.status(201).json({ message: "Feedback submitted successfully" });
     } catch (error) {

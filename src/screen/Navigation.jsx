@@ -40,6 +40,9 @@ import DoctorRegistration from "../components/doctoradd.jsx"
 
 import { GlobalProvider } from '../components/GlobalContext.js';
 
+import VideoPlayer from '../components/Video.jsx';
+import LogOut from '../components/ConfirmLogOut.jsx';
+
 const MainStack = createStackNavigator();
 
 
@@ -217,10 +220,21 @@ const Stack2 = () => (
   <NavigationContainer>
   {console.log('in stack 2')}
     <MainStack.Navigator>
+
+    {/* <MainStack.Screen
+        name="Results"
+        component={Results}
+         options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#eeeeee', 
+          }}}
+   
+      /> */}
     
     {/* <MainStack.Screen
-        name="MyComponent"
-        component={MyComponent}
+        name="VideoPlayer"
+        component={VideoPlayer}
         options={{
           headerShown: false,
           headerBackTitleVisible: false,
@@ -276,7 +290,15 @@ const Stack2 = () => (
             backgroundColor: '#eeeeee', 
           }}}
       />
-
+       <MainStack.Screen
+        name="LogOut"
+        component={LogOut}
+        options={{headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#eeeeee', 
+          }}}
+      />
       <MainStack.Screen
         name="Subscribe"
         component={Subscribe}
@@ -534,6 +556,7 @@ const Stack2 = () => (
             backgroundColor: '#eeeeee', 
           }}}
       />
+      
       <MainStack.Screen
         name="AllDoctors"
         component={AllDoctors}

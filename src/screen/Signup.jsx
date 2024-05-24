@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
   createUserWithEmailAndPassword,
@@ -19,6 +19,7 @@ import colours from '../components/colors';
 import SignUpAni from '../components/SignUpAni';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
+import { GlobalContext } from '../components/GlobalContext';
 
 function Signup() {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ function Signup() {
   const [confirmpassword, setConfirmPassword] = useState('');
   const [waiting, setWaiting] = useState(false);
   const [uid, setUid] = useState('');
+  const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
 
   const handleEye = () => {
     setEye(!eye);
@@ -77,7 +79,8 @@ function Signup() {
   }, [uid]);
 
   const addUserdata = async () => {
-    const response = await axios.post("http://10.14.1.177:5001/posease/adduser", {
+    
+    const response = await axios.post(`${globalVariable}/posease/adduser`, {
       uid: uid,
       name: username,
       email: email,
